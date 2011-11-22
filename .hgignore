@@ -1,0 +1,4 @@
+relre:\.emacs\.d/session\..*$
+relre:~$
+
+
