@@ -2,8 +2,8 @@
 (tool-bar-mode -1)
 
 ;; set editor colours
-(set-face-foreground 'default "grey")
-(set-face-background 'default "black")
+(set-face-foreground 'default "yellow green")
+(set-face-background 'default "DarkOliveGreen")
 ;;; This was installed by package-install.el.
 ;;; This provides support for the package system and
 ;;; interfacing with ELPA, the package archive.
