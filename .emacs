@@ -21,8 +21,8 @@
 
 
 ;; transparency preferences-> for watching movies behind emacs
-(set-frame-parameter (selected-frame) 'alpha '(87 60))
-(add-to-list 'default-frame-alist '(alpha 87 60))
+; (set-frame-parameter (selected-frame) 'alpha '(87 60))
+; (add-to-list 'default-frame-alist '(alpha 87 60))
 ;; Set transparency of emacs
 (defun set-transparency (value)
   "Sets the transparency of the frame window. 0=transparent/100=opaque"
@@ -35,3 +35,5 @@
 (autoload 'javascript-mode "javascript" nil t)
 
 (add-to-list 'auto-mode-alist '("\\.m\\'" . octave-mode))
+
+(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
