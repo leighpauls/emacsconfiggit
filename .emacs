@@ -36,4 +36,10 @@
 
 (add-to-list 'auto-mode-alist '("\\.m\\'" . octave-mode))
 
+<<<<<<< local
+(setq default-tab-width 4)
+(add-to-list 'load-path "~/.emacs.d/go" t)
+(require 'go-mode-load)
+=======
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+>>>>>>> other
