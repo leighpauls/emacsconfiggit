@@ -47,7 +47,7 @@
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- )
+ '(inhibit-startup-screen t))
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
@@ -96,3 +96,28 @@
   (local-set-key "\C-cs" 'semantic-symref-symbol))
 (add-hook 'c-mode-common-hook 'my-semantic-hook)
 
+(require 'tramp)
+
+(global-set-key (kbd "C-x p") 'other-frame)
+
+;; Open files and goto lines like we see from g++ etc. i.e. file:line#
+;; (to-do "make `find-file-line-number' work for emacsclient as well")
+;; (to-do "make `find-file-line-number' check if the file exists")
+(defadvice find-file (around find-file-line-number
+                             (filename &optional wildcards)
+                             activate)
+  "Turn files like file.cpp:14 into file.cpp and going to the 14-th line."
+  (save-match-data
+    (let* ((matched (string-match "^\\(.*\\):\\([0-9]+\\):?$" filename))
+           (line-number (and matched
+                             (match-string 2 filename)
+                             (string-to-number (match-string 2 filename))))
+           (filename (if matched (match-string 1 filename) filename)))
+      ad-do-it
+      (when line-number
+        ;; goto-line is for interactive use
+        (goto-char (point-min))
+        (forward-line (1- line-number))))))
+
+;; Start the emacs server by default
+(server-start)
