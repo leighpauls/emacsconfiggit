@@ -2,8 +2,8 @@
 (tool-bar-mode -1)
 
 ;; set editor colours
-(set-face-foreground 'default "yellow green")
-(set-face-background 'default "DarkOliveGreen")
+;; (set-face-foreground 'default "yellow green")
+;; (set-face-background 'default "DarkOliveGreen")
 
 
 ;;; This was installed by package-install.el.
@@ -46,18 +46,6 @@
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
 (global-set-key (kbd "C-x C-b") 'buffer-menu)
-(custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(inhibit-startup-screen t))
-(custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "DarkOliveGreen" :foreground "yellow green" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "unknown" :family "DejaVu Sans Mono")))))
 
 (setq c-default-style "linux"
 	  c-basic-offset 4)
@@ -127,3 +115,9 @@
 
 ;; Start the emacs server by default
 (server-start)
+
+;; Color theme
+(add-to-list 'load-path "~/.emacs.d/color-theme-6.6.0/")
+(require 'color-theme)
+(color-theme-initialize)
+(color-theme-tm)
