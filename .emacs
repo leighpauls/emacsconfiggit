@@ -4,6 +4,8 @@
 ;; set editor colours
 (set-face-foreground 'default "yellow green")
 (set-face-background 'default "DarkOliveGreen")
+
+
 ;;; This was installed by package-install.el.
 ;;; This provides support for the package system and
 ;;; interfacing with ELPA, the package archive.
@@ -32,6 +34,7 @@
 ;; javascript mode
 (load "~/.emacs.d/javascript.el")
 (add-to-list 'auto-mode-alist '("\\.js\\'" . javascript-mode))
+(add-to-list 'auto-mode-alist '("\\.json\\'" . javascript-mode))
 (autoload 'javascript-mode "javascript" nil t)
 
 (add-to-list 'auto-mode-alist '("\\.m\\'" . octave-mode))
@@ -39,6 +42,7 @@
 (setq default-tab-width 4)
 (add-to-list 'load-path "~/.emacs.d/go" t)
 (require 'go-mode-load)
+
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
 (global-set-key (kbd "C-x C-b") 'buffer-menu)
@@ -73,7 +77,8 @@
 	  (list "/home/leigh/wksp/cacheflow/CF_3_1/src"
 			"/home/leigh/Perforce/workspace/lp-workspace/cacheflow/CF_3_1/src"
 			"/home/leigh/wksp/Carrier/CF_2_1"
-			"/home/leigh/Perforce/workspace/lp-workspace/Carrier/CF_2_1"))
+			"/home/leigh/Perforce/workspace/lp-workspace/Carrier/CF_2_1"
+			"/home/leigh/chromate"))
 
 ;; * This enables even more coding tools such as intellisense mode
 ;;   decoration mode, and stickyfunc mode (plus regular code helpers)
@@ -95,6 +100,7 @@
   (local-set-key "\C-cj" 'semantic-ia-fast-jump)
   (local-set-key "\C-cs" 'semantic-symref-symbol))
 (add-hook 'c-mode-common-hook 'my-semantic-hook)
+(add-hook 'javascript-mode-hook 'my-semantic-hook)
 
 (require 'tramp)
 
