@@ -37,6 +37,10 @@
 (add-to-list 'auto-mode-alist '("\\.json\\'" . javascript-mode))
 (autoload 'javascript-mode "javascript" nil t)
 
+;; ruby mode for .ru files
+(add-to-list 'auto-mode-alist '("\\.ru\\'" . ruby-mode))
+
+
 (add-to-list 'auto-mode-alist '("\\.m\\'" . octave-mode))
 
 (setq default-tab-width 4)
@@ -132,23 +136,16 @@
 ;; Enable EDE (Project Management) features
 (global-ede-mode 1)
 
-;; Enable EDE for a pre-existing C++ project
-(ede-cpp-root-project "Chromium"
-					  :name "CrO4 Chromium"
-					  :file "~/chromium/edefile"
-					  :include-path '("/src"
-									  "/src/testing/gtest/include"))
-
 
 ;; Enabling Semantic (code-parsing, smart completion) features
 ;; Select one of the following:
 
 ;; * This enables the database and idle reparse engines
-(semantic-load-enable-minimum-features)
+;(semantic-load-enable-minimum-features)
 
 ;; * This enables some tools useful for coding, such as summary mode,
 ;;   imenu support, and the semantic navigator
-(semantic-load-enable-code-helpers)
+;(semantic-load-enable-code-helpers)
 
 ;; * This enables even more coding tools such as intellisense mode,
 ;;   decoration mode, and stickyfunc mode (plus regular code helpers)
@@ -168,3 +165,26 @@
 
 (global-set-key (kbd "C-c j") 'semantic-ia-fast-jump)
 (global-set-key (kbd "C-c s") 'semantic-symref-symbol)
+
+(menu-bar-mode 1)
+
+;; google c/c++ style
+(load-file "~/.emacs.d/google-c-style.el")
+(add-hook 'c-mode-common-hook 'google-set-c-style)
+
+(require 'magit)
+(global-set-key (kbd "C-c C-g") 'magit-status)
+
+(defun rotate-windows-helper(x d)
+  (if (equal (cdr x) nil) (set-window-buffer (car x) d)
+    (set-window-buffer (car x) (window-buffer (cadr x))) (rotate-windows-helper (cdr x) d)))
+ 
+(defun rotate-windows ()
+  (interactive)
+  (rotate-windows-helper (window-list) (window-buffer (car (window-list))))
+  (select-window (car (last (window-list)))))
+
+; bind to the key super-r 
+(global-set-key (kbd "C-c C-r") 'rotate-windows)
+
+(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
