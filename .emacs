@@ -1,3 +1,15 @@
+(setq mac-command-modifier 'meta)
+(setq mac-option-modifier 'alt)
+
+(setq indent-tabs-mode nil)
+
+;; Load CEDET.
+;; See cedet/common/cedet.info for configuration details.
+;; IMPORTANT: For Emacs >= 23.2, you must place this *before* any
+;; CEDET component (including EIEIO) gets activated by another 
+;; package (Gnus, auth-source, ...).
+(load-file "~/.emacs.d/cedet-1.1/common/cedet.el")
+
 ;; remove toolbar
 (tool-bar-mode -1)
 
@@ -126,13 +138,6 @@
 (setq ansi-color-names-vector
   ["black" "red" "green" "yellow" "#7777ff" "magenta" "cyan" "white"])
 
-;; Load CEDET.
-;; See cedet/common/cedet.info for configuration details.
-;; IMPORTANT: For Emacs >= 23.2, you must place this *before* any
-;; CEDET component (including EIEIO) gets activated by another 
-;; package (Gnus, auth-source, ...).
-(load-file "~/.emacs.d/cedet-1.1/common/cedet.el")
-
 ;; Enable EDE (Project Management) features
 (global-ede-mode 1)
 
@@ -169,8 +174,10 @@
 (menu-bar-mode 1)
 
 ;; google c/c++ style
-(load-file "~/.emacs.d/google-c-style.el")
-(add-hook 'c-mode-common-hook 'google-set-c-style)
+;;(load-file "~/.emacs.d/google-c-style.el")
+;;(add-hook 'c-mode-common-hook 'google-set-c-style)
+
+(push "~/.emacs.d/magit-1.0.0" load-path)
 
 (require 'magit)
 (global-set-key (kbd "C-c C-g") 'magit-status)
@@ -188,3 +195,7 @@
 (global-set-key (kbd "C-c C-r") 'rotate-windows)
 
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+
+(setq visible-bell t)
+
+(global-set-key (kbd "C-c b") 'compile)
