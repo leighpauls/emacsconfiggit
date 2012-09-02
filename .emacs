@@ -1,5 +1,5 @@
 (setq mac-command-modifier 'meta)
-(setq mac-option-modifier 'alt)
+(setq mac-option-modifier 'super)
 
 (setq indent-tabs-mode nil)
 
@@ -55,7 +55,7 @@
 
 (add-to-list 'auto-mode-alist '("\\.m\\'" . octave-mode))
 
-(setq default-tab-width 4)
+;; (setq default-tab-width 4)
 (add-to-list 'load-path "~/.emacs.d/go" t)
 (require 'go-mode-load)
 
@@ -174,8 +174,8 @@
 (menu-bar-mode 1)
 
 ;; google c/c++ style
-;;(load-file "~/.emacs.d/google-c-style.el")
-;;(add-hook 'c-mode-common-hook 'google-set-c-style)
+(load-file "~/.emacs.d/google-c-style.el")
+(add-hook 'c-mode-common-hook 'google-set-c-style)
 
 (push "~/.emacs.d/magit-1.0.0" load-path)
 
@@ -199,3 +199,9 @@
 (setq visible-bell t)
 
 (global-set-key (kbd "C-c b") 'compile)
+
+(setq compile-command "~/emacs_tintin_build.sh")
+
+(setq ispell-program-name "/usr/local/Cellar/aspell/0.60.6.1/bin/aspell")
+
+(global-set-key (kbd "C-c i") 'ispell-comments-and-strings)
