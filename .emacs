@@ -60,14 +60,10 @@
 
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
-(global-set-key (kbd "C-x C-b") 'buffer-menu)
-
 (setq c-default-style "linux"
 	  c-basic-offset 4)
 
 (require 'tramp)
-
-(global-set-key (kbd "C-x p") 'other-frame)
 
 ;; Open files and goto lines like we see from g++ etc. i.e. file:line#
 ;; (to-do "make `find-file-line-number' work for emacsclient as well")
@@ -146,8 +142,6 @@
 (push "~/.emacs.d/magit-1.0.0" load-path)
 
 (require 'magit)
-(global-set-key (kbd "C-x C-a") 'magit-status)
-(global-set-key (kbd "C-x a") 'magit-status)
 
 (defun rotate-windows-helper(x d)
   (if (equal (cdr x) nil) (set-window-buffer (car x) d)
@@ -158,20 +152,15 @@
   (rotate-windows-helper (window-list) (window-buffer (car (window-list))))
   (select-window (car (last (window-list)))))
 
-; bind to the key super-r 
-(global-set-key (kbd "C-c C-r") 'rotate-windows)
 
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 
 (setq visible-bell t)
 
-(global-set-key (kbd "C-c b") 'compile)
-
 (setq compile-command "~/emacs_tintin_build.sh")
 
 (setq ispell-program-name "/usr/local/Cellar/aspell/0.60.6.1/bin/aspell")
 
-(global-set-key (kbd "C-c i") 'ispell-comments-and-strings)
 
 (defun kill-current-buffer ()
   (interactive)
@@ -184,3 +173,13 @@
 (autoload 'mo-git-blame-current "mo-git-blame" nil t)
 
 ;; (ido-mode nil)
+
+; Key bindings
+(global-set-key (kbd "C-x C-b") 'buffer-menu)
+(global-set-key (kbd "C-x p") 'other-frame)
+(global-set-key (kbd "C-x C-a") 'magit-status)
+(global-set-key (kbd "C-x a") 'magit-status)
+(global-set-key (kbd "C-c C-r") 'rotate-windows)
+(global-set-key (kbd "C-c b") 'compile)
+(global-set-key (kbd "C-c i") 'ispell-comments-and-strings)
+(global-set-key (kbd "C-x 9") 'delete-other-windows-vertically)
