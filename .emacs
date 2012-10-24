@@ -4,6 +4,9 @@
 (setq indent-tabs-mode nil)
 
 
+(setenv "PATH" (concat (getenv "PATH") ":/opt/local/bin:/opt/local/sbin:/opt/local/bin:/opt/local/sbin:/usr/local/bin:/Users/leighpauls/arm-cs-tools/bin:/Users/leighpauls/work/depot_tools:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin"))
+
+
 ;; remove toolbar
 (tool-bar-mode -1)
 
@@ -179,3 +182,5 @@
 (add-to-list 'load-path "~/.emacs.d/mo-git-blame")
 (autoload 'mo-git-blame-file "mo-git-blame" nil t)
 (autoload 'mo-git-blame-current "mo-git-blame" nil t)
+
+;; (ido-mode nil)
