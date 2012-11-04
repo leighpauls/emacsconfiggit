@@ -158,6 +158,7 @@
 (setq visible-bell t)
 
 (setq compile-command "~/emacs_tintin_build.sh")
+(setq compilation-skip-threshold 2)
 
 (setq ispell-program-name "/usr/local/Cellar/aspell/0.60.6.1/bin/aspell")
 
@@ -174,12 +175,31 @@
 
 ;; (ido-mode nil)
 
-; Key bindings
+; Trivial key bindings
 (global-set-key (kbd "C-x C-b") 'buffer-menu)
 (global-set-key (kbd "C-x p") 'other-frame)
 (global-set-key (kbd "C-x C-a") 'magit-status)
 (global-set-key (kbd "C-x a") 'magit-status)
-(global-set-key (kbd "C-c C-r") 'rotate-windows)
 (global-set-key (kbd "C-c b") 'compile)
 (global-set-key (kbd "C-c i") 'ispell-comments-and-strings)
 (global-set-key (kbd "C-x 9") 'delete-other-windows-vertically)
+
+
+
+(defvar my-keys-minor-mode-map (make-keymap) "my-keys-minor-mode keymap.")
+
+; Key bindings which need to override major modes
+(define-key my-keys-minor-mode-map (kbd "C-c C-r") 'rotate-windows)
+
+(define-minor-mode my-keys-minor-mode
+  "A minor mode which forces my keybindings to take precedence over major modes"
+  t " my-keys" 'my-keys-minor-mode-map)
+
+(my-keys-minor-mode 1)
+
+;; Don't want them overriding in the minibuffer
+(defun my-minibuffer-setup-hook ()
+  (my-keys-minor-mode 0))
+
+(add-hook 'minibuffer-setup-hook 'my-minibuffer-setup-hook)
+
