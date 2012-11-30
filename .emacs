@@ -203,3 +203,30 @@
 
 (add-hook 'minibuffer-setup-hook 'my-minibuffer-setup-hook)
 
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(indent-tabs-mode nil))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+
+(add-hook 'dired-load-hook
+          (lambda ()
+            (load "dired-x")
+            ;; Set dired-x global variables here.  For example:
+            ;; (setq dired-guess-shell-gnutar "gtar")
+            ;; (setq dired-x-hands-off-my-keys nil)
+            (setq dired-omit-extensions '(".pyc" "~"))
+            ))
+(add-hook 'dired-mode-hook
+          (lambda ()
+            ;; Set dired-x buffer-local variables here.  For example:
+            (dired-omit-mode 1)
+            ))
+
