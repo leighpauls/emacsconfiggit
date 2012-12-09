@@ -40,6 +40,9 @@
   (interactive "nTransparency Value 0 - 100 opaque:")
   (set-frame-parameter (selected-frame) 'alpha value))
 
+;; coffee mode
+(load "~/.emacs.d/coffee-mode.el")
+
 ;; javascript mode
 (load "~/.emacs.d/javascript.el")
 (add-to-list 'auto-mode-alist '("\\.js\\'" . javascript-mode))
