@@ -183,7 +183,7 @@
 (global-set-key (kbd "C-c b") 'compile)
 (global-set-key (kbd "C-c i") 'ispell-comments-and-strings)
 (global-set-key (kbd "C-x 9") 'delete-other-windows-vertically)
-
+(global-set-key (kbd "C-$") 'ispell-word)
 
 
 (defvar my-keys-minor-mode-map (make-keymap) "my-keys-minor-mode keymap.")
