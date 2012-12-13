@@ -63,8 +63,8 @@
 
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
-(setq c-default-style "linux"
-	  c-basic-offset 4)
+;; (setq c-default-style "linux"
+;;	  c-basic-offset 4)
 
 (require 'tramp)
 
