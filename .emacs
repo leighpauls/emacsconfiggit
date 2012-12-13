@@ -233,3 +233,7 @@
             (dired-omit-mode 1)
             ))
 
+(add-hook 'org-mode-hook
+          '(lambda ()
+             (visual-line-mode t)
+             (org-indent-mode t)))
