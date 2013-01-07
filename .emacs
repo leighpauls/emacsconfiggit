@@ -176,17 +176,30 @@
 (autoload 'mo-git-blame-file "mo-git-blame" nil t)
 (autoload 'mo-git-blame-current "mo-git-blame" nil t)
 
+(defun csv-to-org-table ()
+  (interactive)
+  (org-table-convert-region 0 (buffer-size) '(16)))
+
+(defvar my-pdb-command "python -m pdb /Users/leighpauls/opt/cortex_test.py" "Command to run with debug-cur-python-work")
+(defun debug-cur-python-work ()
+  "Execute `my-pdb-command` in gud"
+  (interactive)
+  (if (get-buffer "*gud-pdb*")
+      (kill-buffer "*gud-pdb*"))
+  (pdb my-pdb-command))
+
 ;; (ido-mode nil)
 
 ; Trivial key bindings
 (global-set-key (kbd "C-x C-b") 'buffer-menu)
 (global-set-key (kbd "C-x p") 'other-frame)
-(global-set-key (kbd "C-x C-a") 'magit-status)
 (global-set-key (kbd "C-x a") 'magit-status)
 (global-set-key (kbd "C-c b") 'compile)
 (global-set-key (kbd "C-c i") 'ispell-comments-and-strings)
 (global-set-key (kbd "C-x 9") 'delete-other-windows-vertically)
 (global-set-key (kbd "C-$") 'ispell-word)
+(global-set-key (kbd "C-c s") 'csv-to-org-table)
+(global-set-key (kbd "C-c p") 'debug-cur-python-work)
 
 
 (defvar my-keys-minor-mode-map (make-keymap) "my-keys-minor-mode keymap.")
