@@ -113,6 +113,7 @@
 (defcustom js-beautify-path "/home/leigh/js-beautify/python/js-beautify"
   "Path to jsbeautifier python file"
   :type '(string)
+
   :group 'js-beautify)
 
 (defun js-beautify ()
@@ -178,7 +179,8 @@
 
 (defun csv-to-org-table ()
   (interactive)
-  (org-table-convert-region 0 (buffer-size) '(16)))
+  (org-table-convert-region 0 (buffer-size) '(16))
+  (toggle-truncate-lines 1))
 
 (defvar my-pdb-command "python -m pdb /Users/leighpauls/opt/cortex_test.py" "Command to run with debug-cur-python-work")
 (defun debug-cur-python-work ()
@@ -190,6 +192,9 @@
 
 ;; (ido-mode nil)
 
+(load-file "~/.emacs.d/camelCase-mode.el")
+(add-hook 'javascript-mode-hook '(lambda () (camelCase-mode 1)))
+
 ; Trivial key bindings
 (global-set-key (kbd "C-x C-b") 'buffer-menu)
 (global-set-key (kbd "C-x p") 'other-frame)
@@ -200,7 +205,8 @@
 (global-set-key (kbd "C-$") 'ispell-word)
 (global-set-key (kbd "C-c s") 'csv-to-org-table)
 (global-set-key (kbd "C-c p") 'debug-cur-python-work)
-
+(global-set-key (kbd "C-c r") 'comment-region)
+(global-set-key (kbd "C-c u") 'uncomment-region)
 
 (defvar my-keys-minor-mode-map (make-keymap) "my-keys-minor-mode keymap.")
 
