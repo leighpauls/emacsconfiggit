@@ -44,10 +44,12 @@
 (load "~/.emacs.d/coffee-mode.el")
 
 ;; javascript mode
-(load "~/.emacs.d/javascript.el")
-(add-to-list 'auto-mode-alist '("\\.js\\'" . javascript-mode))
-(add-to-list 'auto-mode-alist '("\\.json\\'" . javascript-mode))
-(autoload 'javascript-mode "javascript" nil t)
+;; (load "~/.emacs.d/javascript.el")
+;; (add-to-list 'auto-mode-alist '("\\.js\\'" . javascript-mode))
+;; (add-to-list 'auto-mode-alist '("\\.json\\'" . javascript-mode))
+;; (autoload 'javascript-mode "javascript" nil t)
+(autoload 'js2-mode "~/.emacs.d/js2.elc" nil t)
+(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 
 (add-to-list 'auto-mode-alist '("\\wscript\\'" . python-mode))
 
@@ -182,7 +184,12 @@
   (org-table-convert-region 0 (buffer-size) '(16))
   (toggle-truncate-lines 1))
 
-(defvar my-pdb-command "python -m pdb /Users/leighpauls/opt/cortex_test.py" "Command to run with debug-cur-python-work")
+(defvar my-pdb-command
+  "python -m pdb /Users/leighpauls/opt/cortex_test.py"
+  "Command to run with debug-cur-python-work")
+
+(setq my-pdb-command "python -m pdb /Users/leighpauls/structed_client.py")
+
 (defun debug-cur-python-work ()
   "Execute `my-pdb-command` in gud"
   (interactive)
@@ -190,10 +197,20 @@
       (kill-buffer "*gud-pdb*"))
   (pdb my-pdb-command))
 
+(defun cortex-telnet ()
+  "Make a telnet connect on port 11111"
+  (interactive)
+  (telnet "localhost" 11111))
+
 ;; (ido-mode nil)
 
 (load-file "~/.emacs.d/camelCase-mode.el")
 (add-hook 'javascript-mode-hook '(lambda () (camelCase-mode 1)))
+
+(defun eval-buffer-with-message () 
+  (interactive)
+  (eval-buffer)
+  (message "Evaluated buffer \"%s\" successfully!" (buffer-name)))
 
 ; Trivial key bindings
 (global-set-key (kbd "C-x C-b") 'buffer-menu)
@@ -207,6 +224,9 @@
 (global-set-key (kbd "C-c p") 'debug-cur-python-work)
 (global-set-key (kbd "C-c r") 'comment-region)
 (global-set-key (kbd "C-c u") 'uncomment-region)
+(global-set-key (kbd "C-c e") 'eval-region)
+(global-set-key (kbd "C-c C-e") 'eval-buffer-with-message)
+(global-set-key (kbd "C-c n") 'rename-buffer)
 
 (defvar my-keys-minor-mode-map (make-keymap) "my-keys-minor-mode keymap.")
 
@@ -256,3 +276,7 @@
           '(lambda ()
              (visual-line-mode t)
              (org-indent-mode t)))
+
+(load-file "~/.emacs.d/highlight-80+.el")
+(add-hook 'python-mode-hook 'highlight-80+-mode)
+
