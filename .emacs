@@ -145,7 +145,7 @@
 (load-file "~/.emacs.d/google-c-style.el")
 (add-hook 'c-mode-common-hook 'google-set-c-style)
 
-(push "~/.emacs.d/magit-1.0.0" load-path)
+(push "~/.emacs.d/magit-1.2.0" load-path)
 
 (require 'magit)
 
