@@ -1,3 +1,5 @@
 *~
 /.emacs.d/eshell/history
 /.emacs.d/eshell/lastdir
+*.elc
+/.emacs.d/tramp
