@@ -280,3 +280,4 @@
 (load-file "~/.emacs.d/highlight-80+.el")
 (add-hook 'python-mode-hook 'highlight-80+-mode)
 
+;; (load-file "~/opt/cortex/demo/structed.el")
