@@ -172,8 +172,7 @@
 (setq compile-command "~/emacs_tintin_build.sh")
 (setq compilation-skip-threshold 2)
 
-(setq ispell-program-name "/usr/local/Cellar/aspell/0.60.6.1/bin/aspell")
-
+(setq ispell-program-name "aspell")
 
 (defun kill-current-buffer ()
   (interactive)
