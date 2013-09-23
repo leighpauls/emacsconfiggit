@@ -148,6 +148,12 @@
 (load-file "~/.emacs.d/google-c-style.el")
 (add-hook 'c-mode-common-hook 'google-set-c-style)
 
+(defun enable-trailing-whitespace ()
+  "Turns on trailing whitespace"
+  (interactive)
+  (setq show-trailing-whitespace t))
+(add-hook 'c-mode-common-hook 'enable-trailing-whitespace)
+
 (push "~/.emacs.d/magit-1.2.0" load-path)
 
 (require 'magit)
@@ -169,8 +175,7 @@
 (setq compile-command "~/emacs_tintin_build.sh")
 (setq compilation-skip-threshold 2)
 
-(setq ispell-program-name "/usr/local/Cellar/aspell/0.60.6.1/bin/aspell")
-
+(setq ispell-program-name "aspell")
 
 (defun kill-current-buffer ()
   (interactive)
@@ -230,6 +235,7 @@
 (global-set-key (kbd "C-c e") 'eval-region)
 (global-set-key (kbd "C-c C-e") 'eval-buffer-with-message)
 (global-set-key (kbd "C-c n") 'rename-buffer)
+(global-set-key (kbd "M-g r") 'rgrep)
 
 (defvar my-keys-minor-mode-map (make-keymap) "my-keys-minor-mode keymap.")
 
@@ -282,5 +288,6 @@
 
 (load-file "~/.emacs.d/highlight-80+.el")
 (add-hook 'python-mode-hook 'highlight-80+-mode)
+(add-hook 'c-mode-common-hook 'highlight-80+-mode)
 
 ;; (load-file "~/opt/cortex/demo/structed.el")
