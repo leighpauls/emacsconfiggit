@@ -145,6 +145,12 @@
 (load-file "~/.emacs.d/google-c-style.el")
 (add-hook 'c-mode-common-hook 'google-set-c-style)
 
+(defun enable-trailing-whitespace ()
+  "Turns on trailing whitespace"
+  (interactive)
+  (setq show-trailing-whitespace t))
+(add-hook 'c-mode-common-hook 'enable-trailing-whitespace)
+
 (push "~/.emacs.d/magit-1.2.0" load-path)
 
 (require 'magit)
@@ -279,5 +285,6 @@
 
 (load-file "~/.emacs.d/highlight-80+.el")
 (add-hook 'python-mode-hook 'highlight-80+-mode)
+(add-hook 'c-mode-common-hook 'highlight-80+-mode)
 
 ;; (load-file "~/opt/cortex/demo/structed.el")
