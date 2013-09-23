@@ -1,5 +1,8 @@
-(setq mac-command-modifier 'meta)
-(setq mac-option-modifier 'super)
+
+;; OSX-specific key modifiers
+(when (eq system-type 'darwin)
+  (setq mac-command-modifier 'meta)
+  (setq mac-option-modifier 'super))
 
 (setq indent-tabs-mode nil)
 
