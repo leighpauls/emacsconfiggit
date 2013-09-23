@@ -233,6 +233,7 @@
 (global-set-key (kbd "C-c e") 'eval-region)
 (global-set-key (kbd "C-c C-e") 'eval-buffer-with-message)
 (global-set-key (kbd "C-c n") 'rename-buffer)
+(global-set-key (kbd "M-g r") 'rgrep)
 
 (defvar my-keys-minor-mode-map (make-keymap) "my-keys-minor-mode keymap.")
 
