@@ -153,6 +153,7 @@
   (interactive)
   (setq show-trailing-whitespace t))
 (add-hook 'c-mode-common-hook 'enable-trailing-whitespace)
+(add-hook 'python-mode-hook 'enable-trailing-whitespace)
 
 (push "~/.emacs.d/magit-1.2.0" load-path)
 
