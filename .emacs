@@ -292,3 +292,7 @@
 (add-hook 'c-mode-common-hook 'highlight-80+-mode)
 
 ;; (load-file "~/opt/cortex/demo/structed.el")
+
+(load-file "~/.emacs.d/multi-term.el")
+(setq multi-term-program "/bin/bash")
+
