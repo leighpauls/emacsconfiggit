@@ -302,3 +302,4 @@
 (load-file "~/.emacs.d/multi-term.el")
 (setq multi-term-program "/bin/bash")
 
+(add-to-list 'auto-mode-alist '("\\.ino\\'" . c-mode))
