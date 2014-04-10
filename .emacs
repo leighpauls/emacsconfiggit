@@ -221,6 +221,11 @@
   (eval-buffer)
   (message "Evaluated buffer \"%s\" successfully!" (buffer-name)))
 
+(defun ftp-to-robot ()
+  (interactive)
+  (cd "~/NetBeansProjects/Letterman/")
+  (ftp "10.36.83.2"))
+
 ; Trivial key bindings
 (global-set-key (kbd "C-x C-b") 'buffer-menu)
 (global-set-key (kbd "C-x p") 'other-frame)
@@ -237,6 +242,7 @@
 (global-set-key (kbd "C-c C-e") 'eval-buffer-with-message)
 (global-set-key (kbd "C-c n") 'rename-buffer)
 (global-set-key (kbd "M-g r") 'rgrep)
+(global-set-key (kbd "C-c f") 'ftp-to-robot)
 
 (defvar my-keys-minor-mode-map (make-keymap) "my-keys-minor-mode keymap.")
 
