@@ -247,6 +247,7 @@
 (global-set-key (kbd "C-c n") 'rename-buffer)
 (global-set-key (kbd "M-g r") 'rgrep)
 (global-set-key (kbd "C-c f") 'ftp-to-robot)
+(global-set-key (kbd "C-x 7") 'split-window-right-83)
 
 (defvar my-keys-minor-mode-map (make-keymap) "my-keys-minor-mode keymap.")
 
