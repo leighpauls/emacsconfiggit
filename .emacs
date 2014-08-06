@@ -176,7 +176,7 @@
 (setq compile-command "~/emacs_tintin_build.sh")
 (setq compilation-skip-threshold 2)
 
-(setq ispell-program-name "aspell")
+(setq ispell-program-name "/usr/local/bin/aspell")
 
 (defun kill-current-buffer ()
   (interactive)
