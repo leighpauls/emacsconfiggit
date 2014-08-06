@@ -230,10 +230,26 @@
   (cd "~/NetBeansProjects/Letterman/")
   (ftp "10.36.83.2"))
 
+(defun other-window-reverse ()
+  (interactive)
+  (other-window -1))
+
+(defun magit-or-monky ()
+  "Opens magit or monky, based on whether the current directory is a git or hg project"
+  (interactive)
+  (cond ((magit-get-top-dir default-directory) (magit-status default-directory))
+        ((monky-hg-string "root") (monky-status default-directory))
+        (t (error "Not inside a git or hg repo"))))
+
+(defun split-window-right-83 ()
+  "Splt window to the right, leaving this column at 83 chars"
+  (interactive)
+  (split-window-right 83))
+
 ; Trivial key bindings
 (global-set-key (kbd "C-x C-b") 'buffer-menu)
-(global-set-key (kbd "C-x p") 'other-frame)
-(global-set-key (kbd "C-x a") 'magit-status)
+(global-set-key (kbd "C-x p") 'other-window-reverse)
+(global-set-key (kbd "C-x a") 'magit-or-monky)
 (global-set-key (kbd "C-c b") 'compile)
 (global-set-key (kbd "C-c i") 'ispell-comments-and-strings)
 (global-set-key (kbd "C-x 9") 'delete-other-windows-vertically)
@@ -308,3 +324,12 @@
 (setq multi-term-program "/bin/bash")
 
 (add-to-list 'auto-mode-alist '("\\.ino\\'" . c-mode))
+
+;; load monky
+(add-to-list 'load-path "~/.emacs.d/monky")
+(require 'monky)
+;; only use one hg process
+(setq monky-process-type 'cmdserver)
+
+;; buffer menu mode name column width
+(setq Buffer-menu-name-width 48)
