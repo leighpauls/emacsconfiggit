@@ -1,3 +1,6 @@
+;; load the FB libs
+(defvar master-dir (getenv "ADMIN_SCRIPTS"))
+(load-library (concat master-dir "/master.emacs"))
 
 ;; OSX-specific key modifiers
 (when (eq system-type 'darwin)
@@ -6,6 +9,7 @@
 
 (setq indent-tabs-mode nil)
 
+(setenv "EDITOR" "emacsclient")
 
 (setenv "PATH" (concat (getenv "PATH") ":/opt/local/bin:/opt/local/sbin:/opt/local/bin:/opt/local/sbin:/usr/local/bin:/Users/leighpauls/arm-cs-tools/bin:/Users/leighpauls/work/depot_tools:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/usr/local/share/npm/lib/node_modules/coffee-script/bin:/Users/leighpauls/scripts"))
 
@@ -51,7 +55,7 @@
 ;; (add-to-list 'auto-mode-alist '("\\.js\\'" . javascript-mode))
 ;; (add-to-list 'auto-mode-alist '("\\.json\\'" . javascript-mode))
 ;; (autoload 'javascript-mode "javascript" nil t)
-(autoload 'js2-mode "~/.emacs.d/js2.elc" nil t)
+(autoload 'js2-mode "~/.emacs.d/js2.el" nil t)
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 
 (add-to-list 'auto-mode-alist '("\\wscript\\'" . python-mode))
@@ -162,7 +166,7 @@
 (defun rotate-windows-helper(x d)
   (if (equal (cdr x) nil) (set-window-buffer (car x) d)
     (set-window-buffer (car x) (window-buffer (cadr x))) (rotate-windows-helper (cdr x) d)))
- 
+
 (defun rotate-windows ()
   (interactive)
   (rotate-windows-helper (window-list) (window-buffer (car (window-list))))
@@ -216,7 +220,7 @@
 (load-file "~/.emacs.d/camelCase-mode.el")
 (add-hook 'javascript-mode-hook '(lambda () (camelCase-mode 1)))
 
-(defun eval-buffer-with-message () 
+(defun eval-buffer-with-message ()
   (interactive)
   (eval-buffer)
   (message "Evaluated buffer \"%s\" successfully!" (buffer-name)))
@@ -226,10 +230,26 @@
   (cd "~/NetBeansProjects/Letterman/")
   (ftp "10.36.83.2"))
 
+(defun other-window-reverse ()
+  (interactive)
+  (other-window -1))
+
+(defun magit-or-monky ()
+  "Opens magit or monky, based on whether the current directory is a git or hg project"
+  (interactive)
+  (cond ((magit-get-top-dir default-directory) (magit-status default-directory))
+        ((monky-hg-string "root") (monky-status default-directory))
+        (t (error "Not inside a git or hg repo"))))
+
+(defun split-window-right-83 ()
+  "Splt window to the right, leaving this column at 83 chars"
+  (interactive)
+  (split-window-right 83))
+
 ; Trivial key bindings
 (global-set-key (kbd "C-x C-b") 'buffer-menu)
-(global-set-key (kbd "C-x p") 'other-frame)
-(global-set-key (kbd "C-x a") 'magit-status)
+(global-set-key (kbd "C-x p") 'other-window-reverse)
+(global-set-key (kbd "C-x a") 'magit-or-monky)
 (global-set-key (kbd "C-c b") 'compile)
 (global-set-key (kbd "C-c i") 'ispell-comments-and-strings)
 (global-set-key (kbd "C-x 9") 'delete-other-windows-vertically)
@@ -243,6 +263,7 @@
 (global-set-key (kbd "C-c n") 'rename-buffer)
 (global-set-key (kbd "M-g r") 'rgrep)
 (global-set-key (kbd "C-c f") 'ftp-to-robot)
+(global-set-key (kbd "C-x 7") 'split-window-right-83)
 
 (defvar my-keys-minor-mode-map (make-keymap) "my-keys-minor-mode keymap.")
 
@@ -303,3 +324,12 @@
 (setq multi-term-program "/bin/bash")
 
 (add-to-list 'auto-mode-alist '("\\.ino\\'" . c-mode))
+
+;; load monky
+(add-to-list 'load-path "~/.emacs.d/monky")
+(require 'monky)
+;; only use one hg process
+(setq monky-process-type 'cmdserver)
+
+;; buffer menu mode name column width
+(setq Buffer-menu-name-width 48)
