@@ -1,3 +1,6 @@
+;; load the FB libs
+(defvar master-dir (getenv "ADMIN_SCRIPTS"))
+(load-library (concat master-dir "/master.emacs"))
 
 ;; OSX-specific key modifiers
 (when (eq system-type 'darwin)
@@ -6,6 +9,7 @@
 
 (setq indent-tabs-mode nil)
 
+(setenv "EDITOR" "emacsclient")
 
 (setenv "PATH" (concat (getenv "PATH") ":/opt/local/bin:/opt/local/sbin:/opt/local/bin:/opt/local/sbin:/usr/local/bin:/Users/leighpauls/arm-cs-tools/bin:/Users/leighpauls/work/depot_tools:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/usr/local/share/npm/lib/node_modules/coffee-script/bin:/Users/leighpauls/scripts"))
 
@@ -51,7 +55,7 @@
 ;; (add-to-list 'auto-mode-alist '("\\.js\\'" . javascript-mode))
 ;; (add-to-list 'auto-mode-alist '("\\.json\\'" . javascript-mode))
 ;; (autoload 'javascript-mode "javascript" nil t)
-(autoload 'js2-mode "~/.emacs.d/js2.elc" nil t)
+(autoload 'js2-mode "~/.emacs.d/js2.el" nil t)
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 
 (add-to-list 'auto-mode-alist '("\\wscript\\'" . python-mode))
@@ -162,7 +166,7 @@
 (defun rotate-windows-helper(x d)
   (if (equal (cdr x) nil) (set-window-buffer (car x) d)
     (set-window-buffer (car x) (window-buffer (cadr x))) (rotate-windows-helper (cdr x) d)))
- 
+
 (defun rotate-windows ()
   (interactive)
   (rotate-windows-helper (window-list) (window-buffer (car (window-list))))
@@ -216,7 +220,7 @@
 (load-file "~/.emacs.d/camelCase-mode.el")
 (add-hook 'javascript-mode-hook '(lambda () (camelCase-mode 1)))
 
-(defun eval-buffer-with-message () 
+(defun eval-buffer-with-message ()
   (interactive)
   (eval-buffer)
   (message "Evaluated buffer \"%s\" successfully!" (buffer-name)))
