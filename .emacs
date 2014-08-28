@@ -333,3 +333,10 @@
 
 ;; buffer menu mode name column width
 (setq Buffer-menu-name-width 48)
+
+;; clear the buffer in eshell
+(defun eshell/clear ()
+  "clear the eshell buffer."
+  (interactive)
+  (let ((inhibit-read-only t))
+    (erase-buffer)))
