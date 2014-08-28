@@ -348,3 +348,10 @@
   (interactive)
   (rcirc-connect "irc.tfbnw.net" 6443 "leighpauls" "leighpauls"
                  rcirc-default-full-name nil "ae42-e26b-0b18-3512" 'tls))
+
+;; clear the buffer in eshell
+(defun eshell/clear ()
+  "clear the eshell buffer."
+  (interactive)
+  (let ((inhibit-read-only t))
+    (erase-buffer)))
