@@ -1,15 +1,23 @@
-;; load the FB libs
-(defvar master-dir (getenv "ADMIN_SCRIPTS"))
-(load-library (concat master-dir "/master.emacs"))
 
-;; OSX-specific key modifiers
-(when (eq system-type 'darwin)
-  (setq mac-command-modifier 'meta)
-  (setq mac-option-modifier 'super))
+;; default values for things that should have been set in config
+(when (not (boundp 'ljhp-local-config-loaded))
+  (setq load-fb-devserver-config nil))
+
+(when load-fb-devserver-config
+  ;; load the FB libs
+  (defvar master-dir (getenv "ADMIN_SCRIPTS"))
+  (load-library (concat master-dir "/master.emacs")))
+
+;; OSX-specific settings
 
 (setq indent-tabs-mode nil)
 
 (setenv "EDITOR" "emacsclient")
+
+(when (eq system-type 'darwin)
+  (setq mac-command-modifier 'meta)
+  (setq mac-option-modifier 'super)
+  (setenv "EDITOR" "/Applications/Emacs.app/Contents/MacOS/bin/emacsclient"))
 
 (setenv "PATH" (concat (getenv "PATH") ":/opt/local/bin:/opt/local/sbin:/opt/local/bin:/opt/local/sbin:/usr/local/bin:/Users/leighpauls/arm-cs-tools/bin:/Users/leighpauls/work/depot_tools:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/usr/local/share/npm/lib/node_modules/coffee-script/bin:/Users/leighpauls/scripts"))
 
@@ -333,3 +341,10 @@
 
 ;; buffer menu mode name column width
 (setq Buffer-menu-name-width 48)
+
+;; facebook irc connection
+(defun fb-irc ()
+  "Connect to the facebook IRC server"
+  (interactive)
+  (rcirc-connect "irc.tfbnw.net" 6443 "leighpauls" "leighpauls"
+                 rcirc-default-full-name nil "ae42-e26b-0b18-3512" 'tls))
