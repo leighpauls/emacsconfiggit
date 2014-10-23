@@ -19,8 +19,7 @@
   (setq mac-option-modifier 'super)
   (setenv "EDITOR" "/Applications/Emacs.app/Contents/MacOS/bin/emacsclient"))
 
-(setenv "PATH" (concat (getenv "PATH") ":/opt/local/bin:/opt/local/sbin:/opt/local/bin:/opt/local/sbin:/usr/local/bin:/Users/leighpauls/arm-cs-tools/bin:/Users/leighpauls/work/depot_tools:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/usr/local/share/npm/lib/node_modules/coffee-script/bin:/Users/leighpauls/scripts"))
-
+(setenv "PATH" (concat (getenv "PATH") ":/opt/local/bin:/opt/local/sbin:/opt/local/bin:/opt/local/sbin:/usr/local/bin:/Users/leighpauls/arm-cs-tools/bin:/Users/leighpauls/work/depot_tools:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/usr/local/share/npm/lib/node_modules/coffee-script/bin:/Users/leighpauls/scripts:/Users/leighpauls/android-sdk-macosx/platform-tools:/Users/leighpauls/android-sdk-macosx/tools"))
 
 ;; remove toolbar
 (tool-bar-mode -1)
