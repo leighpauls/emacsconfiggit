@@ -67,11 +67,10 @@
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 
 (add-to-list 'auto-mode-alist '("\\wscript\\'" . python-mode))
+(add-to-list 'auto-mode-alist '("\\BUCK\\'" . python-mode))
 
 ;; ruby mode for .ru files
 (add-to-list 'auto-mode-alist '("\\.ru\\'" . ruby-mode))
-
-
 (add-to-list 'auto-mode-alist '("\\.m\\'" . octave-mode))
 
 ;; (setq default-tab-width 4)
@@ -355,3 +354,10 @@
   (interactive)
   (let ((inhibit-read-only t))
     (erase-buffer)))
+
+(defun two-space-indent-buck-files ()
+  "sets python indenting to 2 spaces for buck files"
+  (interactive)
+  (when (string-match "/BUCK$" (buffer-file-name))
+    (set-variable 'python-indent-offset 2 t)))
+(add-hook 'python-mode-hook 'two-space-indent-buck-files)
