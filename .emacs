@@ -332,6 +332,8 @@
 
 (add-to-list 'auto-mode-alist '("\\.ino\\'" . c-mode))
 
+(add-to-list 'auto-mode-alist '("\\.aidl\\'" . idl-mode))
+
 ;; load monky
 (add-to-list 'load-path "~/.emacs.d/monky")
 (require 'monky)
