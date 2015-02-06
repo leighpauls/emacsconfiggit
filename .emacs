@@ -67,6 +67,7 @@
 
 (add-to-list 'auto-mode-alist '("\\wscript\\'" . python-mode))
 (add-to-list 'auto-mode-alist '("\\BUCK\\'" . python-mode))
+(add-to-list 'auto-mode-alist '("\\TARGETS\\'" . python-mode))
 
 ;; ruby mode for .ru files
 (add-to-list 'auto-mode-alist '("\\.ru\\'" . ruby-mode))
@@ -183,9 +184,6 @@
 
 (setq visible-bell t)
 
-(setq compile-command "~/emacs_tintin_build.sh")
-(setq compilation-skip-threshold 2)
-
 (setq ispell-program-name "/usr/local/bin/aspell")
 
 (defun kill-current-buffer ()
@@ -256,7 +254,7 @@
 (global-set-key (kbd "C-x C-b") 'buffer-menu)
 (global-set-key (kbd "C-x p") 'other-window-reverse)
 (global-set-key (kbd "C-x a") 'magit-or-monky)
-(global-set-key (kbd "C-c b") 'compile)
+(global-set-key (kbd "C-c b") 'compile-from-dir)
 (global-set-key (kbd "C-c i") 'ispell-comments-and-strings)
 (global-set-key (kbd "C-x 9") 'delete-other-windows-vertically)
 (global-set-key (kbd "C-$") 'ispell-word)
@@ -359,6 +357,34 @@
 (defun two-space-indent-buck-files ()
   "sets python indenting to 2 spaces for buck files"
   (interactive)
-  (when (string-match "/BUCK$" (buffer-file-name))
+  (when (string-match "/\\(BUCK\\|TARGETS\\)$" (buffer-file-name))
     (set-variable 'python-indent-offset 2 t)))
 (add-hook 'python-mode-hook 'two-space-indent-buck-files)
+
+(setq compilation-skip-threshold 2)
+(defvar compile-from-dir-last-root nil)
+(defvar compile-from-dir-last-command nil)
+(defun compile-from-dir (root command)
+  (interactive
+   (list (file-name-directory (read-file-name
+                               "Compile from: "
+                               compile-from-dir-last-root
+                               compile-from-dir-last-root
+                               t))
+         (read-string
+          "Command: "
+          compile-from-dir-last-command
+          nil
+          compile-from-dir-last-command)))
+  (print (concat root ", " command))
+  (let ((default-directory root))
+    (compile command))
+  (setq compile-from-dir-last-root root)
+  (setq compile-from-dir-last-command command))
+
+;; (require 'ansi-color)
+(defun colorize-compilation-buffer ()
+  (toggle-read-only)
+  (ansi-color-apply-on-region (point-min) (point-max))
+  (toggle-read-only))
+(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
