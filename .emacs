@@ -19,7 +19,28 @@
   (setq mac-option-modifier 'super)
   (setenv "EDITOR" "/Applications/Emacs.app/Contents/MacOS/bin/emacsclient"))
 
-(setenv "PATH" (concat (getenv "PATH") ":/opt/local/bin:/opt/local/sbin:/opt/local/bin:/opt/local/sbin:/usr/local/bin:/Users/leighpauls/arm-cs-tools/bin:/Users/leighpauls/work/depot_tools:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/usr/local/share/npm/lib/node_modules/coffee-script/bin:/Users/leighpauls/scripts:/Users/leighpauls/android-sdk-macosx/platform-tools:/Users/leighpauls/android-sdk-macosx/tools"))
+
+(defvar path-additions
+  '("/Users/leighpauls/android-ndk/android-ndk-r9d"
+    "/Users/leighpauls/android-sdk-macosx/platform-tools"
+    "/Users/leighpauls/android-sdk-macosx/tools"
+    "/Users/leighpauls/pebble-dev/PebbleSDK-2.8/bin"
+    "/bin"
+    "/opt/local/bin"
+    "/opt/local/sbin"
+    "/sbin"
+    "/usr/X11/bin"
+    "/usr/bin"
+    "/usr/local/bin"
+    "/usr/local/go/bin"
+    "/usr/sbin"))
+
+(require 'cl)
+(defun path-join (paths)
+  "Joins paths together in the env PATH variable format"
+  (cl-reduce (lambda (full-str next-element) (concat full-str path-separator next-element)) paths))
+
+(setenv "PATH" (path-join (cons (getenv "PATH") path-additions)))
 
 ;; remove toolbar
 (tool-bar-mode -1)
@@ -68,14 +89,16 @@
 (add-to-list 'auto-mode-alist '("\\wscript\\'" . python-mode))
 (add-to-list 'auto-mode-alist '("\\BUCK\\'" . python-mode))
 (add-to-list 'auto-mode-alist '("\\TARGETS\\'" . python-mode))
+(add-to-list 'auto-mode-alist '("\\DEFS\\'" . python-mode))
 
 ;; ruby mode for .ru files
 (add-to-list 'auto-mode-alist '("\\.ru\\'" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.m\\'" . octave-mode))
 
-;; (setq default-tab-width 4)
+(setq default-tab-width 4)
 (add-to-list 'load-path "~/.emacs.d/go" t)
 (require 'go-mode-load)
+(setenv "GOPATH" "/Users/leighpauls/go")
 
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
