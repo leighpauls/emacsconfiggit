@@ -88,14 +88,17 @@
 
 (add-to-list 'auto-mode-alist '("\\wscript\\'" . python-mode))
 (add-to-list 'auto-mode-alist '("\\BUCK\\'" . python-mode))
+(add-to-list 'auto-mode-alist '("\\DEFS\\'" . python-mode))
+
 
 ;; ruby mode for .ru files
 (add-to-list 'auto-mode-alist '("\\.ru\\'" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.m\\'" . octave-mode))
 
-;; (setq default-tab-width 4)
+(setq default-tab-width 4)
 (add-to-list 'load-path "~/.emacs.d/go" t)
 (require 'go-mode-load)
+(setenv "GOPATH" "/Users/leighpauls/go")
 
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
@@ -204,7 +207,6 @@
 
 (setq visible-bell t)
 
-(setq compile-command "~/emacs_tintin_build.sh")
 (setq compilation-skip-threshold 2)
 
 (setq ispell-program-name "/usr/local/bin/aspell")
