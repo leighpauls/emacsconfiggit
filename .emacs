@@ -14,10 +14,22 @@
 
 (setenv "EDITOR" "emacsclient")
 
+(defun speak-on-compilation-finished (buffer status)
+  "Play the navi 'hey, listen' sound for a failed compilation or the new item
+sound for a successful one"
+  (start-process
+   "play-sound"
+   nil
+   "afplay"
+   (if (string= status "finished\n")
+       "/Users/leighpauls/.emacs.d/small_item.mp3"
+     "/Users/leighpauls/.emacs.d/hey_listen.mp3")))
+
 (when (eq system-type 'darwin)
   (setq mac-command-modifier 'meta)
   (setq mac-option-modifier 'super)
-  (setenv "EDITOR" "/Applications/Emacs.app/Contents/MacOS/bin/emacsclient"))
+  (setenv "EDITOR" "/Applications/Emacs.app/Contents/MacOS/bin/emacsclient")
+  (add-hook 'compilation-finish-functions 'speak-on-compilation-finished))
 
 
 (defvar path-additions
@@ -397,3 +409,4 @@
   (ansi-color-apply-on-region (point-min) (point-max))
   (toggle-read-only))
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+
