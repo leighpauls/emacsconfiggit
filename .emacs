@@ -322,20 +322,6 @@
  ;; If there is more than one, they won't work right.
  )
 
-(add-hook 'dired-load-hook
-          (lambda ()
-            (load "dired-x")
-            ;; Set dired-x global variables here.  For example:
-            ;; (setq dired-guess-shell-gnutar "gtar")
-            ;; (setq dired-x-hands-off-my-keys nil)
-            (setq dired-omit-extensions '(".pyc" "~"))
-            ))
-(add-hook 'dired-mode-hook
-          (lambda ()
-            ;; Set dired-x buffer-local variables here.  For example:
-            (dired-omit-mode 1)
-            ))
-
 (add-hook 'org-mode-hook
           '(lambda ()
              (visual-line-mode t)
