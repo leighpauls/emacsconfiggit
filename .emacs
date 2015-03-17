@@ -374,7 +374,8 @@ sound for a successful one"
   "clear the eshell buffer."
   (interactive)
   (let ((inhibit-read-only t))
-    (erase-buffer)))
+    (erase-buffer))
+  "")
 
 (defun two-space-indent-buck-files ()
   "sets python indenting to 2 spaces for buck files"
