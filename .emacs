@@ -33,7 +33,8 @@ sound for a successful one"
 
 
 (defvar path-additions
-  '("/Users/leighpauls/android-ndk/android-ndk-r9d"
+  '("/opt/facebook/bin"
+    "/Users/leighpauls/android-ndk/android-ndk-r9d"
     "/Users/leighpauls/android-sdk-macosx/platform-tools"
     "/Users/leighpauls/android-sdk-macosx/tools"
     "/Users/leighpauls/pebble-dev/PebbleSDK-2.8/bin"
