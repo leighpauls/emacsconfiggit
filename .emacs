@@ -415,3 +415,6 @@ sound for a successful one"
 
 (load "~/.emacs.d/android-mode")
 (setq android-mode-sdk-dir "~/android-sdk-macosx/")
+
+(add-to-list 'load-path "~/.emacs.d")
+(require 'dired-details+)
