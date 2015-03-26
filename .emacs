@@ -412,3 +412,5 @@ sound for a successful one"
   (toggle-read-only))
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
+(load "~/.emacs.d/android-mode")
+(setq android-mode-sdk-dir "~/android-sdk-macosx/")
