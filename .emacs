@@ -304,6 +304,7 @@ sound for a successful one"
 (global-set-key (kbd "M-g r") 'rgrep)
 (global-set-key (kbd "C-c f") 'ftp-to-robot)
 (global-set-key (kbd "C-x 7") 'split-window-right-83)
+(global-set-key (kbd "C-c l") 'sort-lines)
 
 (defvar my-keys-minor-mode-map (make-keymap) "my-keys-minor-mode keymap.")
 
