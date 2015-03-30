@@ -305,6 +305,8 @@ sound for a successful one"
 (global-set-key (kbd "C-c f") 'ftp-to-robot)
 (global-set-key (kbd "C-x 7") 'split-window-right-83)
 (global-set-key (kbd "C-c l") 'sort-lines)
+(global-set-key (kbd "C-c A") 'android-logcat-cleared)
+(global-set-key (kbd "C-x w") 'other-frame)
 
 (defvar my-keys-minor-mode-map (make-keymap) "my-keys-minor-mode keymap.")
 
@@ -418,3 +420,9 @@ sound for a successful one"
 
 (add-to-list 'load-path "~/.emacs.d")
 (require 'dired-details+)
+
+(defun android-logcat-cleared ()
+  "Opens android-logcat after clearing it from adb, so long-running devices won't spit out logs for a long period of time"
+  (interactive)
+  (shell-command-to-string "adb logcat -c")
+  (android-logcat))
