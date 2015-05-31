@@ -14,27 +14,14 @@
 
 (setenv "EDITOR" "emacsclient")
 
-(defun speak-on-compilation-finished (buffer status)
-  "Play the navi 'hey, listen' sound for a failed compilation or the new item
-sound for a successful one"
-  (start-process
-   "play-sound"
-   nil
-   "afplay"
-   (if (string= status "finished\n")
-       "/Users/leighpauls/.emacs.d/small_item.mp3"
-     "/Users/leighpauls/.emacs.d/hey_listen.mp3")))
-
 (when (eq system-type 'darwin)
   (setq mac-command-modifier 'meta)
   (setq mac-option-modifier 'super)
-  (setenv "EDITOR" "/Applications/Emacs.app/Contents/MacOS/bin/emacsclient")
-  (add-hook 'compilation-finish-functions 'speak-on-compilation-finished))
+  (setenv "EDITOR" "/Applications/Emacs.app/Contents/MacOS/bin/emacsclient"))
 
 
 (defvar path-additions
   '("/opt/facebook/bin"
-    "/Users/leighpauls/android-ndk/android-ndk-r9d"
     "/Users/leighpauls/android-sdk-macosx/platform-tools"
     "/Users/leighpauls/android-sdk-macosx/tools"
     "/Users/leighpauls/pebble-dev/PebbleSDK-2.8/bin"
@@ -54,6 +41,7 @@ sound for a successful one"
   (cl-reduce (lambda (full-str next-element) (concat full-str path-separator next-element)) paths))
 
 (setenv "PATH" (path-join (cons (getenv "PATH") path-additions)))
+(setenv "ANDROID_NDK_REPOSITORY" "/Users/leighpauls/android-ndk")
 
 ;; remove toolbar
 (tool-bar-mode -1)
@@ -404,9 +392,12 @@ sound for a successful one"
           compile-from-dir-last-command)))
   (print (concat root ", " command))
   (let ((default-directory root))
-    (compile command))
+    (compile-with-filter command))
   (setq compile-from-dir-last-root root)
   (setq compile-from-dir-last-command command))
+
+(defun compile-with-filter (command)
+  (compile (concat command " 2>&1 | egrep -v '^(BUILT|Android NDK:)'")))
 
 ;; (require 'ansi-color)
 (defun colorize-compilation-buffer ()
