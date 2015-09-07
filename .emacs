@@ -335,11 +335,6 @@
 (add-hook 'python-mode-hook 'highlight-80+-mode)
 (add-hook 'c-mode-common-hook 'highlight-80+-mode)
 
-;; (load-file "~/opt/cortex/demo/structed.el")
-
-(load-file "~/.emacs.d/multi-term.el")
-(setq multi-term-program "/bin/bash")
-
 (add-to-list 'auto-mode-alist '("\\.ino\\'" . c-mode))
 
 (add-to-list 'auto-mode-alist '("\\.aidl\\'" . idl-mode))
@@ -409,7 +404,7 @@
 (load "~/.emacs.d/android-mode")
 (setq android-mode-sdk-dir "~/android-sdk-macosx/")
 
-(add-to-list 'load-path "~/.emacs.d")
+(add-to-list 'load-path "~/.emacs.d/dired-details/")
 (require 'dired-details+)
 
 (defun android-logcat-cleared ()
