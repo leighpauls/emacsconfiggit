@@ -30,9 +30,6 @@
 (add-to-list 'auto-mode-alist '("\\.m\\'" . octave-mode))
 
 (setq default-tab-width 4)
-(add-to-list 'load-path "~/.emacs.d/go/" t)
-(require 'go-mode-load)
-(setenv "GOPATH" "/Users/leighpauls/go")
 
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
