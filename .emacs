@@ -16,10 +16,27 @@
 (require 'leigh-load-modes)
 (require 'leigh-file-assocs)
 (require 'leigh-keys)
+(require 'leigh-styling)
+(require 'leigh-compilation)
 
 (setq default-tab-width 4)
 
-(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+(setq ispell-program-name "/usr/local/bin/aspell")
+
+(add-hook 'org-mode-hook
+          '(lambda () (visual-line-mode t) (org-indent-mode t)))
+
+;; buffer-menu-mode (aka: C-x b) name column width
+(setq Buffer-menu-name-width 48)
+
+(add-hook 'python-mode-hook 'two-space-indent-buck-files)
+
+;; Start the emacs server after everything is working
+(server-start)
+
+;;
+;; Helper function definitions
+;;
 
 ;; Open files and goto lines like we see from g++ etc. i.e. file:line#
 ;; (to-do "make `find-file-line-number' work for emacsclient as well")
@@ -40,23 +57,6 @@
         (goto-char (point-min))
         (forward-line (1- line-number))))))
 
-;; font
-(add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono:pixelsize=14:foundry=unknown:weight=normal:slant=normal:width=normal:spacing=100:scalable=true"))
-
-;; make the blue a little brighter so that it can be seen on black
-(setq ansi-color-names-vector
-  ["black" "red" "green" "yellow" "#7777ff" "magenta" "cyan" "white"])
-
-(menu-bar-mode 1)
-
-(defun enable-trailing-whitespace ()
-  "Turns on trailing whitespace"
-  (interactive)
-  (setq show-trailing-whitespace t))
-(add-hook 'c-mode-common-hook 'enable-trailing-whitespace)
-(add-hook 'python-mode-hook 'enable-trailing-whitespace)
-
-
 (defun rotate-windows-helper(x d)
   (if (equal (cdr x) nil)
 	  (set-window-buffer (car x) d)
@@ -68,19 +68,6 @@
   (interactive)
   (rotate-windows-helper (window-list) (window-buffer (car (window-list))))
   (select-window (car (last (window-list)))))
-
-(setq visible-bell t)
-
-(setq ispell-program-name "/usr/local/bin/aspell")
-
-(add-hook 'org-mode-hook
-          '(lambda ()
-             (visual-line-mode t)
-             (org-indent-mode t)))
-
-
-;; buffer menu mode name column width
-(setq Buffer-menu-name-width 48)
 
 ;; facebook irc connection
 (defun fb-irc ()
@@ -109,43 +96,10 @@
   (interactive)
   (when (string-match "/\\(BUCK\\|TARGETS\\)$" (buffer-file-name))
     (set-variable 'python-indent-offset 2 t)))
-(add-hook 'python-mode-hook 'two-space-indent-buck-files)
 
-(setq compilation-skip-threshold 2)
-(defvar compile-from-dir-last-root nil)
-(defvar compile-from-dir-last-command nil)
-(defun compile-from-dir (root command)
-  (interactive
-   (list (file-name-directory (read-file-name
-                               "Compile from: "
-                               compile-from-dir-last-root
-                               compile-from-dir-last-root
-                               t))
-         (read-string
-          "Command: "
-          compile-from-dir-last-command
-          nil
-          compile-from-dir-last-command)))
-  (print (concat root ", " command))
-  (let ((default-directory root))
-    (compile-with-filter command))
-  (setq compile-from-dir-last-root root)
-  (setq compile-from-dir-last-command command))
-
-(defun compile-with-filter (command)
-  (compile (concat command " 2>&1 | egrep -v '^(BUILT|Android NDK:)'")))
-
-(defun colorize-compilation-buffer ()
-  (toggle-read-only)
-  (ansi-color-apply-on-region (point-min) (point-max))
-  (toggle-read-only))
-(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
 (defun android-logcat-cleared ()
   "Opens android-logcat after clearing it from adb, so long-running devices won't spit out logs for a long period of time"
   (interactive)
   (shell-command-to-string "adb logcat -c")
   (android-logcat))
-
-;; Start the emacs server after everything is working
-(server-start)
