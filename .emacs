@@ -97,7 +97,6 @@
 (color-theme-tm)
 
 ;; font
-;; (set-default-font "DejaVu Sans Mono:pixelsize=14:foundry=unknown:weight=normal:slant=normal:width=normal:spacing=100:scalable=true")
 (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono:pixelsize=14:foundry=unknown:weight=normal:slant=normal:width=normal:spacing=100:scalable=true"))
 
 ;; make the blue a little brighter so that it can be seen on black
@@ -117,8 +116,7 @@
 (add-hook 'c-mode-common-hook 'enable-trailing-whitespace)
 (add-hook 'python-mode-hook 'enable-trailing-whitespace)
 
-(push "~/.emacs.d/magit-1.2.2" load-path)
-
+(add-to-list 'load-path "~/.emacs.d/magit-1.2.2")
 (require 'magit)
 
 (defun rotate-windows-helper(x d)
@@ -169,8 +167,6 @@
   "Make a telnet connect on port 11111"
   (interactive)
   (telnet "localhost" 11111))
-
-;; (ido-mode nil)
 
 (load-file "~/.emacs.d/camelCase-mode.el")
 (add-hook 'javascript-mode-hook '(lambda () (camelCase-mode 1)))
@@ -230,7 +226,7 @@
 
 (define-minor-mode my-keys-minor-mode
   "A minor mode which forces my keybindings to take precedence over major modes"
-  t " my-keys" 'my-keys-minor-mode-map)
+  t "my-keys" 'my-keys-minor-mode-map)
 
 (my-keys-minor-mode 1)
 
@@ -240,25 +236,13 @@
 
 (add-hook 'minibuffer-setup-hook 'my-minibuffer-setup-hook)
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(indent-tabs-mode nil))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-
 (add-hook 'org-mode-hook
           '(lambda ()
              (visual-line-mode t)
              (org-indent-mode t)))
 
-(load-file "~/.emacs.d/highlight-80+.el")
+(add-to-list 'load-path "~/.emacs.d/highlight-80+/")
+(require 'highlight-80+)
 (add-hook 'python-mode-hook 'highlight-80+-mode)
 (add-hook 'c-mode-common-hook 'highlight-80+-mode)
 
