@@ -45,15 +45,6 @@
 ;; remove toolbar
 (tool-bar-mode -1)
 
-;; set editor colours
-;; (set-face-foreground 'default "yellow green")
-;; (set-face-background 'default "DarkOliveGreen")
-
-;; javascript mode
-;; (load "~/.emacs.d/javascript.el")
-;; (add-to-list 'auto-mode-alist '("\\.js\\'" . javascript-mode))
-;; (add-to-list 'auto-mode-alist '("\\.json\\'" . javascript-mode))
-;; (autoload 'javascript-mode "javascript" nil t)
 (autoload 'js2-mode "~/.emacs.d/js2.el" nil t)
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 
@@ -64,6 +55,8 @@
 
 ;; ruby mode for .ru files
 (add-to-list 'auto-mode-alist '("\\.ru\\'" . ruby-mode))
+
+;; octave mode for matlab files
 (add-to-list 'auto-mode-alist '("\\.m\\'" . octave-mode))
 
 (setq default-tab-width 4)
