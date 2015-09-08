@@ -8,17 +8,16 @@
   (defvar master-dir (getenv "ADMIN_SCRIPTS"))
   (load-library (concat master-dir "/master.emacs")))
 
-;; OSX-specific settings
+;; OS-specific settings
+(if (eq system-type 'darwin)
+    (progn
+      (setq mac-command-modifier 'meta)
+      (setq mac-option-modifier 'super)
+      (setenv "EDITOR"
+              "/Applications/Emacs.app/Contents/MacOS/bin/emacsclient"))
+  (setenv "EDITOR" "emacsclient"))
 
 (setq indent-tabs-mode nil)
-
-(setenv "EDITOR" "emacsclient")
-
-(when (eq system-type 'darwin)
-  (setq mac-command-modifier 'meta)
-  (setq mac-option-modifier 'super)
-  (setenv "EDITOR" "/Applications/Emacs.app/Contents/MacOS/bin/emacsclient"))
-
 
 (defvar path-additions
   '("/opt/facebook/bin"
