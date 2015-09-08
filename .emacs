@@ -66,9 +66,6 @@
 
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
-;; (setq c-default-style "linux"
-;;	  c-basic-offset 4)
-
 (require 'tramp)
 
 ;; Open files and goto lines like we see from g++ etc. i.e. file:line#
@@ -102,39 +99,6 @@
 ;; font
 ;; (set-default-font "DejaVu Sans Mono:pixelsize=14:foundry=unknown:weight=normal:slant=normal:width=normal:spacing=100:scalable=true")
 (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono:pixelsize=14:foundry=unknown:weight=normal:slant=normal:width=normal:spacing=100:scalable=true"))
-
-;;; js-beautify.el -- beautify some js code
-(defgroup js-beautify nil
-  "Use jsbeautify to beautify some js"
-  :group 'editing)
-
-(defcustom js-beautify-args ""
-  "Arguments to pass to jsbeautify script"
-  :type '(string)
-  :group 'js-beautify)
-
-(defcustom js-beautify-path "/home/leigh/js-beautify/python/js-beautify"
-  "Path to jsbeautifier python file"
-  :type '(string)
-
-  :group 'js-beautify)
-
-(defun js-beautify ()
-  "Beautify a region of javascript using the code from jsbeautify.org"
-  (interactive)
-  (let ((orig-point (point)))
-    (unless (mark)
-      (mark-defun))
-    (shell-command-on-region (point)
-                             (mark)
-                             (concat js-beautify-path
-                                     " --stdin "
-                                     js-beautify-args)
-                             nil t)
-    (goto-char orig-point)))
-
-(provide 'js-beautify)
-;;; js-beautify.el ends here
 
 ;; make the blue a little brighter so that it can be seen on black
 (setq ansi-color-names-vector
