@@ -49,9 +49,6 @@
 ;; (set-face-foreground 'default "yellow green")
 ;; (set-face-background 'default "DarkOliveGreen")
 
-;; coffee mode
-(load "~/.emacs.d/coffee-mode.el")
-
 ;; javascript mode
 ;; (load "~/.emacs.d/javascript.el")
 ;; (add-to-list 'auto-mode-alist '("\\.js\\'" . javascript-mode))
