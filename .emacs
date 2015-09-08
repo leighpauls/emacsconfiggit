@@ -1,4 +1,7 @@
 
+;; remove toolbar so it doesn't flash about
+(tool-bar-mode -1)
+
 ;; default values for things that should have been set in config
 (when (not (boundp 'ljhp-local-config-loaded))
   (setq load-fb-devserver-config nil))
@@ -10,13 +13,7 @@
 
 (add-to-list 'load-path "~/.emacs.d/leighpauls/")
 (require 'leigh-env)
-
-;; remove toolbar
-(tool-bar-mode -1)
-
-(add-to-list 'load-path "~/.emacs.d/js2-mode/")
-(require 'js2-mode)
-(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+(require 'leigh-load-modes)
 
 (add-to-list 'auto-mode-alist '("\\wscript\\'" . python-mode))
 (add-to-list 'auto-mode-alist '("\\BUCK\\'" . python-mode))
@@ -32,8 +29,6 @@
 (setq default-tab-width 4)
 
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
-
-(require 'tramp)
 
 ;; Open files and goto lines like we see from g++ etc. i.e. file:line#
 ;; (to-do "make `find-file-line-number' work for emacsclient as well")
@@ -57,12 +52,6 @@
 ;; Start the emacs server by default
 (server-start)
 
-;; Color theme
-(add-to-list 'load-path "~/.emacs.d/color-theme-6.6.0/")
-(require 'color-theme)
-(color-theme-initialize)
-(color-theme-tm)
-
 ;; font
 (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono:pixelsize=14:foundry=unknown:weight=normal:slant=normal:width=normal:spacing=100:scalable=true"))
 
@@ -72,11 +61,6 @@
 
 (menu-bar-mode 1)
 
-;; google c/c++ style
-(add-to-list 'load-path "~/.emacs.d/google-c-style/")
-(require 'google-c-style)
-(add-hook 'c-mode-common-hook 'google-set-c-style)
-
 (defun enable-trailing-whitespace ()
   "Turns on trailing whitespace"
   (interactive)
@@ -84,8 +68,6 @@
 (add-hook 'c-mode-common-hook 'enable-trailing-whitespace)
 (add-hook 'python-mode-hook 'enable-trailing-whitespace)
 
-(add-to-list 'load-path "~/.emacs.d/magit-1.2.2")
-(require 'magit)
 
 (defun rotate-windows-helper(x d)
   (if (equal (cdr x) nil) (set-window-buffer (car x) d)
@@ -95,7 +77,6 @@
   (interactive)
   (rotate-windows-helper (window-list) (window-buffer (car (window-list))))
   (select-window (car (last (window-list)))))
-
 
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 
@@ -109,36 +90,10 @@
 
 (global-set-key (kbd "C-x k") 'kill-current-buffer)
 
-(add-to-list 'load-path "~/.emacs.d/mo-git-blame/")
-(autoload 'mo-git-blame-file "mo-git-blame" nil t)
-(autoload 'mo-git-blame-current "mo-git-blame" nil t)
-
 (defun csv-to-org-table ()
   (interactive)
   (org-table-convert-region 0 (buffer-size) '(16))
   (toggle-truncate-lines 1))
-
-(defvar my-pdb-command
-  "python -m pdb /Users/leighpauls/opt/cortex_test.py"
-  "Command to run with debug-cur-python-work")
-
-(setq my-pdb-command "python -m pdb /Users/leighpauls/structed_client.py")
-
-(defun debug-cur-python-work ()
-  "Execute `my-pdb-command` in gud"
-  (interactive)
-  (if (get-buffer "*gud-pdb*")
-      (kill-buffer "*gud-pdb*"))
-  (pdb my-pdb-command))
-
-(defun cortex-telnet ()
-  "Make a telnet connect on port 11111"
-  (interactive)
-  (telnet "localhost" 11111))
-
-(add-to-list 'load-path "~/.emacs.d/camelCase-mode/")
-(require 'camelCase-mode)
-(add-hook 'javascript-mode-hook '(lambda () (camelCase-mode 1)))
 
 (defun eval-buffer-with-message ()
   (interactive)
@@ -210,20 +165,10 @@
              (visual-line-mode t)
              (org-indent-mode t)))
 
-(add-to-list 'load-path "~/.emacs.d/highlight-80+/")
-(require 'highlight-80+)
-(add-hook 'python-mode-hook 'highlight-80+-mode)
-(add-hook 'c-mode-common-hook 'highlight-80+-mode)
-
 (add-to-list 'auto-mode-alist '("\\.ino\\'" . c-mode))
 
 (add-to-list 'auto-mode-alist '("\\.aidl\\'" . idl-mode))
 
-;; load monky
-(add-to-list 'load-path "~/.emacs.d/monky/")
-(require 'monky)
-;; only use one hg process
-(setq monky-process-type 'cmdserver)
 
 ;; buffer menu mode name column width
 (setq Buffer-menu-name-width 48)
@@ -279,13 +224,6 @@
   (ansi-color-apply-on-region (point-min) (point-max))
   (toggle-read-only))
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
-
-(add-to-list 'load-path "~/.emacs.d/android-mode/")
-(require 'android-mode)
-(setq android-mode-sdk-dir "~/android-sdk-macosx/")
-
-(add-to-list 'load-path "~/.emacs.d/dired-details/")
-(require 'dired-details+)
 
 (defun android-logcat-cleared ()
   "Opens android-logcat after clearing it from adb, so long-running devices won't spit out logs for a long period of time"
