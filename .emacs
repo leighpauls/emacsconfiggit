@@ -15,6 +15,7 @@
 (require 'leigh-env)
 (require 'leigh-load-modes)
 (require 'leigh-file-assocs)
+(require 'leigh-keys)
 
 (setq default-tab-width 4)
 
@@ -39,9 +40,6 @@
         (goto-char (point-min))
         (forward-line (1- line-number))))))
 
-;; Start the emacs server by default
-(server-start)
-
 ;; font
 (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono:pixelsize=14:foundry=unknown:weight=normal:slant=normal:width=normal:spacing=100:scalable=true"))
 
@@ -60,8 +58,11 @@
 
 
 (defun rotate-windows-helper(x d)
-  (if (equal (cdr x) nil) (set-window-buffer (car x) d)
-    (set-window-buffer (car x) (window-buffer (cadr x))) (rotate-windows-helper (cdr x) d)))
+  (if (equal (cdr x) nil)
+	  (set-window-buffer (car x) d)
+    (set-window-buffer (car x)
+					   (window-buffer (cadr x)))
+	(rotate-windows-helper (cdr x) d)))
 
 (defun rotate-windows ()
   (interactive)
@@ -71,82 +72,6 @@
 (setq visible-bell t)
 
 (setq ispell-program-name "/usr/local/bin/aspell")
-
-(defun kill-current-buffer ()
-  (interactive)
-  (kill-buffer nil))
-
-(global-set-key (kbd "C-x k") 'kill-current-buffer)
-
-(defun csv-to-org-table ()
-  (interactive)
-  (org-table-convert-region 0 (buffer-size) '(16))
-  (toggle-truncate-lines 1))
-
-(defun eval-buffer-with-message ()
-  (interactive)
-  (eval-buffer)
-  (message "Evaluated buffer \"%s\" successfully!" (buffer-name)))
-
-(defun ftp-to-robot ()
-  (interactive)
-  (cd "~/NetBeansProjects/Letterman/")
-  (ftp "10.36.83.2"))
-
-(defun other-window-reverse ()
-  (interactive)
-  (other-window -1))
-
-(defun magit-or-monky ()
-  "Opens magit or monky, based on whether the current directory is a git or hg project"
-  (interactive)
-  (cond ((magit-get-top-dir default-directory) (magit-status default-directory))
-        ((monky-hg-string "root") (monky-status default-directory))
-        (t (error "Not inside a git or hg repo"))))
-
-(defun split-window-right-83 ()
-  "Splt window to the right, leaving this column at 83 chars"
-  (interactive)
-  (split-window-right 83))
-
-; Trivial key bindings
-(global-set-key (kbd "C-x C-b") 'buffer-menu)
-(global-set-key (kbd "C-x p") 'other-window-reverse)
-(global-set-key (kbd "C-x a") 'magit-or-monky)
-(global-set-key (kbd "C-c b") 'compile-from-dir)
-(global-set-key (kbd "C-c i") 'ispell-comments-and-strings)
-(global-set-key (kbd "C-x 9") 'delete-other-windows-vertically)
-(global-set-key (kbd "C-$") 'ispell-word)
-(global-set-key (kbd "C-c s") 'csv-to-org-table)
-(global-set-key (kbd "C-c p") 'debug-cur-python-work)
-(global-set-key (kbd "C-c r") 'comment-region)
-(global-set-key (kbd "C-c u") 'uncomment-region)
-(global-set-key (kbd "C-c e") 'eval-region)
-(global-set-key (kbd "C-c C-e") 'eval-buffer-with-message)
-(global-set-key (kbd "C-c n") 'rename-buffer)
-(global-set-key (kbd "M-g r") 'rgrep)
-(global-set-key (kbd "C-c f") 'ftp-to-robot)
-(global-set-key (kbd "C-x 7") 'split-window-right-83)
-(global-set-key (kbd "C-c l") 'sort-lines)
-(global-set-key (kbd "C-c A") 'android-logcat-cleared)
-(global-set-key (kbd "C-x w") 'other-frame)
-
-(defvar my-keys-minor-mode-map (make-keymap) "my-keys-minor-mode keymap.")
-
-; Key bindings which need to override major modes
-(define-key my-keys-minor-mode-map (kbd "C-c C-r") 'rotate-windows)
-
-(define-minor-mode my-keys-minor-mode
-  "A minor mode which forces my keybindings to take precedence over major modes"
-  t "my-keys" 'my-keys-minor-mode-map)
-
-(my-keys-minor-mode 1)
-
-;; Don't want them overriding in the minibuffer
-(defun my-minibuffer-setup-hook ()
-  (my-keys-minor-mode 0))
-
-(add-hook 'minibuffer-setup-hook 'my-minibuffer-setup-hook)
 
 (add-hook 'org-mode-hook
           '(lambda ()
@@ -171,6 +96,13 @@
   (let ((inhibit-read-only t))
     (erase-buffer))
   "")
+
+(defun magit-or-monky ()
+  "Opens magit or monky, based on whether the current directory is a git or hg project"
+  (interactive)
+  (cond ((magit-get-top-dir default-directory) (magit-status default-directory))
+        ((monky-hg-string "root") (monky-status default-directory))
+        (t (error "Not inside a git or hg repo"))))
 
 (defun two-space-indent-buck-files ()
   "sets python indenting to 2 spaces for buck files"
@@ -214,3 +146,6 @@
   (interactive)
   (shell-command-to-string "adb logcat -c")
   (android-logcat))
+
+;; Start the emacs server after everything is working
+(server-start)
