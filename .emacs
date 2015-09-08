@@ -14,17 +14,7 @@
 (add-to-list 'load-path "~/.emacs.d/leighpauls/")
 (require 'leigh-env)
 (require 'leigh-load-modes)
-
-(add-to-list 'auto-mode-alist '("\\wscript\\'" . python-mode))
-(add-to-list 'auto-mode-alist '("\\BUCK\\'" . python-mode))
-(add-to-list 'auto-mode-alist '("\\TARGETS\\'" . python-mode))
-(add-to-list 'auto-mode-alist '("\\DEFS\\'" . python-mode))
-
-;; ruby mode for .ru files
-(add-to-list 'auto-mode-alist '("\\.ru\\'" . ruby-mode))
-
-;; octave mode for matlab files
-(add-to-list 'auto-mode-alist '("\\.m\\'" . octave-mode))
+(require 'leigh-file-assocs)
 
 (setq default-tab-width 4)
 
@@ -77,8 +67,6 @@
   (interactive)
   (rotate-windows-helper (window-list) (window-buffer (car (window-list))))
   (select-window (car (last (window-list)))))
-
-(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 
 (setq visible-bell t)
 
@@ -164,10 +152,6 @@
           '(lambda ()
              (visual-line-mode t)
              (org-indent-mode t)))
-
-(add-to-list 'auto-mode-alist '("\\.ino\\'" . c-mode))
-
-(add-to-list 'auto-mode-alist '("\\.aidl\\'" . idl-mode))
 
 
 ;; buffer menu mode name column width
