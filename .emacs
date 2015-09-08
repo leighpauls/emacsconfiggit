@@ -49,21 +49,6 @@
 ;; (set-face-foreground 'default "yellow green")
 ;; (set-face-background 'default "DarkOliveGreen")
 
-;; bongo-> media player
-(add-to-list 'load-path "~/.emacs.d/bongo")
-(autoload 'bongo "bongo"
-  "Start Bongo by switching to a Bongo buffer." t)
-
-
-;; transparency preferences-> for watching movies behind emacs
-; (set-frame-parameter (selected-frame) 'alpha '(87 60))
-; (add-to-list 'default-frame-alist '(alpha 87 60))
-;; Set transparency of emacs
-(defun set-transparency (value)
-  "Sets the transparency of the frame window. 0=transparent/100=opaque"
-  (interactive "nTransparency Value 0 - 100 opaque:")
-  (set-frame-parameter (selected-frame) 'alpha value))
-
 ;; coffee mode
 (load "~/.emacs.d/coffee-mode.el")
 
