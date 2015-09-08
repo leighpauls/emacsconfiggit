@@ -45,7 +45,8 @@
 ;; remove toolbar
 (tool-bar-mode -1)
 
-(autoload 'js2-mode "~/.emacs.d/js2.el" nil t)
+(add-to-list 'load-path "~/.emacs.d/js2-mode/")
+(require 'js2-mode)
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 
 (add-to-list 'auto-mode-alist '("\\wscript\\'" . python-mode))
@@ -60,7 +61,7 @@
 (add-to-list 'auto-mode-alist '("\\.m\\'" . octave-mode))
 
 (setq default-tab-width 4)
-(add-to-list 'load-path "~/.emacs.d/go" t)
+(add-to-list 'load-path "~/.emacs.d/go/" t)
 (require 'go-mode-load)
 (setenv "GOPATH" "/Users/leighpauls/go")
 
@@ -106,7 +107,8 @@
 (menu-bar-mode 1)
 
 ;; google c/c++ style
-(load-file "~/.emacs.d/google-c-style.el")
+(add-to-list 'load-path "~/.emacs.d/google-c-style/")
+(require 'google-c-style)
 (add-hook 'c-mode-common-hook 'google-set-c-style)
 
 (defun enable-trailing-whitespace ()
@@ -141,7 +143,7 @@
 
 (global-set-key (kbd "C-x k") 'kill-current-buffer)
 
-(add-to-list 'load-path "~/.emacs.d/mo-git-blame")
+(add-to-list 'load-path "~/.emacs.d/mo-git-blame/")
 (autoload 'mo-git-blame-file "mo-git-blame" nil t)
 (autoload 'mo-git-blame-current "mo-git-blame" nil t)
 
@@ -168,7 +170,8 @@
   (interactive)
   (telnet "localhost" 11111))
 
-(load-file "~/.emacs.d/camelCase-mode.el")
+(add-to-list 'load-path "~/.emacs.d/camelCase-mode/")
+(require 'camelCase-mode)
 (add-hook 'javascript-mode-hook '(lambda () (camelCase-mode 1)))
 
 (defun eval-buffer-with-message ()
@@ -251,7 +254,7 @@
 (add-to-list 'auto-mode-alist '("\\.aidl\\'" . idl-mode))
 
 ;; load monky
-(add-to-list 'load-path "~/.emacs.d/monky")
+(add-to-list 'load-path "~/.emacs.d/monky/")
 (require 'monky)
 ;; only use one hg process
 (setq monky-process-type 'cmdserver)
@@ -305,14 +308,14 @@
 (defun compile-with-filter (command)
   (compile (concat command " 2>&1 | egrep -v '^(BUILT|Android NDK:)'")))
 
-;; (require 'ansi-color)
 (defun colorize-compilation-buffer ()
   (toggle-read-only)
   (ansi-color-apply-on-region (point-min) (point-max))
   (toggle-read-only))
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
-(load "~/.emacs.d/android-mode")
+(add-to-list 'load-path "~/.emacs.d/android-mode/")
+(require 'android-mode)
 (setq android-mode-sdk-dir "~/android-sdk-macosx/")
 
 (add-to-list 'load-path "~/.emacs.d/dired-details/")
