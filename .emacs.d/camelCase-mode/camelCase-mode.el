@@ -296,5 +296,5 @@ with word around mark."
     (downcase-region start (point))))
 
 
-(provide 'camelCase)
+(provide 'camelCase-mode)
 
