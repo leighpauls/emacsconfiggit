@@ -337,18 +337,9 @@
 
 ;; (load-file "~/opt/cortex/demo/structed.el")
 
-(load-file "~/.emacs.d/multi-term.el")
-(setq multi-term-program "/bin/bash")
-
 (add-to-list 'auto-mode-alist '("\\.ino\\'" . c-mode))
 
 (add-to-list 'auto-mode-alist '("\\.aidl\\'" . idl-mode))
-
-;; load monky
-(add-to-list 'load-path "~/.emacs.d/monky")
-(require 'monky)
-;; only use one hg process
-(setq monky-process-type 'cmdserver)
 
 ;; buffer menu mode name column width
 (setq Buffer-menu-name-width 48)
@@ -397,7 +388,7 @@
   (setq compile-from-dir-last-command command))
 
 (defun compile-with-filter (command)
-  (compile (concat command " 2>&1 | egrep -v '^(BUILT|Android NDK:)'")))
+  (compile (concat command " 2>&1 | egrep -v '^(BUILT|Android NDK:|Creating hashtable for)'")))
 
 ;; (require 'ansi-color)
 (defun colorize-compilation-buffer ()
@@ -409,7 +400,7 @@
 (load "~/.emacs.d/android-mode")
 (setq android-mode-sdk-dir "~/android-sdk-macosx/")
 
-(add-to-list 'load-path "~/.emacs.d")
+(add-to-list 'load-path "~/.emacs.d/dired-details")
 (require 'dired-details+)
 
 (defun android-logcat-cleared ()
@@ -417,3 +408,5 @@
   (interactive)
   (shell-command-to-string "adb logcat -c")
   (android-logcat))
+
+(add-to-list 'dired-omit-extensions ".orig")
