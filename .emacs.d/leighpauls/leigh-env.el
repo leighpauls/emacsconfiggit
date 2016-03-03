@@ -35,5 +35,6 @@
 
 (setenv "PATH" (path-join (cons (getenv "PATH") path-additions)))
 (setenv "ANDROID_NDK_REPOSITORY" "/Users/leighpauls/android-ndk")
+(setenv "ANDROID_SDK" "/Users/leighpauls/android-sdk-macosx")
 
 (provide 'leigh-env)
