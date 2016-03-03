@@ -20,6 +20,8 @@
 (add-hook 'c-mode-common-hook 'enable-trailing-whitespace)
 (add-hook 'python-mode-hook 'enable-trailing-whitespace)
 
-(setq visible-bell t)
+(setq visible-bell nil)
+
+(setq-default indent-tabs-mode nil)
 
 (provide 'leigh-styling)
