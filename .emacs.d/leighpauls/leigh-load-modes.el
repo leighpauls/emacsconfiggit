@@ -1,10 +1,6 @@
 ;; leigh-load-modes.el
 ;; Do any loading/configuration for third-party modes I want to pull in
 
-(add-to-list 'load-path "~/.emacs.d/js2-mode/")
-(require 'js2-mode)
-(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
-
 (add-to-list 'load-path "~/.emacs.d/color-theme-6.6.0/")
 (require 'color-theme)
 (color-theme-initialize)
