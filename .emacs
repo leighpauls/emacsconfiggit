@@ -20,6 +20,7 @@
 (require 'leigh-compilation)
 
 (setq default-tab-width 4)
+(setq js-indent-level 2)
 
 (setq ispell-program-name "/usr/local/bin/aspell")
 
