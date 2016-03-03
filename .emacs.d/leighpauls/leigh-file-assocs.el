@@ -10,8 +10,7 @@
 (add-to-list 'auto-mode-alist '("\\.m\\'" . octave-mode))
 
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
-
-(add-to-list 'auto-mode-alist '("\\.ino\\'" . c-mode))
+(add-to-list 'auto-mode-alist '("\\.ino\\'" . c++-mode))
 
 (add-to-list 'auto-mode-alist '("\\.aidl\\'" . idl-mode))
 
