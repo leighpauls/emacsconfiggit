@@ -42,7 +42,8 @@
 (global-set-key (kbd "C-c l") 'sort-lines)
 (global-set-key (kbd "C-c A") 'android-logcat-cleared)
 (global-set-key (kbd "C-x w") 'other-frame)
-
+(global-set-key (kbd "C-c M-%") 'query-replace-regexp)
+(global-set-key (kbd "C-c t") 'toggle-truncate-lines)
 
 ; Key bindings which need to override major modes
 (defvar my-keys-minor-mode-map (make-keymap) "my-keys-minor-mode keymap.")
