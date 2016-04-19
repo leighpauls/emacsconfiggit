@@ -6,8 +6,12 @@
       (setq mac-command-modifier 'meta)
       (setq mac-option-modifier 'super)
       (setenv "EDITOR"
-              "/Applications/Emacs.app/Contents/MacOS/bin/emacsclient"))
-  (setenv "EDITOR" "emacsclient"))
+              "/Applications/Emacs.app/Contents/MacOS/bin/emacsclient")
+      (setenv "ANDROID_NDK_REPOSITORY" "/Users/leighpauls/android-ndk")
+      (setenv "ANDROID_SDK" "/Users/leighpauls/android-sdk-macosx")
+      (setq ispell-program-name "/usr/local/bin/aspell"))
+  (setenv "EDITOR" "emacsclient")
+  (setq ispell-program-name "/usr/bin/aspell"))
 
 (setq indent-tabs-mode nil)
 
@@ -34,7 +38,5 @@
 			 paths))
 
 (setenv "PATH" (path-join (cons (getenv "PATH") path-additions)))
-(setenv "ANDROID_NDK_REPOSITORY" "/Users/leighpauls/android-ndk")
-(setenv "ANDROID_SDK" "/Users/leighpauls/android-sdk-macosx")
 
 (provide 'leigh-env)

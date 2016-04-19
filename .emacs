@@ -22,8 +22,6 @@
 (setq default-tab-width 4)
 (setq js-indent-level 2)
 
-(setq ispell-program-name "/usr/local/bin/aspell")
-
 (add-hook 'org-mode-hook
           '(lambda () (visual-line-mode t) (org-indent-mode t)))
 
