@@ -24,4 +24,6 @@
 
 (setq-default indent-tabs-mode nil)
 
+(add-hook 'android-mode-hook (lambda () (setq truncate-lines t)))
+
 (provide 'leigh-styling)
