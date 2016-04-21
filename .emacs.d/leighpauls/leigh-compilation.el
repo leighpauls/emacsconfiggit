@@ -23,7 +23,7 @@
   (setq compile-from-dir-last-command command))
 
 (defun compile-with-filter (command)
-  (compile (concat command " 2>&1 | egrep -v '^(BUILT|Android NDK:)'")))
+  (compile (concat command " 2>&1 | egrep -v '^(BUILT|CACHE|MATCH|Android NDK:)'")))
 
 (defun colorize-compilation-buffer ()
   (toggle-read-only)
