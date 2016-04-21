@@ -3,3 +3,4 @@
 /.emacs.d/eshell/lastdir
 *.elc
 /.emacs.d/tramp
+/.emacs.d/url
