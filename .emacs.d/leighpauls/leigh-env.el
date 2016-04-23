@@ -9,9 +9,11 @@
               "/Applications/Emacs.app/Contents/MacOS/bin/emacsclient")
       (setenv "ANDROID_NDK_REPOSITORY" "/Users/leighpauls/android-ndk")
       (setenv "ANDROID_SDK" "/Users/leighpauls/android-sdk-macosx")
-      (setq ispell-program-name "/usr/local/bin/aspell"))
+      (setq ispell-program-name "/usr/local/bin/aspell")
+      (setq clang-format-el-path "/usr/local/share/clang/clang-format.el"))
   (setenv "EDITOR" "emacsclient")
-  (setq ispell-program-name "/usr/bin/aspell"))
+  (setq ispell-program-name "/usr/bin/aspell")
+  (setq clang-format-el-path "/home/engshare/third-party2/clang/dev/src/clang/tools/clang-format/clang-format.el"))
 
 (setq indent-tabs-mode nil)
 

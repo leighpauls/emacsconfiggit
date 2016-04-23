@@ -6,10 +6,6 @@
 (color-theme-initialize)
 (color-theme-tm)
 
-(add-to-list 'load-path "~/.emacs.d/google-c-style/")
-(require 'google-c-style)
-(add-hook 'c-mode-common-hook 'google-set-c-style)
-
 (add-to-list 'load-path "~/.emacs.d/magit-1.2.2/")
 (require 'magit)
 
@@ -32,5 +28,7 @@
 
 (add-to-list 'load-path "~/.emacs.d/dired-details/")
 (require 'dired-details+)
+
+(load clang-format-el-path)
 
 (provide 'leigh-load-modes)
