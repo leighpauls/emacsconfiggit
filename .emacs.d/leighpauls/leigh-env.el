@@ -13,7 +13,10 @@
       (setq clang-format-el-path "/usr/local/share/clang/clang-format.el"))
   (setenv "EDITOR" "emacsclient")
   (setq ispell-program-name "/usr/bin/aspell")
-  (setq clang-format-el-path "/home/engshare/third-party2/clang/dev/src/clang/tools/clang-format/clang-format.el"))
+  (setq clang-format-el-path
+	(if load-fb-devserver-config
+	    "/home/engshare/third-party2/clang/dev/src/clang/tools/clang-format/clang-format.el"
+	  "~/.emacs.d/clang-format/clang-format.el")))
 
 (setq indent-tabs-mode nil)
 
