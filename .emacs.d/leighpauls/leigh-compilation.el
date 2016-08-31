@@ -18,17 +18,21 @@
           compile-from-dir-last-command)))
   (print (concat root ", " command))
   (let ((default-directory root))
-    (compile-with-filter command))
+    (compile command))
   (setq compile-from-dir-last-root root)
   (setq compile-from-dir-last-command command))
 
-(defun compile-with-filter (command)
-  (compile (concat command " 2>&1 | egrep -v '^(BUILT|CACHE|MATCH|FOUND|Android NDK:)'")))
+(defun leigh-compilation-buck-spam-filter ()
+  (save-excursion
+    (let ((filter-region-end (point)))
+      (goto-char compilation-filter-start)
+      (search-backward "\n")
+      (replace-regexp "^\\(BUILT\\|CACHE\\|MATCH\\|FOUND\\|Android NDK\\:\\).*\n" "" nil (point) filter-region-end))))
+(add-hook 'compilation-filter-hook 'leigh-compilation-buck-spam-filter)
 
 (defun colorize-compilation-buffer ()
-  (toggle-read-only)
-  (ansi-color-apply-on-region (point-min) (point-max))
-  (toggle-read-only))
+  (let ((inhibit-read-only t))
+    (ansi-color-apply-on-region compilation-filter-start (point))))
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
 (defun compile-goto-error-in-idea ()
