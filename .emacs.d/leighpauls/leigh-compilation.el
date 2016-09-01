@@ -51,7 +51,9 @@
                                (match-string 2 str)
                                (match-string 1 str)))))))
 
-(add-hook 'compilation-mode-hook
-          (lambda () (local-set-key (kbd "i") 'compile-goto-error-in-idea)))
+(defun leigh-compilation-mode-hook ()
+  (local-set-key (kbd "i") 'compile-goto-error-in-idea)
+  (toggle-truncate-lines t))
+(add-hook 'compilation-mode-hook 'leigh-compilation-mode-hook)
 
 (provide 'leigh-compilation)
