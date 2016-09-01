@@ -27,7 +27,8 @@
     (let ((filter-region-end (point)))
       (goto-char compilation-filter-start)
       (search-backward "\n")
-      (replace-regexp "^\\(BUILT\\|CACHE\\|MATCH\\|FOUND\\|Android NDK\\:\\).*\n" "" nil (point) filter-region-end))))
+      (while (re-search-forward "^\\(BUILT\\|CACHE\\|MATCH\\|FOUND\\|Android NDK\\:\\).*\n" nil t)
+        (replace-match "" nil nil)))))
 (add-hook 'compilation-filter-hook 'leigh-compilation-buck-spam-filter)
 
 (defun colorize-compilation-buffer ()
