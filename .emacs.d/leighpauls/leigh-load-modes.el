@@ -17,11 +17,6 @@
 (require 'camelCase-mode)
 (add-hook 'javascript-mode-hook '(lambda () (camelCase-mode 1)))
 
-;; (add-to-list 'load-path "~/.emacs.d/highlight-80+/")
-;; (require 'highlight-80+)
-;; (add-hook 'python-mode-hook 'highlight-80+-mode)
-;; (add-hook 'c-mode-common-hook 'highlight-80+-mode)
-
 (add-to-list 'load-path "~/.emacs.d/android-mode/")
 (require 'android-mode)
 (setq android-mode-sdk-dir "~/android-sdk-macosx/")
@@ -30,5 +25,9 @@
 (require 'dired-details+)
 
 (load clang-format-el-path)
+
+(add-to-list 'load-path "~/.emacs.d/monky/")
+(require 'monky)
+(setq monky-process-type 'cmdserver)
 
 (provide 'leigh-load-modes)
