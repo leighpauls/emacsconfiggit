@@ -13,17 +13,25 @@
 
 (menu-bar-mode 1)
 
-(defun enable-trailing-whitespace ()
+
+(add-hook 'c-mode-common-hook 'leigh-enable-trailing-whitespace)
+(add-hook 'python-mode-hook 'leigh-enable-trailing-whitespace)
+(add-hook 'android-mode-hook (lambda () (setq truncate-lines t)))
+(add-hook 'emacs-lisp-mode-hook 'leigh-emacs-lisp-highlighting)
+
+(defun leigh-enable-trailing-whitespace ()
   "Turns on trailing whitespace"
   (interactive)
   (setq show-trailing-whitespace t))
-(add-hook 'c-mode-common-hook 'enable-trailing-whitespace)
-(add-hook 'python-mode-hook 'enable-trailing-whitespace)
+
+(defun leigh-emacs-lisp-highlighting ()
+  "Set up Leigh's emacs lisp highlighting prefs"
+  (interactive)
+  (setq whitespace-style '(face lines-tail))
+  (whitespace-mode 1))
 
 (setq visible-bell nil)
 
 (setq-default indent-tabs-mode nil)
-
-(add-hook 'android-mode-hook (lambda () (setq truncate-lines t)))
 
 (provide 'leigh-styling)
