@@ -33,7 +33,8 @@
     "/usr/bin"
     "/usr/local/bin"
     "/usr/local/go/bin"
-    "/usr/sbin"))
+    "/usr/sbin"
+    "/opt/facebook/bin/"))
 
 (require 'cl)
 (defun path-join (paths)
@@ -43,5 +44,7 @@
 			 paths))
 
 (setenv "PATH" (path-join (cons (getenv "PATH") path-additions)))
+
+(setq exec-path (append exec-path path-additions))
 
 (provide 'leigh-env)
