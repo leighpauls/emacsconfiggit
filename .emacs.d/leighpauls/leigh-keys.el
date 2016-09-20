@@ -44,13 +44,15 @@
 (global-set-key (kbd "C-x w") 'other-frame)
 (global-set-key (kbd "C-c M-%") 'query-replace-regexp)
 (global-set-key (kbd "C-c t") 'toggle-truncate-lines)
+(global-set-key (kbd "C-c C-h") 'mahgit-status)
+(global-set-key (kbd "C-c C-d") 'edebug-defun)
 
 ; Key bindings which need to override major modes
 (defvar my-keys-minor-mode-map (make-keymap) "my-keys-minor-mode keymap.")
 (define-key my-keys-minor-mode-map (kbd "C-c C-r") 'rotate-windows)
 (define-minor-mode my-keys-minor-mode
   "A minor mode which forces my keybindings to take precedence over major modes"
-  t "my-keys" 'my-keys-minor-mode-map)
+  t ", my-keys" 'my-keys-minor-mode-map)
 
 (my-keys-minor-mode 1)
 
