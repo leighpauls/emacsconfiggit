@@ -63,10 +63,12 @@
 
 (add-hook 'minibuffer-setup-hook 'my-minibuffer-setup-hook)
 
-(defun use-clang-format ()
-  (local-unset-key (kbd "TAB"))
-  (local-set-key (kbd "TAB") 'clang-format-region))
+(defun maybe-use-clang-format ()
+  (let ((file-extension (file-name-extension (buffer-file-name))))
+    (when (member file-extension '("h" "hh" "hpp" "c" "cc" "cpp"))
+      (local-unset-key (kbd "TAB"))
+      (local-set-key (kbd "TAB") 'clang-format-region))))
 
-(add-hook 'c-mode-common-hook 'use-clang-format);
+(add-hook 'c-mode-common-hook 'maybe-use-clang-format);
 
 (provide 'leigh-keys)
