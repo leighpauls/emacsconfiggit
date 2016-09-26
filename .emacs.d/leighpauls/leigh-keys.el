@@ -46,6 +46,7 @@
 (global-set-key (kbd "C-c t") 'toggle-truncate-lines)
 (global-set-key (kbd "C-c C-h") 'mahgit-status)
 (global-set-key (kbd "C-c C-d") 'edebug-defun)
+(global-set-key (kbd "C-h C-f") 'find-function)
 
 ; Key bindings which need to override major modes
 (defvar my-keys-minor-mode-map (make-keymap) "my-keys-minor-mode keymap.")
