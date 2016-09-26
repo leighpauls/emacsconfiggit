@@ -68,13 +68,6 @@
   (rotate-windows-helper (window-list) (window-buffer (car (window-list))))
   (select-window (car (last (window-list)))))
 
-;; facebook irc connection
-(defun fb-irc ()
-  "Connect to the facebook IRC server"
-  (interactive)
-  (rcirc-connect "irc.tfbnw.net" 6443 "leighpauls" "leighpauls"
-                 rcirc-default-full-name nil "ae42-e26b-0b18-3512" 'tls))
-
 ;; clear the buffer in eshell
 (defun eshell/clear ()
   "clear the eshell buffer."
