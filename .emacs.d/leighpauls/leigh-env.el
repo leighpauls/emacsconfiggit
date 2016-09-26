@@ -9,6 +9,7 @@
               "/Applications/Emacs.app/Contents/MacOS/bin/emacsclient")
       (setenv "ANDROID_NDK_REPOSITORY" "/Users/leighpauls/android-ndk")
       (setenv "ANDROID_SDK" "/Users/leighpauls/android-sdk-macosx")
+      (setenv "ANDROID_HOME" "/Users/leighpauls/android-sdk-macosx")
       (setq ispell-program-name "/usr/local/bin/aspell")
       (setq clang-format-el-path "/usr/local/share/clang/clang-format.el"))
   (setenv "EDITOR" "emacsclient")
