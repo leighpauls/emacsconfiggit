@@ -15,6 +15,8 @@
 ;;   (load-library fb-master-config))
 
 (add-to-list 'load-path (concat master-dir "/emacs-packages"))
+(eval-after-load "cc-mode"
+  '(require 'fb-coding-style))
 
 ;; PHP mode for .phpt files
 (autoload 'php-mode "php-mode" nil t nil)
@@ -39,3 +41,9 @@
                               auto-mode-alist))
 
 (autoload 'graphql-mode "graphql" "GraphQL DSL mode")
+
+(defun facebook-php-mode-hook ()
+  (c-set-style "fb-php-style"))
+(add-hook 'php-mode-hook 'facebook-php-mode-hook)
+(add-hook 'xhp-mode-hook 'facebook-php-mode-hook)
+
