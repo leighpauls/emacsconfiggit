@@ -31,6 +31,15 @@
         (replace-match "" nil nil)))))
 (add-hook 'compilation-filter-hook 'leigh-compilation-buck-spam-filter)
 
+(defun leigh-compilation-slash-spam-filter ()
+  (save-excursion
+    (let ((filter-region-end (point)))
+      (goto-char compilation-filter-start)
+      (search-backward "\n")
+      (while (re-search-forward "//+" nil t)
+        (replace-match "/" nil nil)))))
+(add-hook 'compilation-filter-hook 'leigh-compilation-slash-spam-filter)
+
 (defun colorize-compilation-buffer ()
   (let ((inhibit-read-only t))
     (ansi-color-apply-on-region compilation-filter-start (point))))
