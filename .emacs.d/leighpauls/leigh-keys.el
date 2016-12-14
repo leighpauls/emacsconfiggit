@@ -71,4 +71,10 @@
 
 (add-hook 'c-mode-common-hook 'maybe-use-clang-format);
 
+(defun shell-eshell-clear ()
+  (local-set-key (kbd "C-c c") 'eshell/clear))
+
+(add-hook 'shell-mode-hook 'shell-eshell-clear)
+(add-hook 'eshell-mode-hook 'shell-eshell-clear)
+
 (provide 'leigh-keys)
