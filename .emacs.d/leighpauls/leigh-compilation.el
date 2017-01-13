@@ -22,6 +22,12 @@
   (setq compile-from-dir-last-root root)
   (setq compile-from-dir-last-command command))
 
+(defun eshell/compilehere (&rest args)
+  (let ((command (mapconcat 'shell-quote-argument args " ")))
+    (compile command)
+    (setq compile-from-dir-last-root default-directory)
+    (setq compile-from-dir-last-command command)))
+  
 (defun leigh-compilation-buck-spam-filter ()
   (save-excursion
     (let ((filter-region-end (point)))
