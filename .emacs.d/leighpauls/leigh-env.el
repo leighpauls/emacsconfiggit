@@ -7,9 +7,9 @@
       (setq mac-option-modifier 'super)
       (setenv "EDITOR"
               "/Applications/Emacs.app/Contents/MacOS/bin/emacsclient")
-      (setenv "ANDROID_NDK_REPOSITORY" "/Users/leighpauls/android-ndk")
-      (setenv "ANDROID_SDK" "/Users/leighpauls/android-sdk-macosx")
-      (setenv "ANDROID_HOME" "/Users/leighpauls/android-sdk-macosx")
+      (setenv "ANDROID_NDK_REPOSITORY" "/opt/android_ndk")
+      (setenv "ANDROID_SDK" "/opt/android_sdk")
+      (setenv "ANDROID_HOME" "/opt/android_sdk")
       (setq ispell-program-name "/usr/local/bin/aspell")
       (setq clang-format-el-path "/usr/local/share/clang/clang-format.el"))
   (setenv "EDITOR" "emacsclient")
@@ -25,6 +25,8 @@
   '("/opt/facebook/bin"
     "/Users/leighpauls/android-sdk-macosx/platform-tools"
     "/Users/leighpauls/android-sdk-macosx/tools"
+    "/opt/android_sdk/tools"
+    "/opt/android_sdk/platform-tools"
     "/Users/leighpauls/pebble-dev/PebbleSDK-2.8/bin"
     "/bin"
     "/opt/local/bin"
@@ -35,7 +37,8 @@
     "/usr/local/bin"
     "/usr/local/go/bin"
     "/usr/sbin"
-    "/opt/facebook/bin/"))
+    "/opt/facebook/bin"
+    "/opt/facebook/hg/bin"))
 
 (require 'cl)
 (defun path-join (paths)
