@@ -5,7 +5,7 @@
 
 ;; font
 (add-to-list 'default-frame-alist
-			 '(font . "DejaVu Sans Mono:pixelsize=14:foundry=unknown:weight=normal:slant=normal:width=normal:spacing=100:scalable=true"))
+             '(font . "Menlo:pixelsize=14:weight=normal:slant=normal:width=normal:spacing=100:scalable=true"))
 
 ;; make the blue a little brighter so that it can be seen on black
 (setq ansi-color-names-vector
