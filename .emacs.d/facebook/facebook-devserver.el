@@ -42,6 +42,9 @@
 
 (autoload 'graphql-mode "graphql" "GraphQL DSL mode")
 
+(setq hack-for-hiphop-root (expand-file-name "www" "~"))
+(load "/home/engshare/tools/hack-for-hiphop")
+
 (defun facebook-php-mode-hook ()
   (c-set-style "fb-php-style"))
 (add-hook 'php-mode-hook 'facebook-php-mode-hook)
