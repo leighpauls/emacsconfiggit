@@ -30,4 +30,7 @@
 (require 'monky)
 (setq monky-process-type 'cmdserver)
 
+(add-to-list 'load-path "~/.emacs.d/diffview/")
+(require 'diffview)
+
 (provide 'leigh-load-modes)
