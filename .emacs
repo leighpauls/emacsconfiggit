@@ -88,11 +88,4 @@
   (shell-command-to-string "adb logcat -c")
   (android-logcat))
 
-(defun eshell/hgdiffview (&rest args)
-  "Opens hg diff <args> using diffview in emacs"
-  (interactive)
-  (diffview--view-string
-   (shell-command-to-string
-    (concat "hg diff " (mapconcat 'shell-quote-argument args " ")))))
-
 (add-to-list 'dired-omit-extensions ".orig")
