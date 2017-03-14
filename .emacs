@@ -28,8 +28,6 @@
 ;; buffer-menu-mode (aka: C-x b) name column width
 (setq Buffer-menu-name-width 48)
 
-(add-hook 'python-mode-hook 'two-space-indent-buck-files)
-
 ;; Start the emacs server after everything is working
 (server-start)
 
@@ -75,12 +73,6 @@
   (let ((inhibit-read-only t))
     (erase-buffer))
   "")
-
-(defun two-space-indent-buck-files ()
-  "sets python indenting to 2 spaces for buck files"
-  (interactive)
-  (when (string-match "/\\(BUCK\\|TARGETS\\)$" (buffer-file-name))
-    (set-variable 'python-indent-offset 2 t)))
 
 (defun android-logcat-cleared ()
   "Opens android-logcat after clearing it from adb, so long-running devices won't spit out logs for a long period of time"
