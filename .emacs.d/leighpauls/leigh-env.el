@@ -27,18 +27,14 @@
     "/Users/leighpauls/android-sdk-macosx/tools"
     "/opt/android_sdk/tools"
     "/opt/android_sdk/platform-tools"
-    "/Users/leighpauls/pebble-dev/PebbleSDK-2.8/bin"
-    "/bin"
     "/opt/local/bin"
     "/opt/local/sbin"
-    "/sbin"
-    "/usr/X11/bin"
-    "/usr/bin"
     "/usr/local/bin"
     "/usr/local/go/bin"
-    "/usr/sbin"
     "/opt/facebook/bin"
-    "/opt/facebook/hg/bin"))
+    "/opt/facebook/hg/bin"
+    "/opt/homebrew/bin"
+    "/Users/leighpauls/.cargo/bin"))
 
 (require 'cl)
 (defun path-join (paths)
@@ -47,7 +43,7 @@
 			   (concat full-str path-separator next-element))
 			 paths))
 
-(setenv "PATH" (path-join (cons (getenv "PATH") path-additions)))
+(setenv "PATH" (path-join (append path-additions (list (getenv "PATH")))))
 
 (setq exec-path (append exec-path path-additions))
 
