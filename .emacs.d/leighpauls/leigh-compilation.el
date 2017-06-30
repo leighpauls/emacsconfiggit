@@ -56,15 +56,14 @@
   (interactive)
   (or (compilation-buffer-p (current-buffer))
       (error "Not in a compilation beginning"))
-  (save-excursion
-    (beginning-of-line)
-    (let ((beg (point)))
-      (end-of-line)
-      (let ((str (buffer-substring-no-properties beg (point))))
-        (string-match "^\\(.+?\\):\\(.+?\\):" str)
-        (shell-command (format "idea --line %s %s"
-                               (match-string 2 str)
-                               (match-string 1 str)))))))
+  (compilation--ensure-parse (point))
+  (let ((compilation-message (get-text-property (point) 'compilation-message)))
+    (when compilation-message
+      (let* ((file-struct (compilation--loc->file-struct
+                           (compilation--message->loc compilation-message)))
+             (filename (car (compilation--file-struct->file-spec file-struct)))
+             (line (caadr (compilation--file-struct->loc-tree file-struct))))
+        (shell-command (format "idea --line %s %s" line filename))))))
 
 (defun leigh-compilation-mode-hook ()
   (local-set-key (kbd "i") 'compile-goto-error-in-idea)
