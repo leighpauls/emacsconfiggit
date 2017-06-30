@@ -30,4 +30,9 @@
 (require 'monky)
 (setq monky-process-type 'cmdserver)
 
+(add-to-list 'load-path "~/.emacs.d/rust-mode-0.3.0/")
+(autoload 'rust-mode "rust-mode" nil t)
+(add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))
+
+
 (provide 'leigh-load-modes)
