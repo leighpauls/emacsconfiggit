@@ -48,6 +48,14 @@
 (global-set-key (kbd "C-c C-d") 'edebug-defun)
 (global-set-key (kbd "C-h C-f") 'find-function)
 
+(global-set-key (kbd "C-c k") 'profiler-start)
+(global-set-key (kbd "C-c K") 'profiler-report-and-stop)
+
+(defun profiler-report-and-stop ()
+  (interactive)
+  (profiler-report)
+  (profiler-stop))
+
 ; Key bindings which need to override major modes
 (defvar my-keys-minor-mode-map (make-keymap) "my-keys-minor-mode keymap.")
 (define-key my-keys-minor-mode-map (kbd "C-c C-r") 'rotate-windows)
