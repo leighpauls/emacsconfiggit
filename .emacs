@@ -81,4 +81,10 @@
   (android-logcat))
 
 (add-to-list 'dired-omit-extensions ".orig")
-(remove-hook 'find-file-hook 'vc-refresh-state)
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(vc-handled-backends (quote (RCS CVS SVN SCCS SRC Bzr Git Mtn))))
