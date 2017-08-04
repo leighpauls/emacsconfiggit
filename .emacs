@@ -81,3 +81,4 @@
   (android-logcat))
 
 (add-to-list 'dired-omit-extensions ".orig")
+(remove-hook 'find-file-hook 'vc-refresh-state)
