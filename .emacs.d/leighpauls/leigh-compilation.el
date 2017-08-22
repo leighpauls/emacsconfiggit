@@ -34,7 +34,12 @@
       (goto-char compilation-filter-start)
       (search-backward "\n")
       (while (re-search-forward "^\\(BUILT\\|CACHE\\|MATCH\\|FOUND\\|Android NDK\\:\\).*\n" nil t)
-        (replace-match "" nil nil)))))
+        (replace-match "" nil nil))
+      (re-search-backward "[^\n]" nil t)
+      (while (re-search-forward "\n\n\n" nil t)
+        (replace-match "\n\n")
+        (re-search-backward "[^\n]" nil t)))))
+
 (add-hook 'compilation-filter-hook 'leigh-compilation-buck-spam-filter)
 
 (defun leigh-compilation-slash-spam-filter ()
