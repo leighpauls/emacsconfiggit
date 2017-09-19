@@ -11,7 +11,8 @@
       (setenv "ANDROID_SDK" "/opt/android_sdk")
       (setenv "ANDROID_HOME" "/opt/android_sdk")
       (setq ispell-program-name "/usr/local/bin/aspell")
-      (setq clang-format-el-path "/usr/local/share/clang/clang-format.el"))
+      (setq clang-format-el-path "/usr/local/share/clang/clang-format.el")
+      (setenv "PAGER" "cat"))
   (setenv "EDITOR" "emacsclient")
   (setq ispell-program-name "/usr/bin/aspell")
   (setq clang-format-el-path
