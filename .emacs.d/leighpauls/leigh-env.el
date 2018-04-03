@@ -7,9 +7,6 @@
       (setq mac-option-modifier 'super)
       (setenv "EDITOR"
               "/Applications/Emacs.app/Contents/MacOS/bin/emacsclient")
-      (setenv "ANDROID_NDK_REPOSITORY" "/opt/android_ndk")
-      (setenv "ANDROID_SDK" "/opt/android_sdk")
-      (setenv "ANDROID_HOME" "/opt/android_sdk")
       (setq ispell-program-name "/usr/local/bin/aspell")
       (setq clang-format-el-path "/usr/local/share/clang/clang-format.el")
       (setenv "PAGER" "cat"))
@@ -20,22 +17,26 @@
 	    "/home/engshare/third-party2/clang/dev/src/clang/tools/clang-format/clang-format.el"
 	  "~/.emacs.d/clang-format/clang-format.el")))
 
+(setenv "ANDROID_NDK_REPOSITORY" "/opt/android_ndk")
+(setenv "ANDROID_SDK" "/opt/android_sdk")
+(setenv "ANDROID_HOME" "/opt/android_sdk")
+
 (setq indent-tabs-mode nil)
 
 (defvar path-additions
-  '("/opt/facebook/bin"
+  '("/Users/leighpauls/.cargo/bin"
     "/Users/leighpauls/android-sdk-macosx/platform-tools"
     "/Users/leighpauls/android-sdk-macosx/tools"
-    "/opt/android_sdk/tools"
-    "/opt/android_sdk/platform-tools"
-    "/opt/local/bin"
-    "/opt/local/sbin"
     "/usr/local/bin"
     "/usr/local/go/bin"
+    "/opt/android_sdk/platform-tools"
+    "/opt/android_sdk/tools"
+    "/opt/facebook/bin"
     "/opt/facebook/bin"
     "/opt/facebook/hg/bin"
     "/opt/homebrew/bin"
-    "/Users/leighpauls/.cargo/bin"))
+    "/opt/local/bin"
+    "/opt/local/sbin"))
 
 (require 'cl)
 (defun path-join (paths)
