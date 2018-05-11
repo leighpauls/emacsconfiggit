@@ -18,6 +18,11 @@
 (add-hook 'python-mode-hook 'leigh-enable-trailing-whitespace)
 (add-hook 'android-mode-hook (lambda () (setq truncate-lines t)))
 (add-hook 'emacs-lisp-mode-hook 'leigh-emacs-lisp-highlighting)
+(add-hook 'java-mode-hook 'leigh-set-java-style)
+
+(defun leigh-set-java-style ()
+  "Set java style to the way Leigh likes it"
+  (setq c-basic-offset 2))
 
 (defun leigh-enable-trailing-whitespace ()
   "Turns on trailing whitespace"
@@ -33,5 +38,9 @@
 (setq visible-bell nil)
 
 (setq-default indent-tabs-mode nil)
+(setq-default c-electric-flag nil)
+(setq-default c-syntactic-indentation nil)
+
+(setq column-number-mode t)
 
 (provide 'leigh-styling)
