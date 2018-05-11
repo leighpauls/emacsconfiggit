@@ -31,6 +31,7 @@
     "/usr/local/go/bin"
     "/opt/android_sdk/platform-tools"
     "/opt/android_sdk/tools"
+    "/opt/android_sdk/tools/bin"
     "/opt/facebook/bin"
     "/opt/facebook/bin"
     "/opt/facebook/hg/bin"
