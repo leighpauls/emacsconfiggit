@@ -5,6 +5,7 @@
 (add-to-list 'auto-mode-alist '("\\BUCK\\'" . python-mode))
 (add-to-list 'auto-mode-alist '("\\TARGETS\\'" . python-mode))
 (add-to-list 'auto-mode-alist '("\\DEFS\\'" . python-mode))
+(add-to-list 'auto-mode-alist '("\\.bzl\\'" . python-mode))
 
 (add-to-list 'auto-mode-alist '("\\.ru\\'" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.m\\'" . octave-mode))
