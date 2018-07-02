@@ -30,15 +30,10 @@
   
 (defun leigh-compilation-buck-spam-filter ()
   (save-excursion
-    (let ((filter-region-end (point)))
-      (goto-char compilation-filter-start)
-      (search-backward "\n")
-      (while (re-search-forward "^\\(BUILT\\|CACHE\\|MATCH\\|FOUND\\|Android NDK\\:\\).*\n" nil t)
-        (replace-match "" nil nil))
-      (re-search-backward "[^\n]" nil t)
-      (while (re-search-forward "\n\n\n" nil t)
-        (replace-match "\n\n")
-        (re-search-backward "[^\n]" nil t)))))
+    (search-backward "\n")
+    (when (re-search-backward "^\\(BUILT\\|CACHE\\|MATCH\\|FOUND\\|Android NDK\\:\\).*\n" nil t)
+      (while (re-search-backward "^\\(BUILT\\|CACHE\\|MATCH\\|FOUND\\|Android NDK\\:\\).*\n" nil t)
+        (replace-match "" nil nil)))))
 
 (add-hook 'compilation-filter-hook 'leigh-compilation-buck-spam-filter)
 
