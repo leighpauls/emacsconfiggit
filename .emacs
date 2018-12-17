@@ -87,4 +87,14 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(vc-handled-backends (quote (RCS CVS SVN SCCS SRC Bzr Git Mtn))))
+ '(column-number-mode t)
+ '(tool-bar-mode nil)
+ '(vc-handled-backends (quote (RCS CVS SVN SCCS SRC Bzr Git Mtn)))
+ '(visible-bell t))
+
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:family "Consolas" :foundry "outline" :slant normal :weight normal :height 113 :width normal)))))
