@@ -10,7 +10,7 @@
       (setq ispell-program-name "/usr/local/bin/aspell")
       (setq clang-format-el-path "/usr/local/share/clang/clang-format.el")
       (setenv "PAGER" "cat"))
-  (setenv "EDITOR" "emacsclient")
+  (setenv "EDITOR" "c:/emacs-26.1-x86_64/bin/emacsclient.exe")
   (setq ispell-program-name "/usr/bin/aspell")
   (setq clang-format-el-path
 	(if load-fb-devserver-config
@@ -37,7 +37,9 @@
     "/opt/facebook/hg/bin"
     "/opt/homebrew/bin"
     "/opt/local/bin"
-    "/opt/local/sbin"))
+    "/opt/local/sbin"
+    "C:\\Users\\leighpauls\\AppData\\Local\\Android\\Sdk\\platform-tools"
+    "C:\\emacs-26.1-x86_64\\bin"))
 
 (require 'cl)
 (defun path-join (paths)
