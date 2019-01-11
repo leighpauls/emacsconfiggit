@@ -26,7 +26,7 @@
 
 (load clang-format-el-path)
 
-(add-to-list 'load-path "~/.emacs.d/monky/")
+(add-to-list 'load-path "~/.emacs.d/monky-master/")
 (require 'monky)
 (setq monky-process-type 'cmdserver)
 
