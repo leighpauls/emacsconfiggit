@@ -1,6 +1,7 @@
 
 ;; remove toolbar so it doesn't flash about
-(tool-bar-mode -1)
+(when window-system
+  (tool-bar-mode -1))
 
 ;; default values for things that should have been set in config
 (when (not (boundp 'ljhp-local-config-loaded))
