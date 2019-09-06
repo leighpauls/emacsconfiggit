@@ -65,8 +65,24 @@
              (line (caadr (compilation--file-struct->loc-tree file-struct))))
         (shell-command (format "idea --line %s %s" line filename))))))
 
+(defun compile-goto-error-in-pycharm ()
+  "Visit the source for the error in Intellij Pycharm"
+  (interactive)
+  (or (compilation-buffer-p (current-buffer))
+      (error "Not in a compilation beginning"))
+  (compilation--ensure-parse (point))
+  (let ((compilation-message (get-text-property (point) 'compilation-message)))
+    (when compilation-message
+      (let* ((file-struct (compilation--loc->file-struct
+                           (compilation--message->loc compilation-message)))
+             (filename (car (compilation--file-struct->file-spec file-struct)))
+             (line (caadr (compilation--file-struct->loc-tree file-struct))))
+        (shell-command (format "charm --line %s %s" line filename))))))
+
+
 (defun leigh-compilation-mode-hook ()
   (local-set-key (kbd "i") 'compile-goto-error-in-idea)
+  (local-set-key (kbd "p") 'compile-goto-error-in-pycharm)
   (toggle-truncate-lines t))
 (add-hook 'compilation-mode-hook 'leigh-compilation-mode-hook)
 
