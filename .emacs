@@ -78,12 +78,10 @@
   (select-window (car (last (window-list)))))
 
 ;; clear the buffer in eshell
-(defun eshell/clear ()
+(defun eshell/clr ()
   "clear the eshell buffer."
   (interactive)
-  (let ((inhibit-read-only t))
-    (erase-buffer))
-  "")
+  (eshell/clear t))
 
 (defun android-logcat-cleared ()
   "Opens android-logcat after clearing it from adb, so long-running devices won't spit out logs for a long period of time"
