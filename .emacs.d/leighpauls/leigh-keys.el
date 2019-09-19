@@ -25,6 +25,7 @@
 ;; Simple global bindings
 (global-set-key (kbd "C-x C-b") 'buffer-menu)
 (global-set-key (kbd "C-x a") 'magit-status)
+(global-set-key (kbd "C-x C-a") 'magit-status)
 (global-set-key (kbd "C-x k") 'kill-current-buffer)
 (global-set-key (kbd "C-x p") 'other-window-reverse)
 (global-set-key (kbd "C-c b") 'compile-from-dir)
