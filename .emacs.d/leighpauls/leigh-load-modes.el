@@ -27,5 +27,8 @@
 (autoload 'rust-mode "rust-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))
 
+(require 'yaml-mode)
+(require 'highlight-indentation)
+(add-hook 'yaml-mode-hook 'highlight-indentation-current-column-mode)
 
 (provide 'leigh-load-modes)
