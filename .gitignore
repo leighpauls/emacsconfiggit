@@ -4,3 +4,4 @@
 *.elc
 /.emacs.d/tramp
 /.emacs.d/url
+/.emacs.d/eshell
