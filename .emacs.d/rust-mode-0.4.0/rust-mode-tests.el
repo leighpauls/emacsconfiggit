@@ -3,6 +3,7 @@
 (require 'rust-mode)
 (require 'ert)
 (require 'cl)
+(require 'imenu)
 
 (setq rust-test-fill-column 32)
 
@@ -308,9 +309,6 @@ very very very long string
      deindented
      1
      (lambda ()
-       ;; The indentation will fail in some cases if the syntax properties are
-       ;; not set.  This only happens when font-lock fontifies the buffer.
-       (font-lock-fontify-buffer)
        (indent-region 1 (+ 1 (buffer-size))))
      indented)))
 
@@ -318,11 +316,11 @@ very very very long string
 (ert-deftest indent-struct-fields-aligned ()
   (test-indent
    "
-struct Foo { bar: int,
-             baz: int }
+struct Foo { bar: i32,
+             baz: i32 }
 
-struct Blah {x:int,
-             y:int,
+struct Blah {x:i32,
+             y:i32,
              z:String"))
 
 (ert-deftest indent-doc-comments ()
@@ -347,12 +345,12 @@ fn foo() {
    "
 // struct fields out one level:
 struct foo {
-    a:int,
+    a:i32,
     // comments too
     b:char
 }
 
-fn bar(x:Box<int>) {   // comment here should not affect the next indent
+fn bar(x:Box<i32>) {   // comment here should not affect the next indent
     bla();
     bla();
 }"))
@@ -399,11 +397,11 @@ not_a_string();
    "
 // Indent out one level because no params appear on the first line
 fn xyzzy(
-    a:int,
+    a:i32,
     b:char) { }
 
 fn abcdef(
-    a:int,
+    a:i32,
     b:char)
     -> char
 { }"))
@@ -412,17 +410,17 @@ fn abcdef(
   (test-indent
    "
 // Align the second line of params to the first
-fn foo(a:int,
+fn foo(a:i32,
        b:char) { }
 
-fn bar(   a:int,
+fn bar(   a:i32,
           b:char)
-          -> int
+          -> i32
 { }
 
-fn baz(   a:int,  // should work with a comment here
+fn baz(   a:i32,  // should work with a comment here
           b:char)
-          -> int
+          -> i32
 { }
 "))
 
@@ -430,30 +428,31 @@ fn baz(   a:int,  // should work with a comment here
   (test-indent
    "
 // Indent function body only one level after `-> {`
-fn foo1(a:int, b:char) -> int {
+fn foo1(a:i32, b:char) -> i32 {
     let body;
 }
 
-fn foo2(a:int,
-        b:char) -> int {
+fn foo2(a:i32,
+        b:char) -> i32 {
     let body;
 }
 
-fn foo3(a:int,
+fn foo3(a:i32,
         b:char)
-        -> int {
+        -> i32 {
     let body;
 }
 
-fn foo4(a:int,
+fn foo4(a:i32,
         b:char)
-        -> int where int:A {
+        -> i32 where i32:A {
     let body;
 }
 "))
 
 (ert-deftest indent-body-after-where ()
-  (test-indent
+  (let ((rust-indent-where-clause t))
+    (test-indent
    "
 fn foo1(a: A, b: B) -> A
     where A: Clone + Default, B: Eq {
@@ -471,10 +470,11 @@ fn foo2(a: A, b: B) -> A
         bar: 3
     }
 }
-"))
+")))
 
 (ert-deftest indent-align-where-clauses-style1a ()
-  (test-indent
+  (let ((rust-indent-where-clause t))
+    (test-indent
    "
 fn foo1a(a: A, b: B, c: C) -> D
     where A: Clone + Default,
@@ -486,10 +486,11 @@ fn foo1a(a: A, b: B, c: C) -> D
         bar: 3
     }
 }
-"))
+")))
 
 (ert-deftest indent-align-where-clauses-style1b ()
-  (test-indent
+  (let ((rust-indent-where-clause t))
+    (test-indent
    "
 fn foo1b(a: A, b: B, c: C) -> D
     where A: Clone + Default,
@@ -502,7 +503,7 @@ fn foo1b(a: A, b: B, c: C) -> D
         bar: 3
     }
 }
-"))
+")))
 
 (ert-deftest indent-align-where-clauses-style2a ()
   (test-indent
@@ -598,7 +599,8 @@ where A: Clone + Default,
 ")))
 
 (ert-deftest indent-align-where-clauses-impl-example ()
-  (test-indent
+  (let ((rust-indent-where-clause t))
+    (test-indent
    "
 impl<'a, K, Q: ?Sized, V, S> Index<&'a Q> for HashMap<K, V, S>
     where K: Eq + Hash + Borrow<Q>,
@@ -610,10 +612,11 @@ impl<'a, K, Q: ?Sized, V, S> Index<&'a Q> for HashMap<K, V, S>
         bar: 3
     }
 }
-"))
+")))
 
 (ert-deftest indent-align-where-clauses-first-line ()
-  (test-indent
+  (let ((rust-indent-where-clause t))
+    (test-indent
    "fn foo1(a: A, b: B) -> A
     where A: Clone + Default, B: Eq {
     let body;
@@ -621,7 +624,7 @@ impl<'a, K, Q: ?Sized, V, S> Index<&'a Q> for HashMap<K, V, S>
         bar: 3
     }
 }
-"))
+")))
 
 (ert-deftest indent-align-where-in-comment1 ()
   (test-indent
@@ -634,7 +637,8 @@ pub struct Region { // <-- this should be flush with left margin!
 "))
 
 (ert-deftest indent-align-where-in-comment2 ()
-  (test-indent
+  (let ((rust-indent-where-clause t))
+    (test-indent
    "fn foo<F,G>(f:F, g:G)
     where F:Send,
 // where
@@ -642,9 +646,10 @@ pub struct Region { // <-- this should be flush with left margin!
 {
     let body;
 }
-"))
+")))
 
 (ert-deftest indent-align-where-in-comment3 ()
+  (let ((rust-indent-where-clause t))
   (test-indent
    "fn foo<F,G>(f:F, g:G)
     where F:Send,
@@ -653,13 +658,13 @@ pub struct Region { // <-- this should be flush with left margin!
 {
     let body;
 }
-"))
+")))
 
 (ert-deftest indent-square-bracket-alignment ()
   (test-indent
    "
 fn args_on_the_next_line( // with a comment
-    a:int,
+    a:i32,
     b:String) {
     let aaaaaa = [
         1,
@@ -694,11 +699,11 @@ fn args_on_the_next_line( // with a comment
 (ert-deftest indent-nested-fns ()
   (test-indent
    "
-fn nexted_fns(a: fn(b:int,
+fn nexted_fns(a: fn(b:i32,
                     c:char)
-                    -> int,
-              d: int)
-              -> uint
+                    -> i32,
+              d: i32)
+              -> u128
 {
     0
 }
@@ -851,32 +856,32 @@ struct A {
 
 (setq rust-test-motion-string
       "
-fn fn1(arg: int) -> bool {
+fn fn1(arg: i32) -> bool {
     let x = 5;
     let y = b();
     true
 }
 
-fn fn2(arg: int) -> bool {
+fn fn2(arg: i32) -> bool {
     let x = 5;
     let y = b();
     true
 }
 
-pub fn fn3(arg: int) -> bool {
+pub fn fn3(arg: i32) -> bool {
     let x = 5;
     let y = b();
     true
 }
 
 struct Foo {
-    x: int
+    x: i32
 }
 "
       rust-test-region-string rust-test-motion-string
       rust-test-indent-motion-string
       "
-fn blank_line(arg:int) -> bool {
+fn blank_line(arg:i32) -> bool {
 
 }
 
@@ -950,7 +955,7 @@ Convert the line-column information from that list into a buffer position value.
 
 ;;; FIXME: Maybe add an ERT explainer function (something that shows the
 ;;; surrounding code of the final point, not just the position).
-(defun rust-test-motion (source-code init-pos final-pos manip-func &optional &rest args)
+(defun rust-test-motion (source-code init-pos final-pos manip-func &rest args)
   "Test that MANIP-FUNC moves point from INIT-POS to FINAL-POS.
 
 If ARGS are provided, send them to MANIP-FUNC.
@@ -959,12 +964,11 @@ INIT-POS, FINAL-POS are position symbols found in `rust-test-positions-alist'."
   (with-temp-buffer
     (rust-mode)
     (insert source-code)
-    (font-lock-fontify-buffer)
     (goto-char (rust-get-buffer-pos init-pos))
     (apply manip-func args)
     (should (equal (point) (rust-get-buffer-pos final-pos)))))
 
-(defun rust-test-region (source-code init-pos reg-beg reg-end manip-func &optional &rest args)
+(defun rust-test-region (source-code init-pos reg-beg reg-end manip-func &rest args)
   "Test that MANIP-FUNC marks region from REG-BEG to REG-END.
 
 INIT-POS is the initial position of point.
@@ -973,7 +977,6 @@ All positions are position symbols found in `rust-test-positions-alist'."
   (with-temp-buffer
     (rust-mode)
     (insert source-code)
-    (font-lock-fontify-buffer)
     (goto-char (rust-get-buffer-pos init-pos))
     (apply manip-func args)
     (should (equal (list (region-beginning) (region-end))
@@ -1028,6 +1031,43 @@ All positions are position symbols found in `rust-test-positions-alist'."
    'middle-of-fn3
    'beginning-of-fn3
    #'beginning-of-defun))
+
+(ert-deftest rust-beginning-of-defun-string-comment ()
+  (let (fn-1 fn-2 p-1 p-2)
+    (with-temp-buffer
+      (rust-mode)
+      (insert "fn test1() {
+  let s=r#\"
+fn test2();
+\"#;")
+      (setq p-1 (point))
+      (setq fn-1 (1+ p-1))
+      (insert "
+fn test3() {
+  /*
+fn test4();")
+      (setq p-2 (point))
+      (insert "\n*/\n}\n")
+      (setq fn-2 (point))
+      (insert "fn test5() { }")
+
+      (goto-char p-1)
+      (beginning-of-defun)
+      (should (eq (point) (point-min)))
+
+      (beginning-of-defun -2)
+      (should (eq (point) fn-2))
+
+      (goto-char p-2)
+      (beginning-of-defun)
+      (should (eq (point) fn-1))
+
+      (beginning-of-defun -1)
+      (should (eq (point) fn-2))
+
+      (goto-char (point-max))
+      (beginning-of-defun 2)
+      (should (eq (point) fn-1)))))
 
 (ert-deftest rust-end-of-defun-from-middle-of-fn ()
   (rust-test-motion
@@ -1251,12 +1291,60 @@ list of substrings of `STR' each followed by its face."
    '("fn" font-lock-keyword-face
      "foo_Bar" font-lock-function-name-face)))
 
+(ert-deftest font-lock-let-bindings ()
+  (rust-test-font-lock
+   "let foo;"
+   '("let" font-lock-keyword-face
+     "foo" font-lock-variable-name-face))
+  (rust-test-font-lock
+   "let ref foo;"
+   '("let" font-lock-keyword-face
+     "ref" font-lock-keyword-face
+     "foo" font-lock-variable-name-face))
+  (rust-test-font-lock
+   "let mut foo;"
+   '("let" font-lock-keyword-face
+     "mut" font-lock-keyword-face
+     "foo" font-lock-variable-name-face))
+  (rust-test-font-lock
+   "let foo = 1;"
+   '("let" font-lock-keyword-face
+     "foo" font-lock-variable-name-face))
+  (rust-test-font-lock
+   "let mut foo = 1;"
+   '("let" font-lock-keyword-face
+     "mut" font-lock-keyword-face
+     "foo" font-lock-variable-name-face))
+  (rust-test-font-lock
+   "fn foo() { let bar = 1; }"
+   '("fn" font-lock-keyword-face
+     "foo" font-lock-function-name-face
+     "let" font-lock-keyword-face
+     "bar" font-lock-variable-name-face))
+  (rust-test-font-lock
+   "fn foo() { let mut bar = 1; }"
+   '("fn" font-lock-keyword-face
+     "foo" font-lock-function-name-face
+     "let" font-lock-keyword-face
+     "mut" font-lock-keyword-face
+     "bar" font-lock-variable-name-face)))
+
+(ert-deftest font-lock-if-let-binding ()
+  (rust-test-font-lock
+   "if let Some(var) = some_var { /* no-op */ }"
+   '("if" font-lock-keyword-face
+     "let" font-lock-keyword-face
+     "Some" font-lock-type-face
+     "/* " font-lock-comment-delimiter-face
+     "no-op */" font-lock-comment-face)))
+
 (ert-deftest font-lock-single-quote-character-literal ()
   (rust-test-font-lock
    "fn main() { let ch = '\\''; }"
    '("fn" font-lock-keyword-face
      "main" font-lock-function-name-face
      "let" font-lock-keyword-face
+     "ch" font-lock-variable-name-face
      "'\\''" font-lock-string-face)))
 
 (ert-deftest font-lock-escaped-double-quote-character-literal ()
@@ -1265,6 +1353,7 @@ list of substrings of `STR' each followed by its face."
    '("fn" font-lock-keyword-face
      "main" font-lock-function-name-face
      "let" font-lock-keyword-face
+     "ch" font-lock-variable-name-face
      "'\\\"'" font-lock-string-face)))
 
 (ert-deftest font-lock-escaped-backslash-character-literal ()
@@ -1273,18 +1362,21 @@ list of substrings of `STR' each followed by its face."
    '("fn" font-lock-keyword-face
      "main" font-lock-function-name-face
      "let" font-lock-keyword-face
+     "ch" font-lock-variable-name-face
      "'\\\\'" font-lock-string-face)))
 
 (ert-deftest font-lock-hex-escape-character-literal ()
   (rust-test-font-lock
    "let ch = '\\x1f';"
    '("let" font-lock-keyword-face
+     "ch" font-lock-variable-name-face
      "'\\x1f'" font-lock-string-face)))
 
 (ert-deftest font-lock-unicode-escape-character-literal ()
   (rust-test-font-lock
    "let ch = '\\u{1ffff}';"
    '("let" font-lock-keyword-face
+     "ch" font-lock-variable-name-face
      "'\\u{1ffff}'" font-lock-string-face)))
 
 (ert-deftest font-lock-raw-strings-no-hashes ()
@@ -1375,24 +1467,6 @@ this_is_not_a_string();)"
    '("// " font-lock-comment-delimiter-face
      "r\" this is a comment\n" font-lock-comment-face
      "\"this is a string\"" font-lock-string-face)))
-
-(ert-deftest font-lock-raw-string-constant ()
-  ;; There was an issue in which a multi-line raw string would be fontified
-  ;; correctly if inserted, but then incorrectly if one of the lines was then
-  ;; edited.  This test replicates how font-lock responds when text in the
-  ;; buffer is modified in order to reproduce it.
-  (with-temp-buffer
-    (rust-mode)
-    (font-lock-fontify-buffer)
-    (insert "const BOO:&str = r#\"\nBOO\"#;")
-    (beginning-of-buffer)
-    (insert " ")
-    (font-lock-after-change-function 1 2 0)
-
-    (should (equal 'font-lock-string-face (get-text-property 19 'face))) ;; Opening "r" of raw string
-    (should (equal 'font-lock-string-face (get-text-property 27 'face))) ;; Closing "#" of raw string
-    (should (equal nil (get-text-property 28 'face))) ;; Semicolon--should not be part of the string
-    ))
 
 (ert-deftest font-lock-runaway-raw-string ()
   (rust-test-font-lock
@@ -1532,6 +1606,62 @@ this_is_not_a_string();)"
    ;; Only the i32 should have been highlighted.
    '("i32" font-lock-type-face)))
 
+(ert-deftest font-lock-question-mark ()
+  "Ensure question mark operator is highlighted."
+  (rust-test-font-lock
+   "?"
+   '("?" rust-question-mark-face))
+  (rust-test-font-lock
+   "foo\(\)?;"
+   '("?" rust-question-mark-face))
+  (rust-test-font-lock
+   "foo\(bar\(\)?\);"
+   '("?" rust-question-mark-face))
+  (rust-test-font-lock
+   "\"?\""
+   '("\"?\"" font-lock-string-face))
+  (rust-test-font-lock
+   "foo\(\"?\"\);"
+   '("\"?\"" font-lock-string-face))
+  (rust-test-font-lock
+   "// ?"
+   '("// " font-lock-comment-delimiter-face
+     "?" font-lock-comment-face))
+  (rust-test-font-lock
+   "/// ?"
+   '("/// ?" font-lock-doc-face))
+  (rust-test-font-lock
+   "foo\(\"?\"\);"
+   '("\"?\"" font-lock-string-face))
+  (rust-test-font-lock
+   "foo\(\"?\"\)?;"
+   '("\"?\"" font-lock-string-face
+     "?" rust-question-mark-face)))
+
+(ert-deftest rust-test-default-context-sensitive ()
+  (rust-test-font-lock
+   "let default = 7; impl foo { default fn f() { } }"
+   '("let" font-lock-keyword-face
+     "default" font-lock-variable-name-face
+     "impl" font-lock-keyword-face
+     "default" font-lock-keyword-face
+     "fn" font-lock-keyword-face
+     "f" font-lock-function-name-face)))
+
+(ert-deftest rust-test-union-context-sensitive ()
+  (rust-test-font-lock
+   "let union = 7; union foo { x: &'union bar }"
+   '("let" font-lock-keyword-face
+     ;; The first union is a variable name.
+     "union" font-lock-variable-name-face
+     ;; The second union is a contextual keyword.
+     "union" font-lock-keyword-face
+     "foo" font-lock-type-face
+     "x" font-lock-variable-name-face
+     ;; This union is the name of a lifetime.
+     "union" font-lock-variable-name-face
+     "bar" font-lock-type-face)))
+
 (ert-deftest indent-method-chains-no-align ()
   (let ((rust-indent-method-chain nil)) (test-indent
    "
@@ -1543,12 +1673,36 @@ fn main() {
 "
    )))
 
+(ert-deftest indent-method-chains-no-align-with-question-mark-operator ()
+  (let ((rust-indent-method-chain nil)) (test-indent
+   "
+fn main() {
+    let x = thing.do_it()
+        .aligned()
+        .more_alignment()?
+        .more_alignment();
+}
+"
+   )))
+
 (ert-deftest indent-method-chains-with-align ()
   (let ((rust-indent-method-chain t)) (test-indent
    "
 fn main() {
     let x = thing.do_it()
                  .aligned()
+                 .more_alignment();
+}
+"
+   )))
+
+(ert-deftest indent-method-chains-with-align-with-question-mark-operator ()
+  (let ((rust-indent-method-chain t)) (test-indent
+   "
+fn main() {
+    let x = thing.do_it()
+                 .aligned()
+                 .more_alignment()?
                  .more_alignment();
 }
 "
@@ -1650,6 +1804,34 @@ fn main() {
 "
    )))
 
+(ert-deftest indent-function-after-where ()
+  (let ((rust-indent-method-chain t)) (test-indent
+   "
+fn each_split_within<'a, F>(ss: &'a str, lim: usize, mut it: F)
+                            -> bool where F: FnMut(&'a str) -> bool {
+}
+
+#[test]
+fn test_split_within() {
+}
+"
+   )))
+
+(ert-deftest indent-function-after-where-nested ()
+  (let ((rust-indent-method-chain t)) (test-indent
+   "
+fn outer() {
+    fn each_split_within<'a, F>(ss: &'a str, lim: usize, mut it: F)
+                                -> bool where F: FnMut(&'a str) -> bool {
+    }
+    #[test]
+    fn test_split_within() {
+    }
+    fn bar() {
+    }
+}
+"
+   )))
 
 (ert-deftest test-for-issue-36-syntax-corrupted-state ()
   "This is a test for a issue #36, which involved emacs's
@@ -1674,7 +1856,7 @@ pattern to what did and did not trip it."
   ;; would make the failure go away.
   (with-temp-buffer
     (rust-mode)
-    (insert "fn blank_line(arg:int) -> bool {
+    (insert "fn blank_line(arg:i32) -> bool {
 
 }
 
@@ -1875,6 +2057,39 @@ pub fn foo<T,
     hello();
 }"))
 
+(ert-deftest indent-open-paren-in-column0 ()
+  ;; Just pass the same text for the "deindented" argument.  This
+  ;; avoids the extra spaces normally inserted, which would mess up
+  ;; the test because string contents aren't touched by reindentation.
+  (let ((text "
+const a: &'static str = r#\"
+{}\"#;
+fn main() {
+    let b = \"//\";
+    let c = \"\";
+
+}
+"))
+    (test-indent text text)))
+
+(ert-deftest indent-question-mark-operator ()
+  (test-indent "fn foo() {
+    if bar()? < 1 {
+    }
+    baz();
+}"))
+
+;; Regression test for #212.
+(ert-deftest indent-left-shift ()
+  (test-indent "
+fn main() {
+    let a = [[0u32, 0u32]; 1];
+    let i = 0;
+    let x = a[i][(1 < i)];
+    let x = a[i][(1 << i)];
+}
+"))
+
 (defun rust-test-matching-parens (content pairs &optional nonparen-positions)
   "Assert that in rust-mode, given a buffer with the given `content',
   emacs's paren matching will find all of the pairs of positions
@@ -1954,6 +2169,239 @@ pub fn foo<T,
    "r#\"\"\"#;\n'q'"
    '("r#\"\"\"#" font-lock-string-face
      "'q'" font-lock-string-face)))
+
+(ert-deftest rust-macro-font-lock ()
+  (rust-test-font-lock
+   "foo!\(\);"
+   '("foo!" font-lock-preprocessor-face))
+  (rust-test-font-lock
+   "foo!{};"
+   '("foo!" font-lock-preprocessor-face))
+  (rust-test-font-lock
+   "foo![];"
+   '("foo!" font-lock-preprocessor-face)))
+
+(ert-deftest rust-string-interpolation-matcher-works ()
+  (dolist (test '(("print!\(\"\"\)" 9 11 nil)
+                  ("print!\(\"abcd\"\)" 9 15 nil)
+                  ("print!\(\"abcd {{}}\"\);" 9 19 nil)
+                  ("print!\(\"abcd {{\"\);" 9 18 nil)
+                  ("print!\(\"abcd {}\"\);" 9 18 ((14 16)))
+                  ("print!\(\"abcd {{{}\"\);" 9 20 ((16 18)))
+                  ("print!\(\"abcd {}{{\"\);" 9 20 ((14 16)))
+                  ("print!\(\"abcd {} {{\"\);" 9 21 ((14 16)))
+                  ("print!\(\"abcd {}}}\"\);" 9 20 ((14 16)))
+                  ("print!\(\"abcd {{{}}}\"\);" 9 20 ((16 18)))
+                  ("print!\(\"abcd {0}\"\);" 9 18 ((14 17)))
+                  ("print!\(\"abcd {0} efgh\"\);" 9 23 ((14 17)))
+                  ("print!\(\"{1} abcd {0} efgh\"\);" 9 27 ((9 12) (18 21)))
+                  ("print!\(\"{{{1} abcd }} {0}}} {{efgh}}\"\);" 9 33 ((11 14) (23 26)))))
+    (destructuring-bind (text cursor limit matches) test
+      (with-temp-buffer
+        ;; make sure we have a clean slate
+        (save-match-data
+          (set-match-data nil)
+          (insert text)
+          (goto-char cursor)
+          (if (null matches)
+              (should (equal (progn
+                               (rust-string-interpolation-matcher limit)
+                               (match-data))
+                             nil))
+            (dolist (pair matches)
+              (rust-string-interpolation-matcher limit)
+              (should (equal (match-beginning 0) (car pair)))
+              (should (equal (match-end 0) (cadr pair))))))))))
+
+(ert-deftest rust-formatting-macro-font-lock ()
+  ;; test that the block delimiters aren't highlighted and the comment
+  ;; is ignored
+  (rust-test-font-lock
+   "print!(\"\"); { /* print!(\"\"); */ }"
+   '("print!" rust-builtin-formatting-macro-face
+     "\"\"" font-lock-string-face
+     "/* " font-lock-comment-delimiter-face
+     "print!(\"\"); */" font-lock-comment-face))
+  ;; with newline directly following delimiter
+  (rust-test-font-lock
+   "print!(\n\"\"\n); { /* print!(\"\"); */ }"
+   '("print!" rust-builtin-formatting-macro-face
+     "\"\"" font-lock-string-face
+     "/* " font-lock-comment-delimiter-face
+     "print!(\"\"); */" font-lock-comment-face))
+  ;; with empty println!()
+  (rust-test-font-lock
+   "println!(); { /* println!(); */ }"
+   '("println!" rust-builtin-formatting-macro-face
+     "/* " font-lock-comment-delimiter-face
+     "println!(); */" font-lock-comment-face))
+  ;; other delimiters
+  (rust-test-font-lock
+   "print!{\"\"}; { /* no-op */ }"
+   '("print!" rust-builtin-formatting-macro-face
+     "\"\"" font-lock-string-face
+     "/* " font-lock-comment-delimiter-face
+     "no-op */" font-lock-comment-face))
+  ;; other delimiters
+  (rust-test-font-lock
+   "print![\"\"]; { /* no-op */ }"
+   '("print!" rust-builtin-formatting-macro-face
+     "\"\"" font-lock-string-face
+     "/* " font-lock-comment-delimiter-face
+     "no-op */" font-lock-comment-face))
+  ;; no interpolation
+  (rust-test-font-lock
+   "print!(\"abcd\"); { /* no-op */ }"
+   '("print!" rust-builtin-formatting-macro-face
+     "\"abcd\"" font-lock-string-face
+     "/* " font-lock-comment-delimiter-face
+     "no-op */" font-lock-comment-face))
+  ;; only interpolation
+  (rust-test-font-lock
+   "print!(\"{}\"); { /* no-op */ }"
+   '("print!" rust-builtin-formatting-macro-face
+     "\"" font-lock-string-face
+     "{}" rust-string-interpolation-face
+     "\"" font-lock-string-face
+     "/* " font-lock-comment-delimiter-face
+     "no-op */" font-lock-comment-face))
+  ;; text + interpolation
+  (rust-test-font-lock
+   "print!(\"abcd {}\", foo); { /* no-op */ }"
+   '("print!" rust-builtin-formatting-macro-face
+     "\"abcd " font-lock-string-face
+     "{}" rust-string-interpolation-face
+     "\"" font-lock-string-face
+     "/* " font-lock-comment-delimiter-face
+     "no-op */" font-lock-comment-face))
+  ;; text + interpolation with specification
+  (rust-test-font-lock
+   "print!(\"abcd {0}\", foo); { /* no-op */ }"
+   '("print!" rust-builtin-formatting-macro-face
+     "\"abcd " font-lock-string-face
+     "{0}" rust-string-interpolation-face
+     "\"" font-lock-string-face
+     "/* " font-lock-comment-delimiter-face
+     "no-op */" font-lock-comment-face))
+  ;; text + interpolation with specification and escape
+  (rust-test-font-lock
+   "print!(\"abcd {0}}}\", foo); { /* no-op */ }"
+   '("print!" rust-builtin-formatting-macro-face
+     "\"abcd " font-lock-string-face
+     "{0}" rust-string-interpolation-face
+     "}}\"" font-lock-string-face
+     "/* " font-lock-comment-delimiter-face
+     "no-op */" font-lock-comment-face))
+  ;; multiple pairs
+  (rust-test-font-lock
+   "print!(\"abcd {0} efgh {1}\", foo, bar); { /* no-op */ }"
+   '("print!" rust-builtin-formatting-macro-face
+     "\"abcd " font-lock-string-face
+     "{0}" rust-string-interpolation-face
+     " efgh " font-lock-string-face
+     "{1}" rust-string-interpolation-face
+     "\"" font-lock-string-face
+     "/* " font-lock-comment-delimiter-face
+     "no-op */" font-lock-comment-face))
+  ;; println
+  (rust-test-font-lock
+   "println!(\"abcd {0} efgh {1}\", foo, bar); { /* no-op */ }"
+   '("println!" rust-builtin-formatting-macro-face
+     "\"abcd " font-lock-string-face
+     "{0}" rust-string-interpolation-face
+     " efgh " font-lock-string-face
+     "{1}" rust-string-interpolation-face
+     "\"" font-lock-string-face
+     "/* " font-lock-comment-delimiter-face
+     "no-op */" font-lock-comment-face))
+  ;; eprint
+  (rust-test-font-lock
+   "eprint!(\"abcd {0} efgh {1}\", foo, bar); { /* no-op */ }"
+   '("eprint!" rust-builtin-formatting-macro-face
+     "\"abcd " font-lock-string-face
+     "{0}" rust-string-interpolation-face
+     " efgh " font-lock-string-face
+     "{1}" rust-string-interpolation-face
+     "\"" font-lock-string-face
+     "/* " font-lock-comment-delimiter-face
+     "no-op */" font-lock-comment-face))
+  ;; eprintln
+  (rust-test-font-lock
+   "eprintln!(\"abcd {0} efgh {1}\", foo, bar); { /* no-op */ }"
+   '("eprintln!" rust-builtin-formatting-macro-face
+     "\"abcd " font-lock-string-face
+     "{0}" rust-string-interpolation-face
+     " efgh " font-lock-string-face
+     "{1}" rust-string-interpolation-face
+     "\"" font-lock-string-face
+     "/* " font-lock-comment-delimiter-face
+     "no-op */" font-lock-comment-face))
+  ;; format
+  (rust-test-font-lock
+   "format!(\"abcd {0} efgh {1}\", foo, bar); { /* no-op */ }"
+   '("format!" rust-builtin-formatting-macro-face
+     "\"abcd " font-lock-string-face
+     "{0}" rust-string-interpolation-face
+     " efgh " font-lock-string-face
+     "{1}" rust-string-interpolation-face
+     "\"" font-lock-string-face
+     "/* " font-lock-comment-delimiter-face
+     "no-op */" font-lock-comment-face))
+  ;; print + raw string
+  (rust-test-font-lock
+   "format!(r\"abcd {0} efgh {1}\", foo, bar); { /* no-op */ }"
+   '("format!" rust-builtin-formatting-macro-face
+     "r\"abcd " font-lock-string-face
+     "{0}" rust-string-interpolation-face
+     " efgh " font-lock-string-face
+     "{1}" rust-string-interpolation-face
+     "\"" font-lock-string-face
+     "/* " font-lock-comment-delimiter-face
+     "no-op */" font-lock-comment-face))
+  ;; print + raw string with hash
+  (rust-test-font-lock
+   "format!(r#\"abcd {0} efgh {1}\"#, foo, bar); { /* no-op */ }"
+   '("format!" rust-builtin-formatting-macro-face
+     "r#\"abcd " font-lock-string-face
+     "{0}" rust-string-interpolation-face
+     " efgh " font-lock-string-face
+     "{1}" rust-string-interpolation-face
+     "\"#" font-lock-string-face
+     "/* " font-lock-comment-delimiter-face
+     "no-op */" font-lock-comment-face))
+  ;; print + raw string with two hashes
+  (rust-test-font-lock
+   "format!(r##\"abcd {0} efgh {1}\"##, foo, bar); { /* no-op */ }"
+   '("format!" rust-builtin-formatting-macro-face
+     "r##\"abcd " font-lock-string-face
+     "{0}" rust-string-interpolation-face
+     " efgh " font-lock-string-face
+     "{1}" rust-string-interpolation-face
+     "\"##" font-lock-string-face
+     "/* " font-lock-comment-delimiter-face
+     "no-op */" font-lock-comment-face)))
+
+(ert-deftest rust-write-macro-font-lock ()
+  (rust-test-font-lock
+   "write!(f, \"abcd {0}}} efgh {1}\", foo, bar); { /* no-op */ }"
+   '("write!" rust-builtin-formatting-macro-face
+     "\"abcd " font-lock-string-face
+     "{0}" rust-string-interpolation-face
+     "}} efgh " font-lock-string-face
+     "{1}" rust-string-interpolation-face
+     "\"" font-lock-string-face
+     "/* " font-lock-comment-delimiter-face
+     "no-op */" font-lock-comment-face))
+  (rust-test-font-lock
+   "writeln!(f, \"abcd {0}}} efgh {1}\", foo, bar); { /* no-op */ }"
+   '("writeln!" rust-builtin-formatting-macro-face
+     "\"abcd " font-lock-string-face
+     "{0}" rust-string-interpolation-face
+     "}} efgh " font-lock-string-face
+     "{1}" rust-string-interpolation-face
+     "\"" font-lock-string-face
+     "/* " font-lock-comment-delimiter-face
+     "no-op */" font-lock-comment-face)))
 
 (ert-deftest rust-test-basic-paren-matching ()
   (rust-test-matching-parens
@@ -2375,7 +2823,7 @@ fn foo() -> Box<i32> {
 
 (ert-deftest rust-test-paren-matching-lt-operator-after-special-type ()
   (rust-test-matching-parens
-   "fn foo() { low as uint <= c }"
+   "fn foo() { low as u128 <= c }"
    '((10 29))
    '(24)))
 
@@ -2488,16 +2936,16 @@ fn f() {
   (rust-test-matching-parens
    "
 fn rfc803() {
-    let z = a < b:FunnkyThing<int>;
+    let z = a < b:FunnkyThing<i32>;
     let s = Foo {
         a: b < 3,
-        b: d:CrazyStuff<int> < 3,
-        c: 2 < x:CrazyStuff<uint>
+        b: d:CrazyStuff<i32> < 3,
+        c: 2 < x:CrazyStuff<u128>
     }
 }"
-   '((45 49) ;; FunkyThing<int>
-     (111 115) ;; CrazyStuff<int>
-     (149 154) ;; CrazyStuff<uint>
+   '((45 49) ;; FunkyThing<i32>
+     (111 115) ;; CrazyStuff<i32>
+     (149 154) ;; CrazyStuff<u128>
      )
    '(30 ;; a < b
      83 ;; b < 3
@@ -2551,34 +2999,6 @@ type Foo<T> where T: Copy = Box<T>;
      '(7 9))))
 
 
-(ert-deftest font-lock-extend-region-in-string ()
-  
-  (with-temp-buffer
-    (rust-mode)
-    (insert "
-fn foo() {
-    let x = r\"
-Fontification needs to include this whole string or none of it.
-             \"
-}")
-    (font-lock-fontify-buffer)
-    (let ((font-lock-beg 13)
-          (font-lock-end 42))
-      (rust-font-lock-extend-region)
-      (should (<= font-lock-beg 13))
-      (should (>= font-lock-end 106))
-      )
-    (let ((font-lock-beg 42)
-          (font-lock-end 108))
-      (rust-font-lock-extend-region)
-      (should (<= font-lock-beg 25))
-      (should (>= font-lock-end 108)))
-    (let ((font-lock-beg 1)
-          (font-lock-end 12))
-      (rust-font-lock-extend-region)
-      (should (<= font-lock-beg 1))
-      (should (>= font-lock-end 12)))))
-
 (ert-deftest redo-syntax-after-change-far-from-point ()  
   (let*
       ((tmp-file-name (make-temp-file "rust-mdoe-test-issue104"))
@@ -2602,17 +3022,51 @@ Fontification needs to include this whole string or none of it.
     )
   )
 
-(ert-deftest rust-test-revert-hook-preserves-point ()
+(defun test-imenu (code expected-items)
   (with-temp-buffer
-    ;; Insert some code, and put point in the middle.
-    (insert "fn foo() {}\n")
-    (insert "fn bar() {}\n")
-    (insert "fn baz() {}\n")
-    (goto-char (point-min))
-    (forward-line 1)
-    (let ((initial-point (point)))
-      (rust--after-revert-hook)
-      (should (equal initial-point (point))))))
+    (rust-mode)
+    (insert code)
+    (let ((actual-items
+           ;; Replace ("item" . #<marker at ? in ?.rs) with "item"
+           (mapcar (lambda (class)
+                     (cons (car class)
+                           (mapcar #'car (cdr class))))
+                   (imenu--generic-function rust-imenu-generic-expression))))
+      (should (equal expected-items actual-items)))))
+
+(ert-deftest rust-test-imenu-extern-unsafe-fn ()
+  (test-imenu
+   "
+fn one() {
+}
+
+unsafe fn two() {
+}
+
+extern \"C\" fn three() {
+}
+
+pub extern fn four() {
+
+}
+
+extern \"rust-intrinsic\" fn five() {
+
+}
+"
+   '(("Fn"
+      "one"
+      "two"
+      "three"
+      "four"
+      "five"))))
+
+(when (executable-find rust-cargo-bin)
+  (ert-deftest rust-test-project-located ()
+    (lexical-let* ((test-dir (expand-file-name "test-project" default-directory))
+                   (manifest-file (expand-file-name "Cargo.toml" test-dir)))
+      (let ((default-directory test-dir))
+        (should (equal (expand-file-name (rust-buffer-project)) manifest-file))))))
 
 ;; If electric-pair-mode is available, load it and run the tests that use it.  If not,
 ;; no error--the tests will be skipped.

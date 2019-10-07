@@ -1,6 +1,17 @@
 
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa-stable" . "http://stable.melpa.org/packages/") t)
+
+;; Added by Package.el.  This must come before configurations of
+;; installed packages.  Don't delete this line.  If you don't want it,
+;; just comment it out by adding a semicolon to the start of the line.
+;; You may delete these explanatory comments.
+(package-initialize)
+
 ;; remove toolbar so it doesn't flash about
-(tool-bar-mode -1)
+(when window-system
+  (tool-bar-mode -1))
 
 ;; default values for things that should have been set in config
 (when (not (boundp 'ljhp-local-config-loaded))
@@ -67,12 +78,10 @@
   (select-window (car (last (window-list)))))
 
 ;; clear the buffer in eshell
-(defun eshell/clear ()
+(defun eshell/clr ()
   "clear the eshell buffer."
   (interactive)
-  (let ((inhibit-read-only t))
-    (erase-buffer))
-  "")
+  (eshell/clear t))
 
 (defun android-logcat-cleared ()
   "Opens android-logcat after clearing it from adb, so long-running devices won't spit out logs for a long period of time"
@@ -80,13 +89,24 @@
   (shell-command-to-string "adb logcat -c")
   (android-logcat))
 
-(add-to-list 'dired-omit-extensions ".orig")
+; (add-to-list 'dired-omit-extensions ".orig")
+
+(put 'downcase-region 'disabled nil)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(magit-refs-sections-hook
+   (quote
+    (magit-insert-error-header magit-insert-branch-description magit-insert-local-branches)))
+ '(package-selected-packages (quote (yaml-mode highlight-indentation magit)))
  '(vc-handled-backends (quote (RCS CVS SVN SCCS SRC Bzr Git Mtn))))
 
-(put 'downcase-region 'disabled nil)
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

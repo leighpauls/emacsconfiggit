@@ -25,6 +25,7 @@
 ;; Simple global bindings
 (global-set-key (kbd "C-x C-b") 'buffer-menu)
 (global-set-key (kbd "C-x a") 'magit-status)
+(global-set-key (kbd "C-x C-a") 'magit-status)
 (global-set-key (kbd "C-x k") 'kill-current-buffer)
 (global-set-key (kbd "C-x p") 'other-window-reverse)
 (global-set-key (kbd "C-c b") 'compile-from-dir)
@@ -80,7 +81,7 @@
 (add-hook 'c-mode-common-hook 'maybe-use-clang-format);
 
 (defun shell-eshell-clear ()
-  (local-set-key (kbd "C-c c") 'eshell/clear))
+  (local-set-key (kbd "C-c c") 'eshell/clr))
 
 (add-hook 'shell-mode-hook 'shell-eshell-clear)
 (add-hook 'eshell-mode-hook 'shell-eshell-clear)

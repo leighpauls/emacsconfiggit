@@ -6,13 +6,6 @@
 (color-theme-initialize)
 (color-theme-tm)
 
-(add-to-list 'load-path "~/.emacs.d/magit-1.2.2/")
-(require 'magit)
-
-(add-to-list 'load-path "~/.emacs.d/mo-git-blame/")
-(autoload 'mo-git-blame-file "mo-git-blame" nil t)
-(autoload 'mo-git-blame-current "mo-git-blame" nil t)
-
 (add-to-list 'load-path "~/.emacs.d/camelCase-mode/")
 (require 'camelCase-mode)
 (add-hook 'javascript-mode-hook '(lambda () (camelCase-mode 1)))
@@ -30,9 +23,12 @@
 (require 'monky)
 (setq monky-process-type 'cmdserver)
 
-(add-to-list 'load-path "~/.emacs.d/rust-mode-0.3.0/")
+(add-to-list 'load-path "~/.emacs.d/rust-mode-0.4.0/")
 (autoload 'rust-mode "rust-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))
 
+(require 'yaml-mode)
+(require 'highlight-indentation)
+(add-hook 'yaml-mode-hook 'highlight-indentation-current-column-mode)
 
 (provide 'leigh-load-modes)
