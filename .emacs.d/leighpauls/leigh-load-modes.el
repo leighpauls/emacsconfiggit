@@ -31,4 +31,6 @@
 (require 'highlight-indentation)
 (add-hook 'yaml-mode-hook 'highlight-indentation-current-column-mode)
 
+(require 'leigh-lpass)
+
 (provide 'leigh-load-modes)
