@@ -91,9 +91,14 @@
 
 ; (add-to-list 'dired-omit-extensions ".orig")
 
+
 (defun magit-fetch-master ()
   (interactive)
   (magit-fetch-refspec "origin" "master:master" nil))
+
+
+(put 'downcase-region 'disabled nil)
+
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
