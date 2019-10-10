@@ -91,6 +91,10 @@
 
 ; (add-to-list 'dired-omit-extensions ".orig")
 
+(defun magit-fetch-master ()
+  (interactive)
+  (magit-fetch-refspec "origin" "master:master" nil))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
