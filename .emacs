@@ -108,7 +108,7 @@
  '(magit-refs-sections-hook
    (quote
     (magit-insert-error-header magit-insert-branch-description magit-insert-local-branches)))
- '(package-selected-packages (quote (yaml-mode highlight-indentation magit)))
+ '(package-selected-packages (quote (free-keys yaml-mode highlight-indentation magit)))
  '(vc-handled-backends (quote (RCS CVS SVN SCCS SRC Bzr Git Mtn))))
 
 (custom-set-faces
