@@ -48,6 +48,7 @@
 (global-set-key (kbd "C-c C-h") 'mahgit-status)
 (global-set-key (kbd "C-c C-d") 'edebug-defun)
 (global-set-key (kbd "C-h C-f") 'find-function)
+(global-set-key (kbd "C-c o") 'leigh-lpass-insert-okta-pass)
 
 (global-set-key (kbd "C-c k") 'profiler-start)
 (global-set-key (kbd "C-c K") 'profiler-report-and-stop)
