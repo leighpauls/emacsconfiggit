@@ -29,6 +29,7 @@
 (require 'leigh-keys)
 (require 'leigh-styling)
 (require 'leigh-compilation)
+(require 'leigh-lpass)
 
 (setq default-tab-width 4)
 (setq js-indent-level 2)
@@ -91,10 +92,11 @@
 
 ; (add-to-list 'dired-omit-extensions ".orig")
 
-
-(defun magit-fetch-master ()
-  (interactive)
-  (magit-fetch-refspec "origin" "master:master" nil))
+(require 'magit-popup)
+(defun magit-fetch-master (args)
+  (interactive (list (magit-fetch-arguments)))
+  (magit-fetch-refspec "origin" "master:master" args))
+(magit-define-popup-action 'magit-fetch-popup ?f "Fetch into master" 'magit-fetch-master)
 
 
 (put 'downcase-region 'disabled nil)
