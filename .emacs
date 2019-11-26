@@ -98,7 +98,6 @@
   (magit-fetch-refspec "origin" "master:master" args))
 (magit-define-popup-action 'magit-fetch-popup ?f "Fetch into master" 'magit-fetch-master)
 
-
 (put 'downcase-region 'disabled nil)
 
 
@@ -107,7 +106,11 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(git-commit-setup-hook
+   (quote
+    (git-commit-save-message git-commit-setup-changelog-support git-commit-propertize-diff bug-reference-mode with-editor-usage-message)))
  '(magit-push-arguments (quote ("--force-with-lease" "--no-verify")))
+ '(magit-rebase-arguments (quote ("--preserve-merges")))
  '(magit-refs-sections-hook
    (quote
     (magit-insert-error-header magit-insert-branch-description magit-insert-local-branches)))
