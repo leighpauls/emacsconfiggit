@@ -87,4 +87,9 @@
 (add-hook 'shell-mode-hook 'shell-eshell-clear)
 (add-hook 'eshell-mode-hook 'shell-eshell-clear)
 
+(defun dired-prefer-old-query-replace ()
+  (local-unset-key (kbd "Q"))
+  (local-set-key (kbd "Q") 'dired-do-query-replace-regexp))
+(add-hook 'dired-mode-hook 'dired-prefer-old-query-replace)
+
 (provide 'leigh-keys)
