@@ -100,6 +100,33 @@
 
 (put 'downcase-region 'disabled nil)
 
+(add-hook 'dired-after-readin-hook 'hl-line-mode)
+(add-hook 'buffer-menu-mode-hook 'hl-line-mode)
+
+(add-hook 'python-mode-hook #'lsp)
+(add-hook 'rust-mode-hook #'lsp)
+
+(add-hook 'lsp-mode-hook 'lsp-ui-mode)
+(setq lsp-prefer-flymake nil)
+(setq lsp-ui-doc-enable t
+      lsp-ui-doc-use-childframe t
+      lsp-ui-doc-position 'top
+      lsp-ui-doc-include-signature t
+      lsp-ui-sideline-enable nil
+      lsp-ui-flycheck-enable t
+      lsp-ui-flycheck-list-position 'right
+      lsp-ui-flycheck-live-reporting t
+      lsp-ui-peek-enable t
+      lsp-ui-peek-list-width 60
+      lsp-ui-peek-peek-height 25)
+
+(global-company-mode 1)
+(global-set-key (kbd "C-<tab>") 'company-complete)
+(push 'company-lsp company-backends)
+(setq company-idle-delay 0.3)
+(setq company-transformers nil
+      company-lsp-async t
+      company-lsp-cache-candidates nil)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -114,7 +141,9 @@
  '(magit-refs-sections-hook
    (quote
     (magit-insert-error-header magit-insert-branch-description magit-insert-local-branches)))
- '(package-selected-packages (quote (free-keys yaml-mode highlight-indentation magit)))
+ '(package-selected-packages
+   (quote
+    (company-lsp company lsp-ui flycheck yasnippet lsp-mode free-keys yaml-mode highlight-indentation magit)))
  '(vc-handled-backends (quote (RCS CVS SVN SCCS SRC Bzr Git Mtn))))
 
 (custom-set-faces
