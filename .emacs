@@ -136,6 +136,7 @@
  '(git-commit-setup-hook
    (quote
     (git-commit-save-message git-commit-setup-changelog-support git-commit-propertize-diff bug-reference-mode with-editor-usage-message)))
+ '(magit-commit-arguments (quote ("--no-verify")))
  '(magit-push-arguments (quote ("--force-with-lease" "--no-verify")))
  '(magit-rebase-arguments (quote ("--preserve-merges")))
  '(magit-refs-sections-hook
@@ -144,7 +145,7 @@
  '(package-selected-packages
    (quote
     (company-lsp company lsp-ui flycheck yasnippet lsp-mode free-keys yaml-mode highlight-indentation magit)))
- '(vc-handled-backends (quote (RCS CVS SVN SCCS SRC Bzr Git Mtn))))
+ '(vc-handled-backends (quote (RCS CVS SVN SCCS SRC Bzr Git))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
