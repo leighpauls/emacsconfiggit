@@ -39,7 +39,8 @@
     "/opt/homebrew/bin"
     "/opt/local/bin"
     "/opt/local/sbin"
-    "~/go/bin"))
+    "~/go/bin"
+    "/Users/leigh/bin"))
 
 (require 'cl)
 (defun path-join (paths)
