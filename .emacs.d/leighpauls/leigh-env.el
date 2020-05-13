@@ -24,6 +24,7 @@
 
 (setenv "GOPATH" "/Users/leigh/go")
 (setenv "GOBIN" "/Users/leigh/go/bin")
+(setenv "GOPRIVATE" "git.corp.nextdoor.com")
 
 (setq indent-tabs-mode nil)
 
