@@ -144,7 +144,7 @@
     (magit-insert-error-header magit-insert-branch-description magit-insert-local-branches)))
  '(package-selected-packages
    (quote
-    (company-lsp company lsp-ui flycheck yasnippet lsp-mode free-keys yaml-mode highlight-indentation magit)))
+    (company-lsp company lsp-ui flycheck yasnippet lsp-mode free-keys yaml-mode highlight-indentation)))
  '(vc-handled-backends (quote (RCS CVS SVN SCCS SRC Bzr Git))))
 
 (custom-set-faces
