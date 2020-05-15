@@ -33,4 +33,12 @@
 
 (require 'leigh-lpass)
 
+(add-to-list 'load-path "~/.emacs.d/magit-master/lisp")
+(require 'magit)
+
+(with-eval-after-load 'info
+  (info-initialize)
+  (add-to-list 'Info-directory-list
+               "~/.emacs.d/magit-master/Documentation/"))
+
 (provide 'leigh-load-modes)

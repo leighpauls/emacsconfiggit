@@ -139,12 +139,9 @@
  '(magit-commit-arguments (quote ("--no-verify")))
  '(magit-push-arguments (quote ("--force-with-lease" "--no-verify")))
  '(magit-rebase-arguments (quote ("--preserve-merges")))
- '(magit-refs-sections-hook
-   (quote
-    (magit-insert-error-header magit-insert-branch-description magit-insert-local-branches)))
  '(package-selected-packages
    (quote
-    (company-lsp company lsp-ui flycheck yasnippet lsp-mode free-keys yaml-mode highlight-indentation)))
+    (with-editor dashboard transient company-lsp company lsp-ui flycheck yasnippet lsp-mode free-keys yaml-mode highlight-indentation)))
  '(vc-handled-backends (quote (RCS CVS SVN SCCS SRC Bzr Git))))
 
 (custom-set-faces
