@@ -139,6 +139,13 @@
  '(magit-commit-arguments (quote ("--no-verify")))
  '(magit-push-arguments (quote ("--force-with-lease" "--no-verify")))
  '(magit-rebase-arguments (quote ("--preserve-merges")))
+ '(magit-refresh-status-buffer nil)
+ '(magit-status-headers-hook
+   (quote
+    (magit-insert-error-header magit-insert-diff-filter-header magit-insert-head-branch-header magit-insert-upstream-branch-header magit-insert-push-branch-header)))
+ '(magit-status-sections-hook
+   (quote
+    (magit-insert-status-headers magit-insert-merge-log magit-insert-rebase-sequence magit-insert-am-sequence magit-insert-sequencer-sequence magit-insert-bisect-output magit-insert-bisect-rest magit-insert-bisect-log magit-insert-untracked-files magit-insert-unstaged-changes magit-insert-staged-changes magit-insert-stashes)))
  '(package-selected-packages
    (quote
     (with-editor dashboard transient company-lsp company lsp-ui flycheck yasnippet lsp-mode free-keys yaml-mode highlight-indentation)))
