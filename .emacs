@@ -92,11 +92,11 @@
 
 ; (add-to-list 'dired-omit-extensions ".orig")
 
-(require 'magit-popup)
 (defun magit-fetch-master (args)
   (interactive (list (magit-fetch-arguments)))
   (magit-fetch-refspec "origin" "master:master" args))
-(magit-define-popup-action 'magit-fetch-popup ?f "Fetch into master" 'magit-fetch-master)
+(transient-append-suffix
+  'magit-fetch "r" '("f" "Fetch into master" magit-fetch-master))
 
 (put 'downcase-region 'disabled nil)
 
