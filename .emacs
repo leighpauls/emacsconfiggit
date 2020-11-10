@@ -92,11 +92,13 @@
 
 ; (add-to-list 'dired-omit-extensions ".orig")
 
-(defun magit-fetch-master (args)
+(defun magit-fetch-main (args)
   (interactive (list (magit-fetch-arguments)))
-  (magit-fetch-refspec "origin" "master:master" args))
+  (magit-fetch-refspec "origin" "main" args))
 (transient-append-suffix
-  'magit-fetch "r" '("f" "Fetch into master" magit-fetch-master))
+  'magit-fetch "r" '("f" "Fetch into main" magit-fetch-main))
+(transient-append-suffix
+  'magit-fetch "-t" '("-n" "Fetch without tags" ("-n" "--no-tags")))
 
 (put 'downcase-region 'disabled nil)
 
@@ -140,6 +142,9 @@
  '(magit-push-arguments (quote ("--force-with-lease" "--no-verify")))
  '(magit-rebase-arguments (quote ("--preserve-merges")))
  '(magit-refresh-status-buffer nil)
+ '(magit-refs-sections-hook
+   (quote
+    (magit-insert-error-header magit-insert-branch-description magit-insert-local-branches)))
  '(magit-status-headers-hook
    (quote
     (magit-insert-error-header magit-insert-diff-filter-header magit-insert-head-branch-header magit-insert-upstream-branch-header magit-insert-push-branch-header)))
