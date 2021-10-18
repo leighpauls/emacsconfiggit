@@ -135,6 +135,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(enable-recursive-minibuffers t)
  '(git-commit-setup-hook
    (quote
     (git-commit-save-message git-commit-setup-changelog-support git-commit-propertize-diff bug-reference-mode with-editor-usage-message)))
@@ -151,9 +152,10 @@
  '(magit-status-sections-hook
    (quote
     (magit-insert-status-headers magit-insert-merge-log magit-insert-rebase-sequence magit-insert-am-sequence magit-insert-sequencer-sequence magit-insert-bisect-output magit-insert-bisect-rest magit-insert-bisect-log magit-insert-untracked-files magit-insert-unstaged-changes magit-insert-staged-changes magit-insert-stashes)))
+ '(minibuffer-depth-indicate-mode t)
  '(package-selected-packages
    (quote
-    (protobuf-mode with-editor dashboard transient company-lsp company lsp-ui flycheck yasnippet lsp-mode free-keys yaml-mode highlight-indentation)))
+    (so-long protobuf-mode with-editor dashboard transient company-lsp company lsp-ui flycheck yasnippet lsp-mode free-keys yaml-mode highlight-indentation)))
  '(vc-handled-backends (quote (RCS CVS SVN SCCS SRC Bzr Git))))
 
 (custom-set-faces
