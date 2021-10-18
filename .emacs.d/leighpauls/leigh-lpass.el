@@ -1,5 +1,13 @@
+(defun leigh-lpass-ensure-login ()
+  (interactive)
+  (let ((command-result-code (call-process-shell-command "lpass status"
+                                                         nil nil nil)))
+    (unless (eq 0 command-result-code)
+      (eshell-command "lplogin"))))
+
 (defun leigh-lpass-insert-okta-pass ()
   (interactive)
+  (leigh-lpass-ensure-login)
   (let ((output-buffer (get-buffer-create "*lpass-output*")))
     ;; clear the buffer
     (save-current-buffer
@@ -15,7 +23,8 @@
               (replace-regexp-in-string "\n+" "" (buffer-string)))))
       (if (eq 0 command-result-code)
           (insert password-or-error)
-        (error "Lastpass command failed: (%s) %s" command-result-code password-or-error)))))
+        (error "Lastpass command failed: (%s) %s"
+               command-result-code password-or-error)))))
 
 ;; TODO: add a key binding
 
