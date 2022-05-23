@@ -32,7 +32,6 @@
 (global-set-key (kbd "C-c i") 'ispell-comments-and-strings)
 (global-set-key (kbd "C-x 9") 'delete-other-windows-vertically)
 (global-set-key (kbd "C-$") 'ispell-word)
-(global-set-key (kbd "C-c p") 'debug-cur-python-work)
 (global-set-key (kbd "C-c r") 'comment-region)
 (global-set-key (kbd "C-c u") 'uncomment-region)
 (global-set-key (kbd "C-c e") 'eval-region)
@@ -49,6 +48,7 @@
 (global-set-key (kbd "C-c C-d") 'edebug-defun)
 (global-set-key (kbd "C-h C-f") 'find-function)
 (global-set-key (kbd "C-c o") 'leigh-lpass-insert-okta-pass)
+(global-set-key (kbd "C-c p") 'leigh-lpass-insert-laptop-pass)
 
 (global-set-key (kbd "C-c k") 'profiler-start)
 (global-set-key (kbd "C-c K") 'profiler-report-and-stop)

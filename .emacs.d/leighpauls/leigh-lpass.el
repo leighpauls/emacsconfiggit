@@ -5,17 +5,16 @@
     (unless (eq 0 command-result-code)
       (eshell-command "lplogin"))))
 
-(defun leigh-lpass-insert-okta-pass ()
-  (interactive)
+(defun leigh-lpass-insert-pass (password-name)
   (leigh-lpass-ensure-login)
   (let ((output-buffer (get-buffer-create "*lpass-output*")))
     ;; clear the buffer
     (save-current-buffer
       (set-buffer output-buffer)
       (erase-buffer))
-    (let* ((command-result-code
-            (call-process-shell-command "lpass show --password okta.com"
-                                        nil output-buffer nil))
+    (let* ((lpass-command (concat "lpass show --password " password-name))
+           (command-result-code
+            (call-process-shell-command lpass-command nil output-buffer nil))
            (password-or-error
             (save-current-buffer
               (set-buffer output-buffer)
@@ -26,6 +25,14 @@
         (error "Lastpass command failed: (%s) %s"
                command-result-code password-or-error)))))
 
-;; TODO: add a key binding
+(defun leigh-lpass-insert-okta-pass ()
+  (interactive)
+  (leigh-lpass-insert-pass "okta.com"))
+
+(defun leigh-lpass-insert-laptop-pass ()
+  (interactive)
+  (leigh-lpass-insert-pass "laptop"))
+
 
 (provide 'leigh-lpass)
+
