@@ -8,7 +8,7 @@
       (setenv "EDITOR"
               "/Applications/Emacs.app/Contents/MacOS/bin/emacsclient")
       (setq ispell-program-name "/usr/local/bin/aspell")
-      (setq clang-format-el-path "/usr/local/share/clang/clang-format.el")
+      (setq clang-format-el-path "/opt/homebrew/share/clang/clang-format.el")
       (setenv "PAGER" "cat")
       (setenv "GIT_PAGER" "cat"))
   (setenv "EDITOR" "emacsclient")
