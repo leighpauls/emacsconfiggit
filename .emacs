@@ -2,6 +2,8 @@
 (require 'package)
 (add-to-list 'package-archives
              '("melpa-stable" . "http://stable.melpa.org/packages/") t)
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/") t)
 
 ;; Added by Package.el.  This must come before configurations of
 ;; installed packages.  Don't delete this line.  If you don't want it,
@@ -106,7 +108,7 @@
 (add-hook 'buffer-menu-mode-hook 'hl-line-mode)
 
 (add-hook 'python-mode-hook #'lsp)
-(add-hook 'rust-mode-hook #'lsp)
+; (add-hook 'rust-mode-hook #'lsp)
 
 (add-hook 'lsp-mode-hook 'lsp-ui-mode)
 (setq lsp-prefer-flymake nil)
@@ -137,26 +139,21 @@
  ;; If there is more than one, they won't work right.
  '(enable-recursive-minibuffers t)
  '(git-commit-setup-hook
-   (quote
-    (git-commit-save-message git-commit-setup-changelog-support git-commit-propertize-diff bug-reference-mode with-editor-usage-message)))
- '(magit-commit-arguments (quote ("--no-verify")))
- '(magit-push-arguments (quote ("--force-with-lease" "--no-verify")))
- '(magit-rebase-arguments (quote ("--preserve-merges")))
+   '(git-commit-save-message git-commit-setup-changelog-support git-commit-propertize-diff bug-reference-mode with-editor-usage-message))
+ '(magit-commit-arguments '("--no-verify"))
+ '(magit-push-arguments '("--force-with-lease" "--no-verify"))
+ '(magit-rebase-arguments '("--preserve-merges"))
  '(magit-refresh-status-buffer nil)
  '(magit-refs-sections-hook
-   (quote
-    (magit-insert-error-header magit-insert-branch-description magit-insert-local-branches)))
+   '(magit-insert-error-header magit-insert-branch-description magit-insert-local-branches))
  '(magit-status-headers-hook
-   (quote
-    (magit-insert-error-header magit-insert-diff-filter-header magit-insert-head-branch-header magit-insert-upstream-branch-header magit-insert-push-branch-header)))
+   '(magit-insert-error-header magit-insert-diff-filter-header magit-insert-head-branch-header magit-insert-upstream-branch-header magit-insert-push-branch-header))
  '(magit-status-sections-hook
-   (quote
-    (magit-insert-status-headers magit-insert-merge-log magit-insert-rebase-sequence magit-insert-am-sequence magit-insert-sequencer-sequence magit-insert-bisect-output magit-insert-bisect-rest magit-insert-bisect-log magit-insert-untracked-files magit-insert-unstaged-changes magit-insert-staged-changes magit-insert-stashes)))
+   '(magit-insert-status-headers magit-insert-merge-log magit-insert-rebase-sequence magit-insert-am-sequence magit-insert-sequencer-sequence magit-insert-bisect-output magit-insert-bisect-rest magit-insert-bisect-log magit-insert-untracked-files magit-insert-unstaged-changes magit-insert-staged-changes magit-insert-stashes))
  '(minibuffer-depth-indicate-mode t)
  '(package-selected-packages
-   (quote
-    (so-long protobuf-mode with-editor dashboard transient company-lsp company lsp-ui flycheck yasnippet lsp-mode free-keys yaml-mode highlight-indentation)))
- '(vc-handled-backends (quote (RCS CVS SVN SCCS SRC Bzr Git))))
+   '(rust-mode so-long protobuf-mode with-editor dashboard transient company-lsp company lsp-ui flycheck yasnippet lsp-mode free-keys yaml-mode highlight-indentation))
+ '(vc-handled-backends '(RCS CVS SVN SCCS SRC Bzr Git)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

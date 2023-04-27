@@ -23,9 +23,7 @@
 (require 'monky)
 (setq monky-process-type 'cmdserver)
 
-(add-to-list 'load-path "~/.emacs.d/rust-mode-0.4.0/")
-(autoload 'rust-mode "rust-mode" nil t)
-(add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))
+(require 'rust-mode)
 
 (require 'yaml-mode)
 (require 'highlight-indentation)
