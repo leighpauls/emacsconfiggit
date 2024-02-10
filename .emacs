@@ -1,3 +1,4 @@
+(print "begin loading .emacs")
 
 (require 'package)
 (add-to-list 'package-archives
@@ -163,3 +164,5 @@
  )
 
 (put 'upcase-region 'disabled nil)
+
+(print "finished loading .emacs")

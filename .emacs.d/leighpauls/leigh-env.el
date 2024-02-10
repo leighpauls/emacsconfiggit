@@ -25,7 +25,9 @@
 (setenv "GOPATH" "/Users/leigh/go")
 (setenv "GOBIN" "/Users/leigh/go/bin")
 (setenv "GOPRIVATE" "git.corp.nextdoor.com")
-(setenv "DJANGO_SETTINGS_MODULE" "nextdoor.local_dev_personal")
+;; (setenv "DJANGO_SETTINGS_MODULE" "nextdoor.local_dev_personal")
+
+(setenv "TERM" "ansi")
 
 (setq indent-tabs-mode nil)
 
