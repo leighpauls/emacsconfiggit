@@ -8,15 +8,10 @@
       (setenv "EDITOR"
               "/Applications/Emacs.app/Contents/MacOS/bin/emacsclient")
       (setq ispell-program-name "/usr/local/bin/aspell")
-      (setq clang-format-el-path "/opt/homebrew/share/clang/clang-format.el")
       (setenv "PAGER" "cat")
       (setenv "GIT_PAGER" "cat"))
   (setenv "EDITOR" "emacsclient")
-  (setq ispell-program-name "/usr/bin/aspell")
-  (setq clang-format-el-path
-	(if load-fb-devserver-config
-	    "/home/engshare/third-party2/clang/dev/src/clang/tools/clang-format/clang-format.el"
-	  "~/.emacs.d/clang-format/clang-format.el")))
+  (setq ispell-program-name "/usr/bin/aspell"))
 
 (setenv "ANDROID_NDK_REPOSITORY" "/opt/android_ndk")
 (setenv "ANDROID_SDK" "/opt/android_sdk")
@@ -56,13 +51,5 @@
 (setenv "PATH" (path-join (append (list (getenv "PATH")) path-additions)))
 
 (setq exec-path (append exec-path path-additions))
-
-(defun rebind-to-source-profile ()
-  "Runs source ~/.profile and copies the env variables"
-  (interactive)
-  (print "hello")
-  (print (shell-command-to-string "bash -c \"source ~/.profilepoop > /dev/null 2>/dev/null && env\"")))
-
-;; (add-hook 'eshell-mode-hook 'rebind-to-source-profile)
 
 (provide 'leigh-env)

@@ -93,7 +93,6 @@
   (shell-command-to-string "adb logcat -c")
   (android-logcat))
 
-; (add-to-list 'dired-omit-extensions ".orig")
 
 (defun magit-fetch-main (args)
   (interactive (list (magit-fetch-arguments)))
@@ -107,31 +106,6 @@
 
 (add-hook 'dired-after-readin-hook 'hl-line-mode)
 (add-hook 'buffer-menu-mode-hook 'hl-line-mode)
-
-(add-hook 'python-mode-hook #'lsp)
-; (add-hook 'rust-mode-hook #'lsp)
-
-(add-hook 'lsp-mode-hook 'lsp-ui-mode)
-(setq lsp-prefer-flymake nil)
-(setq lsp-ui-doc-enable t
-      lsp-ui-doc-use-childframe t
-      lsp-ui-doc-position 'top
-      lsp-ui-doc-include-signature t
-      lsp-ui-sideline-enable nil
-      lsp-ui-flycheck-enable t
-      lsp-ui-flycheck-list-position 'right
-      lsp-ui-flycheck-live-reporting t
-      lsp-ui-peek-enable t
-      lsp-ui-peek-list-width 60
-      lsp-ui-peek-peek-height 25)
-
-(global-company-mode 1)
-(global-set-key (kbd "C-<tab>") 'company-complete)
-(push 'company-lsp company-backends)
-(setq company-idle-delay 0.3)
-(setq company-transformers nil
-      company-lsp-async t
-      company-lsp-cache-candidates nil)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
