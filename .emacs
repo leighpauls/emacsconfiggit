@@ -104,6 +104,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(company-idle-delay nil)
+ '(eglot-events-buffer-size 0)
  '(enable-recursive-minibuffers t)
  '(git-commit-setup-hook
    '(git-commit-save-message git-commit-setup-changelog-support git-commit-propertize-diff bug-reference-mode with-editor-usage-message))
@@ -122,8 +124,21 @@
 (put 'upcase-region 'disabled nil)
 
 (require 'eglot)
+
 (add-to-list 'eglot-server-programs '((c++-mode c-mode) "clangd"))
 (add-hook 'c-mode-hook 'eglot-ensure)
 (add-hook 'c++-mode-hook 'eglot-ensure)
+
+(add-hook 'rust-mode-hook 'eglot-ensure)
+(add-hook 'rust-mode-hook 'company-mode)
+(add-to-list 'eglot-server-programs
+             '((rust-ts-mode rust-mode) .
+               ("rust-analyzer" :initializationOptions (:check (:command "clippy")))))
+
+(with-eval-after-load 'company
+  (define-key company-mode-map (kbd "C-<tab>") 'company-complete))
+
+(define-key eglot-mode-map (kbd "C-%") 'xref-find-references-and-replace)
+
 
 (print "finished loading .emacs")
