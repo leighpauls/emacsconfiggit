@@ -104,14 +104,16 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(c-basic-offset 4)
  '(company-idle-delay nil)
  '(eglot-events-buffer-size 0)
+ '(eldoc-echo-area-use-multiline-p 5)
  '(enable-recursive-minibuffers t)
  '(git-commit-setup-hook
    '(git-commit-save-message git-commit-setup-changelog-support git-commit-propertize-diff bug-reference-mode with-editor-usage-message))
  '(minibuffer-depth-indicate-mode t)
  '(package-selected-packages
-   '(magit rust-mode so-long protobuf-mode with-editor dashboard transient company-lsp company lsp-ui flycheck yasnippet lsp-mode free-keys yaml-mode highlight-indentation))
+   '(glsl-mode magit rust-mode so-long protobuf-mode with-editor dashboard transient company-lsp company lsp-ui flycheck yasnippet lsp-mode free-keys yaml-mode highlight-indentation))
  '(vc-handled-backends '(RCS CVS SVN SCCS SRC Bzr Git)))
 
 (custom-set-faces

@@ -128,7 +128,7 @@
 	    ("Vivek Das Mohapatra" . "vivek@etla.org"))
 	   (:commit . "v1.0"))])
  (bash-completion .
-		  [(3 1 1)
+		  [(3 2)
 		   ((emacs
 		     (25 3)))
 		   "Bash completion for the shell buffer" tar
@@ -137,7 +137,7 @@
 		    (:maintainer "Stephane Zermatten" . "szermatt@gmail.com")
 		    (:authors
 		     ("Stephane Zermatten" . "szermatt@gmx.net"))
-		    (:commit . "a021468eec8ff8cacb74a9ea595d3587186e29ea"))])
+		    (:commit . "ed9c76252ac82d6352ba438f664b390fdd0b5d6c"))])
  (beancount .
 	    [(0 9)
 	     nil "A major mode to edit Beancount input files." tar
@@ -502,7 +502,7 @@
 		 ("Arne Jørgensen" . "arne@arnested.dk"))
 		(:commit . "f632fa5f140b04260fa23b15ffccbfe5a787b2e2"))])
  (dslide .
-	 [(0 6 0)
+	 [(0 6 2)
 	  ((emacs
 	    (29 2)))
 	  "Domain Specific sLIDEs. Programmable Presentation" tar
@@ -511,7 +511,7 @@
 	   (:maintainer "Positron" . "contact@positron.solutions")
 	   (:authors
 	    ("Positron" . "contact@positron.solutions"))
-	   (:commit . "c90b3d65ef70808516bc639fb73e5e19359546d1"))])
+	   (:commit . "be47f2dcb939779067f8c77c3493162bcf242b83"))])
  (eat .
       [(0 9 4)
        ((emacs
@@ -1320,7 +1320,7 @@
 	     ("Hrvoje Niksic" . "hniksic@gmail.com"))
 	    (:commit . "5d2751c4ca101fa0884ce8662f5566736f8257fe"))])
  (hyperdrive .
-	     [(0 5 1)
+	     [(0 5 2)
 	      ((emacs
 		(28 1))
 	       (map
@@ -1342,7 +1342,7 @@
 	       (:maintainer "Joseph Turner" . "~ushin/ushin@lists.sr.ht")
 	       (:authors
 		("Joseph Turner" . "joseph@ushin.org"))
-	       (:commit . "165e1b1c6bd2bd3de1dec27325fada116153c822"))])
+	       (:commit . "4dceb8e88160bd28e31f4b56f1e5c01138c8fcdc"))])
  (hyperdrive-org-transclusion .
 			      [(0 3 1)
 			       ((emacs
@@ -1535,19 +1535,19 @@
 	       ("Jon Oddie" . "j.j.oddie@gmail.com"))
 	      (:commit . "31d4adcca4f08cfd7a45f85e691aaa7a9316b355"))])
  (magit .
-	[(4 1 3)
+	[(4 2 0)
 	 ((emacs
-	   (26 1))
+	   (27 1))
 	  (compat
-	   (30 0 0 0))
+	   (30 0 1 0))
 	  (dash
 	   (2 19 1))
 	  (magit-section
-	   (4 1 3))
+	   (4 2 0))
 	  (seq
 	   (2 24))
 	  (transient
-	   (0 8 0))
+	   (0 8 2))
 	  (with-editor
 	   (3 4 3)))
 	 "A Git porcelain inside Emacs" tar
@@ -1559,13 +1559,13 @@
 	  (:authors
 	   ("Marius Vollmer" . "marius.vollmer@gmail.com")
 	   ("Jonas Bernoulli" . "emacs.magit@jonas.bernoulli.dev"))
-	  (:commit . "7adad8c8d3bd61ae36659638751223cfa2c7d720"))])
+	  (:commit . "7dfebba55bf687a25049882c2316166d968048ea"))])
  (magit-section .
-		[(4 1 3)
+		[(4 2 0)
 		 ((emacs
-		   (26 1))
+		   (27 1))
 		  (compat
-		   (30 0 0 0))
+		   (30 0 1 0))
 		  (dash
 		   (2 19 1))
 		  (seq
@@ -1576,7 +1576,7 @@
 		  (:maintainer "Jonas Bernoulli" . "emacs.magit@jonas.bernoulli.dev")
 		  (:authors
 		   ("Jonas Bernoulli" . "emacs.magit@jonas.bernoulli.dev"))
-		  (:commit . "7adad8c8d3bd61ae36659638751223cfa2c7d720"))])
+		  (:commit . "7dfebba55bf687a25049882c2316166d968048ea"))])
  (markdown-mode .
 		[(2 6)
 		 ((emacs
@@ -1589,7 +1589,7 @@
 		   ("Jason R. Blevins" . "jblevins@xbeta.org"))
 		  (:commit . "193b61605f44c85d261b8bd82e0a213fd8f1ff32"))])
  (mastodon .
-	   [(1 1 7)
+	   [(1 1 8)
 	    ((emacs
 	      (28 1))
 	     (request
@@ -1604,7 +1604,7 @@
 	     (:authors
 	      ("Johnson Denen" . "johnson.denen@gmail.com")
 	      ("Marty Hiatt" . "mousebot@disroot.org"))
-	     (:commit . "ba7e98c29c1fbc9765576533b927ddba772f2b68"))])
+	     (:commit . "4b7786c1fdf601a27f20104c33423d78dda92338"))])
  (material-theme .
 		 [(2015)
 		  ((emacs
@@ -2052,7 +2052,7 @@
 	       ("David Christiansen" . "david@davidchristiansen.dk"))
 	      (:commit . "1edda80e2e32b72e77f4f16ae5b83c312c68ee95"))])
  (racket-mode .
-	      [(1 0 20241217 125843)
+	      [(1 0 20250103 151851)
 	       ((emacs
 		 (25 1)))
 	       "Racket editing, REPL, and more" tar
@@ -2150,26 +2150,26 @@
 	      (:keywords "markup" "language" "css")
 	      (:commit . "aee28ea552dce5aade05d8a7f91514e6eb37e59f"))])
  (scad-mode .
-	    [(94 0)
+	    [(95 0)
 	     ((emacs
-	       (27 1))
+	       (28 1))
 	      (compat
-	       (29 1 4 4)))
+	       (30)))
 	     "A major mode for editing OpenSCAD code" tar
 	     ((:url . "https://github.com/openscad/emacs-scad-mode")
 	      (:keywords "languages")
 	      (:maintainer
 	       ("Len Trigg" . "lenbok@gmail.com")
 	       ("Daniel Mendler" . "mail@daniel-mendler.de"))
-	      (:commit . "3c32b141f083c31539bb24700eb0aa23ea55918c"))])
+	      (:commit . "8bc0bbb7ab770ec81d7ce460984a000bf7a3c112"))])
  (scala-mode .
-	     [(1 1 0)
+	     [(1 1 1)
 	      ((emacs
-		(24 2)))
+		(25 1)))
 	      "Major mode for editing Scala" tar
 	      ((:url . "https://github.com/hvesalai/emacs-scala-mode")
 	       (:keywords "languages")
-	       (:commit . "889f6067fc96d8f7869e9584dbfef94b40c7c89e"))])
+	       (:commit . "df60066e3194428266b0c66c7619327e6a4bf48d"))])
  (scroll-on-drag .
 		 [(0 1)
 		  ((emacs
@@ -2547,14 +2547,14 @@
 			("Joost Kremers" . "joostkremers@fastmail.fm"))
 		       (:commit . "e04d3521b6dc2435de4c4a4b9cac5feb194f0d5b"))])
  (web-mode .
-	   [(17 3 20)
+	   [(17 3 21)
 	    ((emacs
 	      (23 1)))
 	    "major mode for editing web templates" tar
 	    ((:url . "https://web-mode.org")
 	     (:keywords "languages")
 	     (:maintainer "François-Xavier Bois" . "fxbois@gmail.com")
-	     (:commit . "0c83581d1e93d1d802c730a1d5e90cd1c740e1b2"))])
+	     (:commit . "f90d44a14bfdef03eb866b3230cd221c9b2ca393"))])
  (webpaste .
 	   [(3 2 2)
 	    ((emacs
@@ -2654,14 +2654,14 @@
 	     ((:url . "https://github.com/lewang/ws-butler")
 	      (:commit . "d3927f6131f215e9cd3e1f747be5a91e5be8ca9a"))])
  (xah-fly-keys .
-	       [(26 9 20241220195053)
+	       [(26 9 20241225173150)
 		((emacs
 		  (27)))
 		"ergonomic modal keybinding minor mode." tar
 		((:url . "http://xahlee.info/emacs/misc/xah-fly-keys.html")
 		 (:keywords "convenience" "vi" "vim" "ergoemacs" "keybinding")
 		 (:maintainer "Xah Lee" . "xah@xahlee.org")
-		 (:commit . "c0e4534acf973ecf709b3a24ae0c4ad84dbd44f6"))])
+		 (:commit . "723d92aa47d618d2af84bd0bbffbd311103d5f99"))])
  (xkcd .
        [(1 1)
 	((json
