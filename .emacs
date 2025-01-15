@@ -105,6 +105,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(c-basic-offset 4)
+ '(clang-format-executable
+   "/Users/lpauls/git/roblox/game-engine/Tools/rbox/macos-universal/clang-format")
  '(company-idle-delay nil)
  '(eglot-events-buffer-size 0)
  '(eldoc-echo-area-use-multiline-p 5)
@@ -113,7 +115,7 @@
    '(git-commit-save-message git-commit-setup-changelog-support git-commit-propertize-diff bug-reference-mode with-editor-usage-message))
  '(minibuffer-depth-indicate-mode t)
  '(package-selected-packages
-   '(glsl-mode magit rust-mode so-long protobuf-mode with-editor dashboard transient company-lsp company lsp-ui flycheck yasnippet lsp-mode free-keys yaml-mode highlight-indentation))
+   '(clang-format glsl-mode magit rust-mode so-long protobuf-mode with-editor dashboard transient company-lsp company lsp-ui flycheck yasnippet lsp-mode free-keys yaml-mode highlight-indentation))
  '(vc-handled-backends '(RCS CVS SVN SCCS SRC Bzr Git)))
 
 (custom-set-faces
@@ -141,6 +143,9 @@
   (define-key company-mode-map (kbd "C-<tab>") 'company-complete))
 
 (define-key eglot-mode-map (kbd "C-%") 'xref-find-references-and-replace)
+
+(with-eval-after-load 'clang-format
+  (define-key c++-mode-map (kbd "C-c C-f") 'clang-format))
 
 
 (print "finished loading .emacs")
