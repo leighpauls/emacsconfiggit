@@ -114,11 +114,15 @@
  '(enable-recursive-minibuffers t)
  '(git-commit-setup-hook
    '(git-commit-save-message git-commit-setup-changelog-support git-commit-propertize-diff bug-reference-mode with-editor-usage-message))
+ '(ispell-program-name "aspell")
+ '(magit-refs-sections-hook
+   '(magit-insert-error-header magit-insert-branch-description magit-insert-local-branches))
  '(minibuffer-depth-indicate-mode t)
  '(package-selected-packages
-   '(eglot-hierarchy clang-format glsl-mode magit rust-mode so-long protobuf-mode with-editor dashboard transient company-lsp company lsp-ui flycheck yasnippet lsp-mode free-keys yaml-mode highlight-indentation))
+   '(eglot-supplements eglot-hierarchy clang-format glsl-mode magit rust-mode so-long protobuf-mode with-editor dashboard transient company-lsp company lsp-ui flycheck yasnippet lsp-mode free-keys yaml-mode highlight-indentation))
  '(package-vc-selected-packages
-   '((eglot-hierarchy :vc-backend Git :url "https://github.com/dolmens/eglot-hierarchy")))
+   '((eglot-supplements :vc-backend Git :url "https://codeberg.org/harald/eglot-supplements.git" :branch "v-20250114")
+     (eglot-hierarchy :vc-backend Git :url "https://github.com/dolmens/eglot-hierarchy" :branch "fe7c031")))
  '(vc-handled-backends '(RCS CVS SVN SCCS SRC Bzr Git)))
 
 (custom-set-faces
@@ -135,6 +139,7 @@
 (add-to-list 'eglot-server-programs '((c++-mode c-mode) "clangd"))
 (add-hook 'c-mode-hook 'eglot-ensure)
 (add-hook 'c++-mode-hook 'eglot-ensure)
+(add-hook 'c++-mode-hook 'company-mode)
 
 (add-hook 'rust-mode-hook 'eglot-ensure)
 (add-hook 'rust-mode-hook 'company-mode)
@@ -151,5 +156,6 @@
 (with-eval-after-load 'clang-format
   (define-key c++-mode-map (kbd "C-c C-f") 'clang-format))
 
+(require 'eglot-cthier)
 
 (print "finished loading .emacs")

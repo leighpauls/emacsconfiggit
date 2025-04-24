@@ -7,11 +7,9 @@
       (setq mac-option-modifier 'super)
       (setenv "EDITOR"
               "/Applications/Emacs.app/Contents/MacOS/bin/emacsclient")
-      (setq ispell-program-name "/usr/local/bin/aspell")
       (setenv "PAGER" "cat")
       (setenv "GIT_PAGER" "cat"))
-  (setenv "EDITOR" "emacsclient")
-  (setq ispell-program-name "/usr/bin/aspell"))
+  (setenv "EDITOR" "emacsclient"))
 
 (setenv "ANDROID_NDK_REPOSITORY" "/opt/android_ndk")
 (setenv "ANDROID_SDK" "/opt/android_sdk")
