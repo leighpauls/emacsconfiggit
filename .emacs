@@ -2,8 +2,6 @@
 
 (require 'package)
 (add-to-list 'package-archives
-             '("melpa-stable" . "http://stable.melpa.org/packages/") t)
-(add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/") t)
 
 ;; Added by Package.el.  This must come before configurations of
@@ -121,8 +119,8 @@
  '(package-selected-packages
    '(eglot-supplements eglot-hierarchy clang-format glsl-mode magit rust-mode so-long protobuf-mode with-editor dashboard transient company-lsp company lsp-ui flycheck yasnippet lsp-mode free-keys yaml-mode highlight-indentation))
  '(package-vc-selected-packages
-   '((eglot-supplements :vc-backend Git :url "https://codeberg.org/harald/eglot-supplements.git" :branch "v-20250114")
-     (eglot-hierarchy :vc-backend Git :url "https://github.com/dolmens/eglot-hierarchy" :branch "fe7c031")))
+   '((eglot-hierarchy :vc-backend Git :url "https://github.com/dolmens/eglot-hierarchy")
+     (eglot-supplements :vc-backend Git :url "https://codeberg.org/harald/eglot-supplements.git" :branch "v-20250114")))
  '(vc-handled-backends '(RCS CVS SVN SCCS SRC Bzr Git)))
 
 (custom-set-faces
@@ -155,7 +153,5 @@
 
 (with-eval-after-load 'clang-format
   (define-key c++-mode-map (kbd "C-c C-f") 'clang-format))
-
-(require 'eglot-cthier)
 
 (print "finished loading .emacs")
