@@ -11,28 +11,14 @@
       (setenv "GIT_PAGER" "cat"))
   (setenv "EDITOR" "emacsclient"))
 
-(setenv "ANDROID_NDK_REPOSITORY" "/opt/android_ndk")
-(setenv "ANDROID_SDK" "/opt/android_sdk")
-(setenv "ANDROID_HOME" "/opt/android_sdk")
-
-(setenv "GOPATH" "/Users/leigh/go")
-(setenv "GOBIN" "/Users/leigh/go/bin")
-(setenv "GOPRIVATE" "git.corp.nextdoor.com")
-;; (setenv "DJANGO_SETTINGS_MODULE" "nextdoor.local_dev_personal")
-
 (setenv "TERM" "ansi")
 
 (setq indent-tabs-mode nil)
 
 (defvar path-additions
   '("~/.cargo/bin"
-    "~/android-sdk-macosx/platform-tools"
-    "~/android-sdk-macosx/tools"
     "/usr/local/bin"
     "/usr/local/go/bin"
-    "/opt/android_sdk/platform-tools"
-    "/opt/android_sdk/tools"
-    "/opt/android_sdk/tools/bin"
     "/opt/homebrew/bin"
     "/opt/local/bin"
     "/opt/local/sbin"

@@ -9,9 +9,9 @@
 (add-to-list 'load-path "~/.emacs.d/dired-details/")
 (require 'dired-details+)
 
-(require 'yaml-mode)
-(require 'highlight-indentation)
-(add-hook 'yaml-mode-hook 'highlight-indentation-current-column-mode)
+; (require 'yaml-mode)
+; (require 'highlight-indentation)
+; (add-hook 'yaml-mode-hook 'highlight-indentation-current-column-mode)
 
 (require 'leigh-lpass)
 
