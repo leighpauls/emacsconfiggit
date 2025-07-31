@@ -133,7 +133,7 @@
 (put 'upcase-region 'disabled nil)
 
 (require 'eglot)
-
+(require 'cc-mode)
 (add-to-list 'eglot-server-programs '((c++-mode c-mode) "clangd"))
 (add-hook 'c-mode-hook 'eglot-ensure)
 (add-hook 'c++-mode-hook 'eglot-ensure)
@@ -148,10 +148,15 @@
 (with-eval-after-load 'company
   (define-key company-mode-map (kbd "C-<tab>") 'company-complete))
 
+(require 'clang-format)
+(define-key c++-mode-map (kbd "C-c C-f") 'clang-format)
+
 (define-key eglot-mode-map (kbd "C-%") 'xref-find-references-and-replace)
 (define-key eglot-mode-map (kbd "C-c h") 'eglot-hierarchy-call-hierarchy)
 
-(with-eval-after-load 'clang-format
-  (define-key c++-mode-map (kbd "C-c C-f") 'clang-format))
+
+(require 'cmake-mode)
+
+(add-to-list 'auto-mode-alist '("\\.inl\\'" . c++-mode))
 
 (print "finished loading .emacs")
