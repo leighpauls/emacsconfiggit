@@ -6,3 +6,8 @@
 /.emacs.d/url
 /.emacs.d/.lsp-session-v1
 /.emacs.d/projects
+
+/.emacs.d/elpa/*
+~/.emacs.d/elpa/archives/*
+
+.DS_Store

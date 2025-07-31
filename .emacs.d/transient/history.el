@@ -1,6 +1,9 @@
 ((magit-blame
   ("-w"))
  (magit-branch nil)
+ (magit-cherry-pick
+  ("--ff")
+  nil)
  (magit-commit nil)
  (magit-diff
   ("--no-ext-diff" "--stat")
@@ -13,13 +16,17 @@
   ("-n256" "--graph" "--decorate"))
  (magit-pull nil)
  (magit-push
-  ("--force-with-lease"))
+  ("--force-with-lease")
+  nil
+  ("--force-with-lease" "--dry-run"))
  (magit-rebase
   ("--update-refs" "--autostash")
   nil
-  ("--update-refs" "--autostash" "--interactive")
   ("--autostash")
-  ("--autostash" "--interactive"))
+  ("--autostash" "--interactive")
+  ("--update-refs" "--autostash" "--interactive"))
+ (magit-remote
+  ("-f"))
  (magit-reset nil)
  (magit-revert
   ("--edit"))
