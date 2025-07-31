@@ -117,7 +117,7 @@
    '(magit-insert-error-header magit-insert-branch-description magit-insert-local-branches))
  '(minibuffer-depth-indicate-mode t)
  '(package-selected-packages
-   '(eglot-supplements eglot-hierarchy clang-format glsl-mode magit rust-mode so-long protobuf-mode with-editor dashboard transient company-lsp company lsp-ui flycheck yasnippet lsp-mode free-keys yaml-mode highlight-indentation))
+   '(cmake-mode eglot-supplements eglot-hierarchy clang-format glsl-mode magit rust-mode so-long protobuf-mode with-editor dashboard transient company-lsp company lsp-ui flycheck yasnippet lsp-mode free-keys yaml-mode highlight-indentation))
  '(package-vc-selected-packages
    '((eglot-hierarchy :vc-backend Git :url "https://github.com/dolmens/eglot-hierarchy")
      (eglot-supplements :vc-backend Git :url "https://codeberg.org/harald/eglot-supplements.git" :branch "v-20250114")))
