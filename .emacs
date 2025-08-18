@@ -97,14 +97,21 @@
 (add-hook 'dired-after-readin-hook 'hl-line-mode)
 (add-hook 'buffer-menu-mode-hook 'hl-line-mode)
 
+(defun leigh-select-clang-format ()
+  "Select clang-format based on which computer I'm on"
+  (let ((roblox-exec "/Users/lpauls/git/roblox/game-engine/Tools/rbox/macos-universal/clang-format"))
+    (or (and (file-executable-p roblox-exec) roblox-exec)
+        (executable-find "clang-format")
+        "clang-format")
+  ))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(c-basic-offset 4)
- '(clang-format-executable
-   "/Users/lpauls/git/roblox/game-engine/Tools/rbox/macos-universal/clang-format")
+ '(clang-format-executable (leigh-select-clang-format))
  '(company-idle-delay nil)
  '(eglot-events-buffer-size 0)
  '(eglot-hierarchy-call-site t)
