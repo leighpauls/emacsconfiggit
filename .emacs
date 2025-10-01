@@ -112,6 +112,7 @@
  ;; If there is more than one, they won't work right.
  '(c-basic-offset 4)
  '(clang-format-executable (leigh-select-clang-format))
+ '(column-number-mode t)
  '(company-idle-delay nil)
  '(eglot-events-buffer-size 0)
  '(eglot-hierarchy-call-site t)
@@ -128,14 +129,16 @@
  '(package-vc-selected-packages
    '((eglot-hierarchy :vc-backend Git :url "https://github.com/dolmens/eglot-hierarchy")
      (eglot-supplements :vc-backend Git :url "https://codeberg.org/harald/eglot-supplements.git" :branch "v-20250114")))
+ '(tool-bar-mode nil)
  '(vc-handled-backends '(RCS CVS SVN SCCS SRC Bzr Git)))
 
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+(if (eq system-type 'windows-nt)
+    (custom-set-faces
+     ;; custom-set-faces was added by Custom.
+     ;; If you edit it by hand, you could mess it up, so be careful.
+     ;; Your init file should contain only one such instance.
+     ;; If there is more than one, they won't work right.
+     '(default ((t (:family "Consolas" :foundry "outline" :slant normal :weight regular :height 120 :width normal))))))
 
 (put 'upcase-region 'disabled nil)
 
