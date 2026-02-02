@@ -119,26 +119,35 @@
  '(eldoc-echo-area-use-multiline-p 5)
  '(enable-recursive-minibuffers t)
  '(git-commit-setup-hook
-   '(git-commit-save-message git-commit-setup-changelog-support git-commit-propertize-diff bug-reference-mode with-editor-usage-message))
+   '(git-commit-save-message git-commit-setup-changelog-support
+                             git-commit-propertize-diff
+                             bug-reference-mode
+                             with-editor-usage-message))
  '(ispell-program-name "aspell")
  '(magit-refs-sections-hook
-   '(magit-insert-error-header magit-insert-branch-description magit-insert-local-branches))
+   '(magit-insert-error-header magit-insert-branch-description
+                               magit-insert-local-branches))
+ '(magit-status-headers-hook
+   '(magit-insert-error-header magit-insert-diff-filter-header
+                               magit-insert-repo-header
+                               magit-insert-head-branch-header
+                               magit-insert-upstream-branch-header
+                               magit-insert-push-branch-header))
  '(minibuffer-depth-indicate-mode t)
  '(package-selected-packages
-   '(vterm cmake-mode eglot-supplements eglot-hierarchy clang-format glsl-mode magit rust-mode so-long protobuf-mode with-editor dashboard transient company-lsp company lsp-ui flycheck yasnippet lsp-mode free-keys yaml-mode highlight-indentation))
+   '(vterm cmake-mode eglot-supplements eglot-hierarchy clang-format
+           glsl-mode magit rust-mode so-long protobuf-mode with-editor
+           dashboard transient company-lsp company lsp-ui flycheck
+           yasnippet lsp-mode free-keys yaml-mode
+           highlight-indentation))
  '(package-vc-selected-packages
-   '((eglot-hierarchy :vc-backend Git :url "https://github.com/dolmens/eglot-hierarchy")
-     (eglot-supplements :vc-backend Git :url "https://codeberg.org/harald/eglot-supplements.git" :branch "v-20250114")))
+   '((eglot-hierarchy :vc-backend Git :url
+                      "https://github.com/dolmens/eglot-hierarchy")
+     (eglot-supplements :vc-backend Git :url
+                        "https://codeberg.org/harald/eglot-supplements.git"
+                        :branch "v-20250114")))
  '(tool-bar-mode nil)
  '(vc-handled-backends '(RCS CVS SVN SCCS SRC Bzr Git)))
-
-(if (eq system-type 'windows-nt)
-    (custom-set-faces
-     ;; custom-set-faces was added by Custom.
-     ;; If you edit it by hand, you could mess it up, so be careful.
-     ;; Your init file should contain only one such instance.
-     ;; If there is more than one, they won't work right.
-     '(default ((t (:family "Consolas" :foundry "outline" :slant normal :weight regular :height 120 :width normal))))))
 
 (put 'upcase-region 'disabled nil)
 
@@ -167,14 +176,15 @@
 
 (require 'cmake-mode)
 
-(require 'vterm)
-(add-hook 'vterm-copy-mode-hook
-          (lambda ()
-            (if vterm-copy-mode
-                (progn
-                  (setq-local vterm-copy-saved-cursor-type cursor-type)
-                  (setq cursor-type t)) ;; Show cursor in copy mode
-              (setq cursor-type vterm-copy-saved-cursor-type)))) ;; Hide it when returning to terminal
+(unless (eq system-type 'windows-nt)
+  (require 'vterm)
+  (add-hook 'vterm-copy-mode-hook
+            (lambda ()
+              (if vterm-copy-mode
+                  (progn
+                    (setq-local vterm-copy-saved-cursor-type cursor-type)
+                    (setq cursor-type t)) ;; Show cursor in copy mode
+                (setq cursor-type vterm-copy-saved-cursor-type))))) ;; Hide it when returning to terminal
 
 (add-to-list 'auto-mode-alist '("\\.inl\\'" . c++-mode))
 
@@ -211,3 +221,9 @@
 (add-hook 'magit-post-refresh-hook #'my-trace/post-refresh-hook)
 
 (print "finished loading .emacs")
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:family "Consolas" :foundry "outline" :slant normal :weight regular :height 120 :width normal)))))
