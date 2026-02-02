@@ -164,6 +164,47 @@
 
 (require 'cmake-mode)
 
+(require 'vterm)
+(add-hook 'vterm-copy-mode-hook
+          (lambda ()
+            (if vterm-copy-mode
+                (progn
+                  (setq-local vterm-copy-saved-cursor-type cursor-type)
+                  (setq cursor-type t)) ;; Show cursor in copy mode
+              (setq cursor-type vterm-copy-saved-cursor-type)))) ;; Hide it when returning to terminal
+
 (add-to-list 'auto-mode-alist '("\\.inl\\'" . c++-mode))
+
+(defun my-trace-buffer-send-message (format-string &rest args)
+  (let ((buffer (get-buffer-create "*my-trace*")))
+    (with-current-buffer buffer
+      (save-excursion
+        (goto-char (point-max))
+        (insert (apply #'format format-string args))
+        (insert "\n")))))
+
+(defun my-trace/magit-process-git (orig-fun &rest args)
+  "Advice to trace start and end times of a function."
+  (let ((start-time (current-time)))
+    ;; Run the original function with its arguments
+    (let ((start-point (point))
+          (result (apply orig-fun args))
+          (total-time (float-time (time-subtract (current-time) start-time)))
+          (end-point (point)))
+      (if (> total-time 0.1)
+          (my-trace-buffer-send-message "Trace: BIG magit-process-git took %.4f seconds. cmd: %s" total-time (list args))
+        (my-trace-buffer-send-message "Trace: magit-process-git took %.4f seconds. cmd: %s" total-time (list args)))
+      (my-trace-buffer-send-message "Trace: output: %s" (- end-point start-point))
+      ;; Return the original result to not break functionality
+      result)))
+
+(advice-add 'magit-process-git :around #'my-trace/magit-process-git)
+
+(defun my-trace/pre-refresh-hook ()
+  (my-trace-buffer-send-message "=======START REFRESH========="))
+(defun my-trace/post-refresh-hook ()
+  (my-trace-buffer-send-message "=======END REFRESH========="))
+(add-hook 'magit-pre-refresh-hook #'my-trace/pre-refresh-hook)
+(add-hook 'magit-post-refresh-hook #'my-trace/post-refresh-hook)
 
 (print "finished loading .emacs")
