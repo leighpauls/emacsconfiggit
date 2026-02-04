@@ -11,5 +11,6 @@
 ~/.emacs.d/elpa/archives/*
 
 /.emacs.d/transient/history.el
+/.emacs.d/eln-cache
 
 .DS_Store
