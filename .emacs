@@ -119,33 +119,18 @@
  '(eldoc-echo-area-use-multiline-p 5)
  '(enable-recursive-minibuffers t)
  '(git-commit-setup-hook
-   '(git-commit-save-message git-commit-setup-changelog-support
-                             git-commit-propertize-diff
-                             bug-reference-mode
-                             with-editor-usage-message))
+   '(git-commit-save-message git-commit-setup-changelog-support git-commit-propertize-diff bug-reference-mode with-editor-usage-message))
  '(ispell-program-name "aspell")
  '(magit-refs-sections-hook
-   '(magit-insert-error-header magit-insert-branch-description
-                               magit-insert-local-branches))
+   '(magit-insert-error-header magit-insert-branch-description magit-insert-local-branches))
  '(magit-status-headers-hook
-   '(magit-insert-error-header magit-insert-diff-filter-header
-                               magit-insert-repo-header
-                               magit-insert-head-branch-header
-                               magit-insert-upstream-branch-header
-                               magit-insert-push-branch-header))
+   '(magit-insert-error-header magit-insert-diff-filter-header magit-insert-repo-header magit-insert-head-branch-header magit-insert-upstream-branch-header magit-insert-push-branch-header))
  '(minibuffer-depth-indicate-mode t)
  '(package-selected-packages
-   '(vterm cmake-mode eglot-supplements eglot-hierarchy clang-format
-           glsl-mode magit rust-mode so-long protobuf-mode with-editor
-           dashboard transient company-lsp company lsp-ui flycheck
-           yasnippet lsp-mode free-keys yaml-mode
-           highlight-indentation))
+   '(imenu-list vterm cmake-mode eglot-supplements eglot-hierarchy clang-format glsl-mode magit rust-mode so-long protobuf-mode with-editor dashboard transient company-lsp company lsp-ui flycheck yasnippet lsp-mode free-keys yaml-mode highlight-indentation))
  '(package-vc-selected-packages
-   '((eglot-hierarchy :vc-backend Git :url
-                      "https://github.com/dolmens/eglot-hierarchy")
-     (eglot-supplements :vc-backend Git :url
-                        "https://codeberg.org/harald/eglot-supplements.git"
-                        :branch "v-20250114")))
+   '((eglot-hierarchy :vc-backend Git :url "https://github.com/dolmens/eglot-hierarchy")
+     (eglot-supplements :vc-backend Git :url "https://codeberg.org/harald/eglot-supplements.git" :branch "v-20250114")))
  '(tool-bar-mode nil)
  '(vc-handled-backends '(RCS CVS SVN SCCS SRC Bzr Git)))
 
