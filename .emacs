@@ -132,6 +132,7 @@
    '((eglot-hierarchy :vc-backend Git :url "https://github.com/dolmens/eglot-hierarchy")
      (eglot-supplements :vc-backend Git :url "https://codeberg.org/harald/eglot-supplements.git" :branch "v-20250114")))
  '(tool-bar-mode nil)
+ '(vc-follow-symlinks t)
  '(vc-handled-backends '(RCS CVS SVN SCCS SRC Bzr Git)))
 
 (put 'upcase-region 'disabled nil)
