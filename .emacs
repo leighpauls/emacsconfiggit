@@ -169,7 +169,10 @@
                   (progn
                     (setq-local vterm-copy-saved-cursor-type cursor-type)
                     (setq cursor-type t)) ;; Show cursor in copy mode
-                (setq cursor-type vterm-copy-saved-cursor-type))))) ;; Hide it when returning to terminal
+                (setq cursor-type vterm-copy-saved-cursor-type)))) ;; Hide it when returning to terminal
+  (define-key vterm-copy-mode-map (kbd "C-a") #'move-beginning-of-line)
+  (define-key vterm-copy-mode-map (kbd "C-e") #'claude-end-of-line))
+
 
 (add-to-list 'auto-mode-alist '("\\.inl\\'" . c++-mode))
 
@@ -204,6 +207,19 @@
   (my-trace-buffer-send-message "=======END REFRESH========="))
 (add-hook 'magit-pre-refresh-hook #'my-trace/pre-refresh-hook)
 (add-hook 'magit-post-refresh-hook #'my-trace/post-refresh-hook)
+
+(defun claude-end-of-line ()
+  "Move point to the end of the line, ignoring the whitespace that claude code inserts into the buffer"
+  (interactive)
+  (goto-char
+   (save-excursion
+     (progn (move-beginning-of-line ())
+            (let ((start (point)))
+              (move-end-of-line ())
+              ;; For failed search, use the start of the line
+              (if-let ((non-space-char (re-search-backward "[^ ]" start t)))
+                  (+ 1 non-space-char)
+                start))))))
 
 (print "finished loading .emacs")
 (custom-set-faces
