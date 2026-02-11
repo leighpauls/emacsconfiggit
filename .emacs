@@ -222,6 +222,9 @@
                   (+ 1 non-space-char)
                 start))))))
 
+(require 'imenu-list)
+
+
 (print "finished loading .emacs")
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

@@ -53,6 +53,10 @@
 (global-set-key (kbd "C-c k") 'profiler-start)
 (global-set-key (kbd "C-c K") 'profiler-report-and-stop)
 
+(global-set-key (kbd "C-c m") 'imenu-list-smart-toggle)
+(global-set-key (kbd "C-c M") 'imenu-list-show)
+
+
 (defun profiler-report-and-stop ()
   (interactive)
   (profiler-report)
