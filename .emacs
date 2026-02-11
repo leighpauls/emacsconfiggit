@@ -131,6 +131,11 @@
  '(package-vc-selected-packages
    '((eglot-hierarchy :vc-backend Git :url "https://github.com/dolmens/eglot-hierarchy")
      (eglot-supplements :vc-backend Git :url "https://codeberg.org/harald/eglot-supplements.git" :branch "v-20250114")))
+ '(safe-local-variable-values
+   '((lisp-indent-local-overrides
+      (cond . 0)
+      (interactive . 0))
+     (checkdoc-allow-quoting-nil-and-t . t)))
  '(tool-bar-mode nil)
  '(vc-follow-symlinks t)
  '(vc-handled-backends '(RCS CVS SVN SCCS SRC Bzr Git)))
