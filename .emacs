@@ -229,6 +229,8 @@
 
 (require 'imenu-list)
 
+(transient-append-suffix 'magit-fetch "-F"
+  '("-m" "Use refmap" "--refmap=+refs/heads/*:refs/remotes/origin/*"))
 
 (print "finished loading .emacs")
 (custom-set-faces
