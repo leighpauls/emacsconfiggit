@@ -1,3 +1,5 @@
+;; -*- lexical-binding:t -*-
+
 (print "begin loading .emacs")
 
 (require 'package)
@@ -229,9 +231,52 @@
 
 (require 'imenu-list)
 
+
+(require 'dash)
+
+(defun leigh/magit-remote-update-limited-fetch-spec (remote)
+  "Update the fetch spec of REMOTE for limited branches.
+
+Updates the fetch spec to include only tracking branches of existing branches
+ plus stable and master."
+  (interactive (list (magit-read-remote "Update fetch spec of remote")))
+  (let* ((local-refs (append (magit-list-local-branch-names) '("master" "stable" "main")))
+         (ref-patterns (--map (format "refs/heads/%s" it) local-refs))
+         (cb (lambda (lines-str) (leigh/magit-do-update-fetch-spec remote lines-str))))
+   (leigh/magit-remote-find-matching-tracking-bracnhes cb remote ref-patterns)))
+
+
+(defun leigh/magit-remote-find-matching-tracking-bracnhes (cb remote &rest patterns)
+  (let* ((proc (apply #'magit-run-git-async "ls-remote" remote patterns))
+         (proc-buf (process-buffer proc))
+         (start-pos (with-current-buffer proc-buf (copy-marker (process-mark proc)))))
+    (set-process-sentinel proc
+                          (lambda (p e)
+                            (magit-process-sentinel p e)
+                            (let* ((output-str (with-current-buffer (process-buffer p)
+                                                (buffer-substring-no-properties start-pos (process-mark p))))
+                                  (output-lines (split-string output-str "\n" t ".*\t")))
+                              (funcall cb output-lines)))))
+  ())
+
+(defun leigh/magit-do-update-fetch-spec (remote local-specs)
+  (let* ((variable (format "remote.%s.fetch" remote))
+         (fetch-spec-list (--map (leigh/magit-local-spec-to-fetch-spec remote it) local-specs)))
+    (message "set %s to %s" variable fetch-spec-list)
+    (magit-set-all fetch-spec-list variable)))
+
+(defun leigh/magit-local-spec-to-fetch-spec (remote local-spec)
+  (if (string-match "refs/heads/\\(.*\\)" local-spec)
+      (let* ((simple-name (match-string 1 local-spec)))
+        (format "+refs/heads/%s:refs/remotes/%s/%s" simple-name remote simple-name))
+    (error "Bad format for spec %s" local-spec)))
+
 (with-eval-after-load 'magit
   (transient-append-suffix 'magit-fetch "-F"
-    '("-m" "Use refmap" "--refmap=+refs/heads/*:refs/remotes/origin/*")))
+    '("-m" "Use refmap" "--refmap=+refs/heads/*:refs/remotes/origin/*"))
+  (transient-append-suffix 'magit-remote "d u"
+    '("M" "Update minimal refmap" leigh/magit-remote-update-limited-fetch-spec)))
+
 
 (print "finished loading .emacs")
 (custom-set-faces
