@@ -2,28 +2,32 @@
 
 (print "begin loading .emacs")
 
+;;
+;; Package management
+;;
+
 (require 'package)
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/") t)
-
-;; Added by Package.el.  This must come before configurations of
-;; installed packages.  Don't delete this line.  If you don't want it,
-;; just comment it out by adding a semicolon to the start of the line.
-;; You may delete these explanatory comments.
 (package-initialize)
 
-;; remove toolbar so it doesn't flash about
+;;
+;; Early UI
+;;
+
 (when window-system
   (tool-bar-mode -1))
 
-;; default values for things that should have been set in config
-(when (not (boundp 'ljhp-local-config-loaded))
-  (setq load-fb-devserver-config nil))
+;;
+;; Custom file
+;;
 
-(when load-fb-devserver-config
-  ;; load the FB libs
-  (defvar master-dir (getenv "ADMIN_SCRIPTS"))
-  (load-library (concat master-dir "/master.emacs")))
+(setq custom-file "~/.emacs.d/custom.el")
+(load custom-file t)
+
+;;
+;; Load path and personal modules
+;;
 
 (add-to-list 'load-path "~/.emacs.d/leighpauls/")
 (require 'leigh-env)
@@ -34,25 +38,119 @@
 (require 'leigh-compilation)
 (require 'leigh-lpass)
 
+;;
+;; Basic settings
+;;
+
 (setq default-tab-width 4)
 (setq js-indent-level 2)
+(setq Buffer-menu-name-width 48)
 
 (add-hook 'org-mode-hook
           '(lambda () (visual-line-mode t) (org-indent-mode t)))
 
-;; buffer-menu-mode (aka: C-x b) name column width
-(setq Buffer-menu-name-width 48)
-
-;; Start the emacs server after everything is working
 (server-start)
 
 ;;
-;; Helper function definitions
+;; use-package blocks
 ;;
 
-;; Open files and goto lines like we see from g++ etc. i.e. file:line#
-;; (to-do "make `find-file-line-number' work for emacsclient as well")
-;; (to-do "make `find-file-line-number' check if the file exists")
+(use-package eglot
+  :hook ((c-mode c++-mode rust-mode) . eglot-ensure)
+  :bind (:map eglot-mode-map
+         ("C-%" . xref-find-references-and-replace)
+         ("C-c h" . eglot-hierarchy-call-hierarchy))
+  :custom
+  (eglot-events-buffer-size 0)
+  (eglot-hierarchy-call-site t))
+
+(use-package cc-mode
+  :config
+  (add-to-list 'auto-mode-alist '("\\.inl\\'" . c++-mode))
+  :custom
+  (c-basic-offset 4))
+
+(use-package company
+  :hook ((c++-mode rust-mode) . company-mode)
+  :bind (:map company-mode-map
+         ("C-<tab>" . company-complete))
+  :custom
+  (company-idle-delay nil))
+
+(use-package clang-format
+  :after cc-mode
+  :bind (:map c++-mode-map
+         ("C-c C-f" . clang-format))
+  :init
+  (defun leigh-select-clang-format ()
+    "Select clang-format based on which computer I'm on"
+    (let ((roblox-exec "/Users/lpauls/git/roblox/game-engine/Tools/rbox/macos-universal/clang-format"))
+      (or (and (file-executable-p roblox-exec) roblox-exec)
+          (executable-find "clang-format")
+          "clang-format")))
+  :custom
+  (clang-format-executable (leigh-select-clang-format)))
+
+(use-package rust-mode
+  :config
+  (with-eval-after-load 'eglot
+    (add-to-list 'eglot-server-programs
+                 '((rust-ts-mode rust-mode) .
+                   ("rust-analyzer" :initializationOptions (:check (:command "clippy")))))))
+
+(use-package magit
+  :config
+  (transient-append-suffix 'magit-fetch "-F"
+    '("-m" "Use refmap" "--refmap=+refs/heads/*:refs/remotes/origin/*"))
+  (transient-append-suffix 'magit-remote "d u"
+    '("M" "Update minimal refmap" leigh/magit-remote-update-limited-fetch-spec))
+  (advice-add 'magit-process-git :around #'my-trace/magit-process-git)
+  (add-hook 'magit-pre-refresh-hook #'my-trace/pre-refresh-hook)
+  (add-hook 'magit-post-refresh-hook #'my-trace/post-refresh-hook)
+  :custom
+  (git-commit-setup-hook
+   '(git-commit-save-message git-commit-setup-changelog-support git-commit-propertize-diff bug-reference-mode with-editor-usage-message))
+  (magit-refs-sections-hook
+   '(magit-insert-error-header magit-insert-branch-description magit-insert-local-branches))
+  (magit-status-headers-hook
+   '(magit-insert-error-header magit-insert-diff-filter-header magit-insert-repo-header magit-insert-head-branch-header magit-insert-upstream-branch-header magit-insert-push-branch-header)))
+
+(use-package vterm
+  :if (not (eq system-type 'windows-nt))
+  :config
+  (add-hook 'vterm-copy-mode-hook
+            (lambda ()
+              (if vterm-copy-mode
+                  (progn
+                    (setq-local vterm-copy-saved-cursor-type cursor-type)
+                    (setq cursor-type t))
+                (setq cursor-type vterm-copy-saved-cursor-type))))
+  :bind (:map vterm-copy-mode-map
+         ("C-a" . move-beginning-of-line)
+         ("C-e" . claude-end-of-line)))
+
+(use-package cmake-mode)
+
+(use-package imenu-list)
+
+(use-package dash)
+
+;;
+;; General settings
+;;
+
+(setq column-number-mode t)
+(setq eldoc-echo-area-use-multiline-p 5)
+(setq enable-recursive-minibuffers t)
+(setq ispell-program-name "aspell")
+(setq vc-follow-symlinks t)
+(setq vc-handled-backends '(RCS CVS SVN SCCS SRC Bzr Git))
+(minibuffer-depth-indicate-mode t)
+
+;;
+;; Custom defuns
+;;
+
 (defadvice find-file (around find-file-line-number
                              (filename &optional wildcards)
                              activate)
@@ -65,7 +163,6 @@
            (filename (if matched (match-string 1 filename) filename)))
       ad-do-it
       (when line-number
-        ;; goto-line is for interactive use
         (goto-char (point-min))
         (forward-line (1- line-number))))))
 
@@ -81,108 +178,22 @@
   (rotate-windows-helper (window-list) (window-buffer (car (window-list))))
   (select-window (car (last (window-list)))))
 
-;; clear the buffer in eshell
 (defun eshell/clr ()
   "clear the eshell buffer."
   (interactive)
   (eshell/clear t))
 
-(defun android-logcat-cleared ()
-  "Opens android-logcat after clearing it from adb, so long-running devices won't spit out logs for a long period of time"
+(defun claude-end-of-line ()
+  "Move point to the end of the line, ignoring the whitespace that claude code inserts into the buffer"
   (interactive)
-  (shell-command-to-string "adb logcat -c")
-  (android-logcat))
-
-
-(put 'downcase-region 'disabled nil)
-
-(add-hook 'dired-after-readin-hook 'hl-line-mode)
-(add-hook 'buffer-menu-mode-hook 'hl-line-mode)
-
-(defun leigh-select-clang-format ()
-  "Select clang-format based on which computer I'm on"
-  (let ((roblox-exec "/Users/lpauls/git/roblox/game-engine/Tools/rbox/macos-universal/clang-format"))
-    (or (and (file-executable-p roblox-exec) roblox-exec)
-        (executable-find "clang-format")
-        "clang-format")
-  ))
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(c-basic-offset 4)
- '(clang-format-executable (leigh-select-clang-format))
- '(column-number-mode t)
- '(company-idle-delay nil)
- '(eglot-events-buffer-size 0)
- '(eglot-hierarchy-call-site t)
- '(eldoc-echo-area-use-multiline-p 5)
- '(enable-recursive-minibuffers t)
- '(git-commit-setup-hook
-   '(git-commit-save-message git-commit-setup-changelog-support git-commit-propertize-diff bug-reference-mode with-editor-usage-message))
- '(ispell-program-name "aspell")
- '(magit-refs-sections-hook
-   '(magit-insert-error-header magit-insert-branch-description magit-insert-local-branches))
- '(magit-status-headers-hook
-   '(magit-insert-error-header magit-insert-diff-filter-header magit-insert-repo-header magit-insert-head-branch-header magit-insert-upstream-branch-header magit-insert-push-branch-header))
- '(minibuffer-depth-indicate-mode t)
- '(package-selected-packages
-   '(imenu-list vterm cmake-mode eglot-supplements eglot-hierarchy clang-format glsl-mode magit rust-mode so-long protobuf-mode with-editor dashboard transient company-lsp company lsp-ui flycheck yasnippet lsp-mode free-keys yaml-mode highlight-indentation))
- '(package-vc-selected-packages
-   '((eglot-hierarchy :vc-backend Git :url "https://github.com/dolmens/eglot-hierarchy")
-     (eglot-supplements :vc-backend Git :url "https://codeberg.org/harald/eglot-supplements.git" :branch "v-20250114")))
- '(safe-local-variable-values
-   '((lisp-indent-local-overrides
-      (cond . 0)
-      (interactive . 0))
-     (checkdoc-allow-quoting-nil-and-t . t)))
- '(tool-bar-mode nil)
- '(vc-follow-symlinks t)
- '(vc-handled-backends '(RCS CVS SVN SCCS SRC Bzr Git)))
-
-(put 'upcase-region 'disabled nil)
-
-(require 'eglot)
-(require 'cc-mode)
-(add-to-list 'eglot-server-programs '((c++-mode c-mode) "clangd"))
-(add-hook 'c-mode-hook 'eglot-ensure)
-(add-hook 'c++-mode-hook 'eglot-ensure)
-(add-hook 'c++-mode-hook 'company-mode)
-
-(add-hook 'rust-mode-hook 'eglot-ensure)
-(add-hook 'rust-mode-hook 'company-mode)
-(add-to-list 'eglot-server-programs
-             '((rust-ts-mode rust-mode) .
-               ("rust-analyzer" :initializationOptions (:check (:command "clippy")))))
-
-(with-eval-after-load 'company
-  (define-key company-mode-map (kbd "C-<tab>") 'company-complete))
-
-(require 'clang-format)
-(define-key c++-mode-map (kbd "C-c C-f") 'clang-format)
-
-(define-key eglot-mode-map (kbd "C-%") 'xref-find-references-and-replace)
-(define-key eglot-mode-map (kbd "C-c h") 'eglot-hierarchy-call-hierarchy)
-
-
-(require 'cmake-mode)
-
-(unless (eq system-type 'windows-nt)
-  (require 'vterm)
-  (add-hook 'vterm-copy-mode-hook
-            (lambda ()
-              (if vterm-copy-mode
-                  (progn
-                    (setq-local vterm-copy-saved-cursor-type cursor-type)
-                    (setq cursor-type t)) ;; Show cursor in copy mode
-                (setq cursor-type vterm-copy-saved-cursor-type)))) ;; Hide it when returning to terminal
-  (define-key vterm-copy-mode-map (kbd "C-a") #'move-beginning-of-line)
-  (define-key vterm-copy-mode-map (kbd "C-e") #'claude-end-of-line))
-
-
-(add-to-list 'auto-mode-alist '("\\.inl\\'" . c++-mode))
+  (goto-char
+   (save-excursion
+     (progn (move-beginning-of-line ())
+            (let ((start (point)))
+              (move-end-of-line ())
+              (if-let ((non-space-char (re-search-backward "[^ ]" start t)))
+                  (+ 1 non-space-char)
+                start))))))
 
 (defun my-trace-buffer-send-message (format-string &rest args)
   (let ((buffer (get-buffer-create "*my-trace*")))
@@ -195,7 +206,6 @@
 (defun my-trace/magit-process-git (orig-fun &rest args)
   "Advice to trace start and end times of a function."
   (let ((start-time (current-time)))
-    ;; Run the original function with its arguments
     (let ((start-point (point))
           (result (apply orig-fun args))
           (total-time (float-time (time-subtract (current-time) start-time)))
@@ -204,35 +214,12 @@
           (my-trace-buffer-send-message "Trace: BIG magit-process-git took %.4f seconds. cmd: %s" total-time (list args))
         (my-trace-buffer-send-message "Trace: magit-process-git took %.4f seconds. cmd: %s" total-time (list args)))
       (my-trace-buffer-send-message "Trace: output: %s" (- end-point start-point))
-      ;; Return the original result to not break functionality
       result)))
-
-(advice-add 'magit-process-git :around #'my-trace/magit-process-git)
 
 (defun my-trace/pre-refresh-hook ()
   (my-trace-buffer-send-message "=======START REFRESH========="))
 (defun my-trace/post-refresh-hook ()
   (my-trace-buffer-send-message "=======END REFRESH========="))
-(add-hook 'magit-pre-refresh-hook #'my-trace/pre-refresh-hook)
-(add-hook 'magit-post-refresh-hook #'my-trace/post-refresh-hook)
-
-(defun claude-end-of-line ()
-  "Move point to the end of the line, ignoring the whitespace that claude code inserts into the buffer"
-  (interactive)
-  (goto-char
-   (save-excursion
-     (progn (move-beginning-of-line ())
-            (let ((start (point)))
-              (move-end-of-line ())
-              ;; For failed search, use the start of the line
-              (if-let ((non-space-char (re-search-backward "[^ ]" start t)))
-                  (+ 1 non-space-char)
-                start))))))
-
-(require 'imenu-list)
-
-
-(require 'dash)
 
 (defun leigh/magit-remote-update-limited-fetch-spec (remote)
   "Update the fetch spec of REMOTE for limited branches.
@@ -244,7 +231,6 @@ Updates the fetch spec to include only tracking branches of existing branches
          (ref-patterns (--map (format "refs/heads/%s" it) local-refs))
          (cb (lambda (lines-str) (leigh/magit-do-update-fetch-spec remote lines-str))))
    (leigh/magit-remote-find-matching-tracking-bracnhes cb remote ref-patterns)))
-
 
 (defun leigh/magit-remote-find-matching-tracking-bracnhes (cb remote &rest patterns)
   (let* ((proc (apply #'magit-run-git-async "ls-remote" remote patterns))
@@ -271,17 +257,14 @@ Updates the fetch spec to include only tracking branches of existing branches
         (format "+refs/heads/%s:refs/remotes/%s/%s" simple-name remote simple-name))
     (error "Bad format for spec %s" local-spec)))
 
-(with-eval-after-load 'magit
-  (transient-append-suffix 'magit-fetch "-F"
-    '("-m" "Use refmap" "--refmap=+refs/heads/*:refs/remotes/origin/*"))
-  (transient-append-suffix 'magit-remote "d u"
-    '("M" "Update minimal refmap" leigh/magit-remote-update-limited-fetch-spec)))
+;;
+;; Miscellaneous
+;;
 
+(put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
+
+(add-hook 'dired-after-readin-hook 'hl-line-mode)
+(add-hook 'buffer-menu-mode-hook 'hl-line-mode)
 
 (print "finished loading .emacs")
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:family "Consolas" :foundry "outline" :slant normal :weight regular :height 120 :width normal)))))
