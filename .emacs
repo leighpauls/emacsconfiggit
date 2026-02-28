@@ -31,7 +31,6 @@
 
 (add-to-list 'load-path "~/.emacs.d/leighpauls/")
 (require 'leigh-env)
-(require 'leigh-load-modes)
 (require 'leigh-file-assocs)
 (require 'leigh-keys)
 (require 'leigh-styling)

@@ -1,6 +1,8 @@
 ;; leigh-styling.el
 ;; Contains all color, text, and "flare"-related settings that I like
 
+(load-theme 'modus-vivendi t)
+
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
 ;; font
