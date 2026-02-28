@@ -36,7 +36,6 @@
 (require 'leigh-keys)
 (require 'leigh-styling)
 (require 'leigh-compilation)
-(require 'leigh-lpass)
 
 ;;
 ;; Basic settings
