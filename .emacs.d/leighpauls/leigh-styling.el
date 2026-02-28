@@ -3,8 +3,6 @@
 
 (load-theme 'modus-vivendi t)
 
-(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
-
 ;; font
 
 (if (eq system-type 'windows-nt)
@@ -17,22 +15,11 @@
   (add-to-list 'default-frame-alist
                '(font . "Menlo:pixelsize=14:weight=normal:slant=normal:width=normal:spacing=100:scalable=true")))
 
-;; make the blue a little brighter so that it can be seen on black
-(setq ansi-color-names-vector
-  ["black" "red" "green" "yellow" "#7777ff" "magenta" "cyan" "white"])
-
 (menu-bar-mode 1)
-
 
 (add-hook 'c-mode-common-hook 'leigh-enable-trailing-whitespace)
 (add-hook 'python-mode-hook 'leigh-enable-trailing-whitespace)
-(add-hook 'android-mode-hook (lambda () (setq truncate-lines t)))
 (add-hook 'emacs-lisp-mode-hook 'leigh-emacs-lisp-highlighting)
-(add-hook 'java-mode-hook 'leigh-set-java-style)
-
-(defun leigh-set-java-style ()
-  "Set java style to the way Leigh likes it"
-  (setq c-basic-offset 2))
 
 (defun leigh-enable-trailing-whitespace ()
   "Turns on trailing whitespace"
