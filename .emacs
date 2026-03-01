@@ -18,12 +18,47 @@
 (when window-system
   (tool-bar-mode -1))
 
+(menu-bar-mode 1)
+
 ;;
 ;; Custom file
 ;;
 
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file t)
+
+;;
+;; Configure default faces
+;;
+(let ((custom-face
+       (pcase system-type
+         ('windows-nt '(default ((t (:family "Consolas"
+                                             :foundry "outline"
+                                             :slant normal
+                                             :weight regular
+                                             :height 120
+                                             :width normal)))))
+         ('darwin '(default ((t (:family "Menlo"
+                                         :inherit nil
+                                         :extend nil
+                                         :stipple nil
+                                         :background "#000000"
+                                         :foreground "#ffffff"
+                                         :inverse-video nil
+                                         :box nil
+                                         :strike-through nil
+                                         :overline nil
+                                         :underline nil
+                                         :slant normal
+                                         :weight regular
+                                         :height 140
+                                         :width normal
+                                         :foundry "nil" )))))
+         (_ nil))))
+  (if custom-face
+      (custom-set-faces custom-face)
+    (message "No custom face defined for %s" 'system-type)))
+
 
 ;;
 ;; Load path and personal modules
