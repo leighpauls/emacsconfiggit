@@ -144,7 +144,7 @@
   (git-commit-setup-hook
    '(git-commit-save-message git-commit-setup-changelog-support git-commit-propertize-diff bug-reference-mode with-editor-usage-message))
   (magit-refs-sections-hook
-   '(magit-insert-error-header magit-insert-branch-description magit-insert-local-branches))
+   '(magit-insert-error-header magit-insert-branch-description magit-insert-local-branches magit-insert-remote-branches))
   (magit-status-headers-hook
    '(magit-insert-error-header magit-insert-diff-filter-header magit-insert-repo-header magit-insert-head-branch-header magit-insert-upstream-branch-header magit-insert-push-branch-header)))
 
