@@ -267,9 +267,9 @@ Updates the fetch spec to include only tracking branches of existing branches
   (let* ((local-refs (append (magit-list-local-branch-names) '("master" "stable" "main")))
          (ref-patterns (--map (format "refs/heads/%s" it) local-refs))
          (cb (lambda (lines-str) (leigh/magit-do-update-fetch-spec remote lines-str))))
-   (leigh/magit-remote-find-matching-tracking-bracnhes cb remote ref-patterns)))
+   (leigh/magit-remote-find-matching-tracking-branches cb remote ref-patterns)))
 
-(defun leigh/magit-remote-find-matching-tracking-bracnhes (cb remote &rest patterns)
+(defun leigh/magit-remote-find-matching-tracking-branches (cb remote &rest patterns)
   (let* ((proc (apply #'magit-run-git-async "ls-remote" remote patterns))
          (proc-buf (process-buffer proc))
          (start-pos (with-current-buffer proc-buf (copy-marker (process-mark proc)))))
@@ -320,7 +320,7 @@ Updates the fetch spec to include only tracking branches of existing branches
          (cb (lambda (matched-refs)
                (leigh/magit-do-update-fetch-spec remote matched-refs)
                (leigh/magit-do-fetch-and-create-branch remote branch))))
-    (apply #'leigh/magit-remote-find-matching-tracking-bracnhes cb remote ref-patterns)))
+    (apply #'leigh/magit-remote-find-matching-tracking-branches cb remote ref-patterns)))
 
 (defun leigh/magit-do-fetch-and-create-branch (remote branch)
   "Fetch BRANCH from REMOTE then create local tracking branch (no checkout)."
@@ -343,11 +343,15 @@ Updates the fetch spec to include only tracking branches of existing branches
       (magit-set remote "branch" branch "pushRemote"))
     (let* ((local-refs (append (magit-list-local-branch-names) '("master" "stable" "main")))
            (ref-patterns (--map (format "refs/heads/%s" it) local-refs))
+           (branch-ref (format "refs/heads/%s" branch))
            (cb (lambda (matched-refs)
-                 (leigh/magit-do-update-fetch-spec remote matched-refs)
-                 (magit-run-git-async "push" "-v" "-u" remote
-                   (format "refs/heads/%s:refs/heads/%s" branch branch)))))
-      (apply #'leigh/magit-remote-find-matching-tracking-bracnhes cb remote ref-patterns))))
+                 (let ((all-refs (if (member branch-ref matched-refs)
+                                     matched-refs
+                                   (cons branch-ref matched-refs))))
+                   (leigh/magit-do-update-fetch-spec remote all-refs)
+                   (magit-run-git-async "push" "-v" "-u" remote
+                     (format "refs/heads/%s:refs/heads/%s" branch branch))))))
+      (apply #'leigh/magit-remote-find-matching-tracking-branches cb remote ref-patterns))))
 
 ;;
 ;; Miscellaneous
