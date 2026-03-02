@@ -139,6 +139,8 @@
     '("M" "Update minimal refmap" leigh/magit-remote-update-limited-fetch-spec))
   (transient-append-suffix 'magit-fetch "-m"
     '("R" "Fetch remote branch (minimal)" leigh/magit-fetch-remote-branch))
+  (transient-append-suffix 'magit-remote "d u"
+    '("P" "Prune stale tracking (minimal)" leigh/magit-prune-remote-tracking))
   (transient-append-suffix 'magit-push "p"
     '("M" "Push with refspec update" leigh/magit-push-with-refspec-update))
   (advice-add 'magit-process-git :around #'my-trace/magit-process-git)
@@ -352,6 +354,36 @@ Updates the fetch spec to include only tracking branches of existing branches
                    (magit-run-git-async "push" "-v" "-u" remote
                      (format "refs/heads/%s:refs/heads/%s" branch branch))))))
       (apply #'leigh/magit-remote-find-matching-tracking-branches cb remote ref-patterns))))
+
+(defun leigh/magit-prune-remote-tracking (remote)
+  "Prune local remote-tracking branches for REMOTE that no longer exist on the remote."
+  (interactive (list (magit-read-remote "Prune tracking branches for remote")))
+  (let* ((local-tracking (magit-list-remote-branch-names remote t))
+         (ref-patterns (--map (format "refs/heads/%s" it) local-tracking))
+         (cb (lambda (matched-refs)
+               (let* ((existing-names (--map (progn (string-match "refs/heads/\\(.+\\)" it)
+                                                    (match-string 1 it))
+                                             matched-refs))
+                      (stale-names (-difference local-tracking existing-names)))
+                 (if (null stale-names)
+                     (message "No stale tracking branches for %s" remote)
+                   ;; Delete stale remote tracking refs
+                   (dolist (name stale-names)
+                     (magit-call-git "update-ref" "-d"
+                                     (format "refs/remotes/%s/%s" remote name)))
+                   ;; Prompt to delete local branches of the same name
+                   (let ((local-branches (magit-list-local-branch-names)))
+                     (dolist (name stale-names)
+                       (when (and (member name local-branches)
+                                  (y-or-n-p (format "Also delete local branch '%s'? " name)))
+                         (magit-call-git "branch" "-d" name))))
+                   ;; Update fetch refspec and refresh
+                   (leigh/magit-do-update-fetch-spec remote matched-refs)
+                   (message "Pruned %d stale tracking branch(es): %s"
+                            (length stale-names)
+                            (string-join stale-names ", "))
+                   (magit-refresh))))))
+    (apply #'leigh/magit-remote-find-matching-tracking-branches cb remote ref-patterns)))
 
 ;;
 ;; Miscellaneous
