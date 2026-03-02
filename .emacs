@@ -137,6 +137,10 @@
     '("-m" "Use refmap" "--refmap=+refs/heads/*:refs/remotes/origin/*"))
   (transient-append-suffix 'magit-remote "d u"
     '("M" "Update minimal refmap" leigh/magit-remote-update-limited-fetch-spec))
+  (transient-append-suffix 'magit-fetch "-m"
+    '("R" "Fetch remote branch (minimal)" leigh/magit-fetch-remote-branch))
+  (transient-append-suffix 'magit-push "p"
+    '("M" "Push with refspec update" leigh/magit-push-with-refspec-update))
   (advice-add 'magit-process-git :around #'my-trace/magit-process-git)
   (add-hook 'magit-pre-refresh-hook #'my-trace/pre-refresh-hook)
   (add-hook 'magit-post-refresh-hook #'my-trace/post-refresh-hook)
@@ -289,6 +293,61 @@ Updates the fetch spec to include only tracking branches of existing branches
       (let* ((simple-name (match-string 1 local-spec)))
         (format "+refs/heads/%s:refs/remotes/%s/%s" simple-name remote simple-name))
     (error "Bad format for spec %s" local-spec)))
+
+(defun leigh/magit-fetch-remote-branch (remote branch)
+  "Fetch BRANCH from REMOTE, verify it exists, update refspec, create local tracking branch."
+  (interactive (list (magit-read-remote "Fetch branch from remote")
+                     (read-string "Branch name: ")))
+  (let* ((ref-pattern (format "refs/heads/%s" branch))
+         (proc (magit-run-git-async "ls-remote" "--heads" remote ref-pattern))
+         (proc-buf (process-buffer proc))
+         (start-pos (with-current-buffer proc-buf (copy-marker (process-mark proc)))))
+    (set-process-sentinel proc
+      (lambda (p e)
+        (magit-process-sentinel p e)
+        (when (eq (process-exit-status p) 0)
+          (let* ((output-str (with-current-buffer (process-buffer p)
+                               (buffer-substring-no-properties start-pos (process-mark p))))
+                 (output-lines (split-string output-str "\n" t)))
+            (if (null output-lines)
+                (user-error "Branch %s not found on remote %s" branch remote)
+              (leigh/magit-fetch-and-track remote branch))))))))
+
+(defun leigh/magit-fetch-and-track (remote branch)
+  "Update fetch spec to include BRANCH, fetch from REMOTE, create local tracking branch."
+  (let* ((local-refs (append (magit-list-local-branch-names) (list branch "master" "stable" "main")))
+         (ref-patterns (--map (format "refs/heads/%s" it) local-refs))
+         (cb (lambda (matched-refs)
+               (leigh/magit-do-update-fetch-spec remote matched-refs)
+               (leigh/magit-do-fetch-and-create-branch remote branch))))
+    (apply #'leigh/magit-remote-find-matching-tracking-bracnhes cb remote ref-patterns)))
+
+(defun leigh/magit-do-fetch-and-create-branch (remote branch)
+  "Fetch BRANCH from REMOTE then create local tracking branch (no checkout)."
+  (let ((proc (magit-run-git-async "fetch" remote branch)))
+    (set-process-sentinel proc
+      (lambda (p e)
+        (magit-process-sentinel p e)
+        (when (eq (process-exit-status p) 0)
+          (magit-call-git "branch" "--track" branch (format "%s/%s" remote branch))
+          (magit-refresh))))))
+
+(defun leigh/magit-push-with-refspec-update ()
+  "Update fetch spec then push current branch to its push remote."
+  (interactive)
+  (let* ((branch (or (magit-get-current-branch)
+                     (user-error "Detached HEAD")))
+         (remote (or (magit-get-push-remote branch)
+                     (magit-read-remote (format "Set push remote for %s" branch)))))
+    (when (not (magit-get-push-remote branch))
+      (magit-set remote "branch" branch "pushRemote"))
+    (let* ((local-refs (append (magit-list-local-branch-names) '("master" "stable" "main")))
+           (ref-patterns (--map (format "refs/heads/%s" it) local-refs))
+           (cb (lambda (matched-refs)
+                 (leigh/magit-do-update-fetch-spec remote matched-refs)
+                 (magit-run-git-async "push" "-v" "-u" remote
+                   (format "refs/heads/%s:refs/heads/%s" branch branch)))))
+      (apply #'leigh/magit-remote-find-matching-tracking-bracnhes cb remote ref-patterns))))
 
 ;;
 ;; Miscellaneous
