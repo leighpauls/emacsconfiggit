@@ -376,7 +376,7 @@ Updates the fetch spec to include only tracking branches of existing branches
                      (dolist (name stale-names)
                        (when (and (member name local-branches)
                                   (y-or-n-p (format "Also delete local branch '%s'? " name)))
-                         (magit-call-git "branch" "-d" name))))
+                         (magit-call-git "branch" "-D" name))))
                    ;; Update fetch refspec and refresh
                    (leigh/magit-do-update-fetch-spec remote matched-refs)
                    (message "Pruned %d stale tracking branch(es): %s"
