@@ -174,6 +174,31 @@
 
 (use-package dash)
 
+(use-package tramp
+  :ensure nil
+  :config
+  (setq tramp-verbose 4)
+
+  (add-to-list 'tramp-methods
+               '("winssh"
+                 (tramp-login-program "ssh")
+                 (tramp-login-args
+                  (("-l" "%u")
+                   ("-p" "%p")
+                   ("%c")
+                   ("-e" "none")
+                   ("-T")
+                   ("%h")
+                   ("'& \"C:\\Program Files\\Git\\bin\\sh.exe\" -i'")))
+                 (tramp-async-args
+                  (("-q")))
+                 (tramp-direct-async t)
+                 (tramp-remote-shell "/bin/sh")
+                 (tramp-remote-shell-login
+                  ("-l"))
+                 (tramp-remote-shell-args
+                  ("-c")))))
+
 ;;
 ;; General settings
 ;;
