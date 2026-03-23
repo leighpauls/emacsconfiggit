@@ -359,26 +359,30 @@ Updates the fetch spec to include only tracking branches of existing branches
           (magit-call-git "branch" "--track" branch (format "%s/%s" remote branch))
           (magit-refresh))))))
 
-(defun leigh/magit-push-with-refspec-update ()
-  "Update fetch spec then push current branch to its push remote."
-  (interactive)
-  (let* ((branch (or (magit-get-current-branch)
-                     (user-error "Detached HEAD")))
-         (remote (or (magit-get-push-remote branch)
-                     (magit-read-remote (format "Set push remote for %s" branch)))))
-    (when (not (magit-get-push-remote branch))
-      (magit-set remote "branch" branch "pushRemote"))
-    (let* ((local-refs (append (magit-list-local-branch-names) '("master" "stable" "main")))
-           (ref-patterns (--map (format "refs/heads/%s" it) local-refs))
-           (branch-ref (format "refs/heads/%s" branch))
-           (cb (lambda (matched-refs)
-                 (let ((all-refs (if (member branch-ref matched-refs)
-                                     matched-refs
-                                   (cons branch-ref matched-refs))))
-                   (leigh/magit-do-update-fetch-spec remote all-refs)
-                   (magit-run-git-async "push" "-v" "-u" remote
-                     (format "refs/heads/%s:refs/heads/%s" branch branch))))))
-      (apply #'leigh/magit-remote-find-matching-tracking-branches cb remote ref-patterns))))
+(defun leigh/magit-push-with-refspec-update (branches)
+  "Update fetch spec then push BRANCHES to their push remote.
+BRANCHES is a list of branch names to push, entered as comma-separated values."
+  (interactive
+   (list (magit-completing-read-multiple
+          "Push branch,es: "
+          (magit-list-local-branch-names)
+          nil 'any nil nil
+          (magit-get-current-branch))))
+  (let* ((first-branch (car branches))
+         (remote (or (magit-get-push-remote first-branch)
+                     (magit-read-remote "Push to remote")))
+         (local-refs (append (magit-list-local-branch-names) '("master" "stable" "main")))
+         (ref-patterns (--map (format "refs/heads/%s" it) local-refs))
+         (branch-refs (--map (format "refs/heads/%s" it) branches))
+         (push-refspecs (--map (format "refs/heads/%s:refs/heads/%s" it it) branches))
+         (cb (lambda (matched-refs)
+               (let ((all-refs (-union matched-refs branch-refs)))
+                 (leigh/magit-do-update-fetch-spec remote all-refs)
+                 (apply #'magit-run-git-async "push" "-v" "-u" remote push-refspecs)))))
+    (dolist (branch branches)
+      (when (not (magit-get-push-remote branch))
+        (magit-set remote "branch" branch "pushRemote")))
+    (apply #'leigh/magit-remote-find-matching-tracking-branches cb remote ref-patterns)))
 
 (defun leigh/magit-prune-remote-tracking (remote)
   "Prune local remote-tracking branches for REMOTE that no longer exist on the remote."
